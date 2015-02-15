@@ -1,0 +1,866 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        <!-- IE Fix for IE 8 Compatability Mode -->
+        <!--[if lt IE 9]>
+        <script src="/sg/assets/global/ie7compatible.js"></script>
+        <![endif]-->
+
+        <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+        <!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+        <!--[if IE 7]> <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+        <!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+        <!--[if gte IE 8]> <html lang="en"> <![endif]-->
+
+        <!-- Set the viewport width to device width for mobile -->
+        <meta name="HandheldFriendly" content="True"/>
+        <meta name="MobileOptimized" content="320"/>
+        <meta name="viewport" id="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0" />
+        <link rel="icon" href="assets/favicon.ico" />
+        <link rel="shortcut icon" href="assets/favicon.ico" />
+        <link rel="apple-touch-icon" href="assets/apple-touch-icon.png"/>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+
+        <title>The Good Life - Standard Chartered Bank (Singapore) Limited</title>
+        <!-- Included CSS Files (Compressed) -->
+
+        <!-- <link rel="stylesheet" href="/sg/assets/global/global.css"> 
+        <link rel="stylesheet" href="/sg/assets/global/global-font-en.css">
+        <link rel="stylesheet" href="/sg/assets/pws/global-pws.css"> -->
+
+        <link rel="stylesheet" href="assets/global/global.css">
+        <link rel="stylesheet" href="assets/global/global-font-en.css">
+        <link rel="stylesheet" href="assets/pws/global-pws.css">
+        <link rel="stylesheet" href="assets/pws/global-pws-flag.css">
+        <link rel="stylesheet" href="assets/pws/sg-pws-custom.css">
+
+        <!-- local css links -->
+        <link rel="stylesheet" href="css/global-pws_eugene.css">
+        <link rel="stylesheet" href="css/global_eugene.css">
+
+        <!-- ng-dialog -->
+        <link href="css/ngDialog.css" rel="stylesheet" type="text/css"/>
+        <link href="css/ngDialog-theme-default.css" rel="stylesheet" type="text/css"/>
+        <link href="css/ngDialog-theme-plain.css" rel="stylesheet" type="text/css"/>
+        <!-- IE Fix for HTML5 Tags -->
+        <!--[if lt IE 9]>
+        <script src="https://www.sc.com/global/assets/global/ie-enhancer.js"></script>
+             <link rel="stylesheet" href="/sg/assets/pws/global-pws-ie.css">
+          <![endif]-->
+
+        <link href="css/modal.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Style for social sharing -->
+        <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/social-share.css" />
+
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+    </head>
+    <body id="page" class="slide-nav body-focus hide-extras home-page page-personal" onLoad="initList()" ng-app="modalTest">
+
+        <noscript>
+        <div class="no-js-message">We noticed you have Javascript disabled. Some features may not work correctly. For the full site experience, please <strong>enable Javascript</strong> on your web browser.</div>
+        </noscript>
+
+        <!--Start of alert.html-->
+        <!--<div class="alert-box title-message alert-yellow" id="alert_info_new" style="display:none">
+                
+        <div id="alert_info_txt" class="row">
+        <h5 class="subheader alert-single" style="font-size:16px;">Important Security Message &mdash; Shellshock (or Bash) Bug. Click <a href="" data-reveal-id="alert-lightbox">here</a> for more information.</h5>
+        </div>
+                
+        <a href="" class="close" onclick="setAlertAsRead()"></a>
+        
+        </div>-->
+        <!--End of alert.html-->
+
+
+        <!--[if lte IE 7 ]>
+        <div class="incompatibility-message">We noticed you are using an <strong>outdated version of Internet Explorer</strong>. Some features may not work correctly. For the full site experience, please <strong>update your Internet Explorer to version 8 or above, or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a></strong>.</div>
+        <div class="compatibility-view-message">We noticed you have switched on <strong>Compatibility View mode in Internet Explorer</strong>. Some features may not work correctly. For the full site experience, please <strong>disable the Compatibility View mode</strong>.</div>
+        <![endif]-->
+
+        <link rel="stylesheet" href="assets/pws/global-pws-ls-slide-two.css">
+        <!--[if lt IE 9]>
+              <link rel="stylesheet" href="/sg/assets/pws/global-pws-ls-slide-ie-two.css">
+          <![endif]-->
+        <style>
+            .brand-header{
+                padding:40px;
+            }
+
+            .tgl-logo-holder{
+                position: relative;
+                left: 10px;
+                top: 18px;
+            }
+
+            .featured{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 61px;
+                height: 61px;
+                background-image: url(img/exclusive.png);
+                background-repeat: no-repeat;
+                z-index: 2;
+            }
+
+            #tgl_nav li a{
+                color: #444;
+                position: relative;
+            }
+
+            #tgl_nav li a.selected{
+                color:#29ad48;
+            }
+
+            #tgl_nav li a:hover{
+                color:#29ad48;
+            }
+
+            .filter_featured_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_priority_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_dining_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_lifestyle_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_online_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_all_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter_mobile_btn.selected {
+                background-position: 0px -25px !important;
+                font-size: 12px;
+                color:#29ad48;
+            }
+
+            .filter li.active a {
+                color:#41ab3c;
+            }
+
+            @media \0screen {
+                .nw-temp-banner.static-bx-banner .bx-wrapper .bx-caption p {
+                    padding-right: 60px!important;
+                }
+            } 
+            @media only screen and (min-device-width : 768px) and (max-device-width : 1000px) {
+                .nw-temp-banner.static-bx-banner .bx-wrapper .bx-caption p {
+                    padding-right: 60px!important;
+                }
+            }
+            @media only screen and (max-width: 767px) {
+                .brand-header {
+                    padding: 0;
+                }    
+            }
+            @media (min-width: 360px) and (max-width: 519px)  {
+                .elements .panel,.corner-stamp .panel,.elements,.corner-stamp {
+                    width: 98%;
+                }
+
+                #dealsdisplay {
+                    width:320px;
+                }
+            }
+
+            @media (min-width: 520px) and (max-width: 744px)  {
+                .elements .panel,.corner-stamp .panel,.elements,.corner-stamp {
+                    width: 230px;
+                }
+            }
+
+            @media only screen and (max-width:479px) {
+                /*remove the carosel for mobile */
+                #carousel {
+                    display: none; 
+                }
+
+            }
+        </style>
+
+        <!-- Body Container -->
+        <div role="main" id="wrapper" ng-controller="dialogServiceTest" style="{{modalFreezeBG}}">
+            <!-- Universal Bar Styles : universal-grey universal-black -->
+            <header class="container header universal-grey arrowed cf" id="universal-bar">
+                <div class="bg-menu"></div>
+                <div id="header" class="row pos-rel">
+                    <nav role="navigation">
+                        <div class="menu-wrap">
+                            <div id="selectedCap"><a href="#" class="show-for-small">Personal</a></div>
+                            <ul class="nav-bar nav-on main-nav-wrap" id="universalNav">
+                                <li class="personal has-flyout"> <a href="index.html"><em class="personal-in">Personal</em> <em class="preferred-in">Preferred</em></a> <a href="#" class="flyout-toggle"><span> </span></a>
+                                    <ul class="flyout">
+                                        <li class="personal-sub"><a href="index-2.html">Personal</a></li>
+                                        <li class="preferred-sub"><a href="preferred/index.html">Preferred</a></li>
+                                    </ul>
+                                </li>
+                                <li class="priority"> <a href="http://priority.standardchartered.com.sg/" class="external-link">Priority</a> </li>
+                                <li class="private"> <a href="http://www.privatebank.standardchartered.com/en/index.html" class="external-link">Private</a> </li>
+                                <!--<li class="business has-flyout"> <a href="#">Business<i> / SME</i></a> <a href="#" class="flyout-toggle"><span> </span></a> -->
+                                <li class="business has-flyout"> <a href="#">Business<i></i></a> <a href="#" class="flyout-toggle"><span> </span></a>
+                                    <ul class="flyout">
+                                        <li class="wholesale"><a href="http://wholesalebanking.standardchartered.com/en/Pages/homepage.aspx" class="external-link">Corporate &<br/> Institutional</a></li>
+                                        <li class="sme"><a href="sme/index.html">SME</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <ul class="nav-bar nav-on" id="utilityNav">
+                            <li class="animated-menu help-centre has-flyout"> <a href="help-centre/index.html">Help <b><br />
+                                    </b> Centre</a> <a href="#" class="flyout-toggle"><span> </span></a>
+                                <ul class="flyout utility-action">
+                                    <li class="faq"><a href="help-centre/index.html"><span class="icon-small"></span>FAQs</a></li>
+                                    <li class="forms-docs"><a href="help-centre/form-centre.html"><span class="icon-small"></span>Forms & Downloads</a></li>
+                                    <li class="forms-docs"><a href="_pdf/SCB_Pricing_Guide.pdf" class="external-link"><span class="icon-small"></span>Fees & Charges</a></li>
+                                    <li class="forms-docs"><a href="bank-finder.html"><span class="icon-small"></span>Bank Code Finder</a></li>
+                                    <!-- <li class="forms-docs"><a href="/sg/personal-banking/en/pdf/pricing_guide_effective_1August2012.pdf" class="external-link"><span class="icon-small"></span>Bank Code Finder</a></li> -->
+                                    <li class="way-to-reach-us no-icon"><a href="help-centre/index.html">Get more help</a></li>
+                                </ul>
+                            </li>
+                            <li class="animated-menu atm-branches"><a href="atms-and-branches.html">ATMs & <b><br />
+                                    </b> Branches</a></li>
+                            <li class="animated-menu has-flyout contact-us rmv-divider"> 
+                                <a href="contact-us/index.html" class="external-link">Contact Us</a> <a href="contact-us/index.html" class="flyout-toggle external-link"><span> </span></a>
+                                <ul class="flyout utility-action">
+                                    <li class="locate-us"><a href="https://forms.online.standardchartered.com/public_website/singapore/feedback_form/index.html?FBtype=SG_ES"><span class="icon-small"></span>Make an enquiry/<br />suggestion</a></li>
+                                    <li class="forms-docs"><a href="https://forms.online.standardchartered.com/public_website/singapore/feedback_form/index.html?FBtype=SG_CPM"><span class="icon-small"></span>Compliment a staff</a></li>
+                                    <li class="locate-us"><a href="https://forms.online.standardchartered.com/public_website/singapore/feedback_form/index.html?FBtype=SG_OCF"><span class="icon-small"></span>Raise a complaint</a></li>
+                                    <!--<li class="forms-docs"><a href="https://forms.online.standardchartered.com/public_website/singapore/do_not_call/"><span class="icon-small"></span>Stop receiving updates<br />on promotions/<br />product offerings</a></li>-->
+                                    <!--<li class="locate-us"><a href="/sg/contact-us/e-appointment.html"><span class="icon-small"></span>e-Appointment</a></li>-->
+
+                                    <!-- <li class="forms-docs"><a href="https://forms.online.standardchartered.com/public_website/singapore/contact_form/#feedbackform" class="external-link"><span class="icon-small"></span>Feedback Form</a></li> -->
+                                    <!-- <li class="locate-us"><a href="/sg/contact-us/e-appointment.html"><span class="icon-small"></span>e-Appointment</a></li> -->
+                                    <!-- <li class="forms-docs"><a href="/sg/contact-us/#call-us"><span class="icon-small"></span>Call Us</a></li> -->
+                                    <li class="no-icon"><a>Call us at 1800 747 7000</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <article class="utilty-actions">
+                        <div class="searchbar-top search-on" id="searchbar"> <span id="mob-close" class="sclose-on"></span>
+                            <div class="row collapse">
+                                <div class="twelve columns">
+                                    <!-- SEARCH FORM -->
+                                    <script type="text/javascript">
+                                                        function searchtop() {
+                                                        eleSearch = document.getElementById("search-box");
+                                                                var qval = eleSearch.value;
+                                                                encoded = qval.replace(/[();<>+'"&?]/gi, "");
+                                                                eleSearch.value = encoded;
+                                                                document.gs.action = "/sg/search.html";
+                                                                document.gs.submit();
+                                                        }
+                                    </script>
+
+                                    <form name="gs" method="get" action="#" onSubmit="searchtop();">
+                                        <input type="text" name="q"  id="search-box"  maxlength="256" class="sbox-on" />
+                                        <input type="hidden" name="entqr" value="0">
+                                        <input type="hidden" name="ud" value="1">
+                                        <input type="hidden" name="sort" value="date:D:L:d1">
+                                        <input type="hidden" name="output" value="xml_no_dtd">
+                                        <input type="hidden" name="oe" value="UTF-8">
+                                        <input type="hidden" name="ie" value="UTF-8">
+                                        <input type="hidden" name="client" value="result_only">
+                                        <input type="hidden" name="proxystylesheet" value="result_only">
+                                        <input type="hidden" name="site" value="sg">
+                                    </form>
+                                    <!-- END OF SEARCH FORM -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="featured-select"><a href="index.html#featured-pins" class="icon-small featured-home no-txt">Featured</a></div>
+                        <div class="lang-select language">
+                            <div class="show-for-small" id="smaLang"><span class="en-lang"></span></div>
+                            <ul class="nav-bar hide-for-small">
+                                <li class="has-flyout"> <a href="#" class="current-country"><strong class="sg"></strong>&nbsp;</a> <a href="#" class="flyout-toggle"></a>
+                                    <div class="flyout large right country-box">
+                                        <div class="row collapse">
+                                            <div class="ten columns">
+                                                <div class="cf">
+                                                    <ul class="tabs-content">
+                                                        <li class="country-dropdown asia active" id="asiaTab">
+                                                            <ul class="block-grid three-up mobile-two-up">
+                                                                <li class="au"><a href="http://www.standardchartered.com.au/en/" class="external-link">Australia</a></li>
+                                                                <li class="bd"><a href="http://www.standardchartered.com.bd/en/" class="external-link">Bangladesh</a></li>
+                                                                <li class="bn"><a href="http://www.standardchartered.com.bn/" class="external-link">Brunei</a></li>
+                                                                <li class="kh"><a href="http://www.standardchartered.com.kh/" class="external-link">Cambodia</a></li>
+                                                                <li class="lang-multi cn"><a href="http://www.standardchartered.com.cn/en/" class="external-link">China</a>
+                                                                    <div class="sub-language"><a href="http://www.standardchartered.com.cn/zh/" class="external-link">中文</a> | <a href="http://www.standardchartered.com.cn/en/" class="external-link">EN</a></div>
+                                                                </li>
+                                                                <li class="hk"><a href="http://www.standardchartered.com.hk/en/index.html" class="external-link">Hong Kong</a></li>
+                                                                <li class="id"><a href="http://www.standardchartered.co.id/id/bhs/index.html" class="external-link">Indonesia</a></li>
+                                                                <li class="in"><a href="http://www.standardchartered.co.in/index.html" class="external-link">India</a></li>
+                                                                <li class="lang-multi jp"><a href="http://www.standardchartered.co.jp/jp/index.html" class="external-link">Japan</a>
+                                                                    <div class="sub-language"><a href="http://www.standardchartered.co.jp/jp/index.html" class="external-link">日本語</a> | <a href="http://www.standardchartered.co.jp/en/index.html" class="external-link">EN</a></div>
+                                                                </li>
+                                                                <li class="la"><a href="http://www.standardchartered.la/en/" class="external-link">Laos</a></li>
+                                                                <li class="my"><a href="http://www.standardchartered.com.my/en/index_web.html" class="external-link">Malaysia</a></li>
+                                                                <li class="np"><a href="http://www.standardchartered.com.np/en/" class="external-link">Nepal</a></li>
+                                                                <li class="pk"><a href="http://www.standardchartered.com.pk/index.html" class="external-link">Pakistan</a></li>
+                                                                <li class="ph"><a href="http://www.standardchartered.com.ph/ph/en/index.html" class="external-link">Philippines</a></li>
+                                                                <li class="sg"><a href="http://www.standardchartered.com.sg/en/index_web.html" class="external-link">Singapore</a></li>
+                                                                <li class="lang-multi kr"><a href="http://www.scfirstbank.com/gw/index.html" class="external-link">South Korea</a>
+                                                                    <div class="sub-language"><a href="http://www.standardchartered.co.kr/np/kr/Intro.jsp" class="external-link">한국의</a> | <a href="http://www.standardchartered.co.kr/np/en/EnIntro.jsp" class="external-link">EN</a></div>
+                                                                </li>
+                                                                <li class="lk"><a href="http://www.standardchartered.com.lk/" class="external-link">Sri Lanka</a></li>
+                                                                <li class="tw"><a href="http://www.sc.com/tw/" class="external-link">Taiwan</a></li>
+                                                                <li class="th"><a href="http://www.standardchartered.co.th/en/" class="external-link">Thailand</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li id="africaTab"  class="country-dropdown africa">
+                                                            <ul class="block-grid three-up mobile-two-up">
+                                                                <li class="bw"><a href="http://www.standardchartered.com/bw/en/" class="external-link">Botswana</a></li>
+                                                                <li class="cm"><a class="external-link" href="http://www.standardchartered.com/cm/en/">Cameroon</a></li>
+                                                                <li class="ci"><a class="external-link" href="http://www.standardchartered.com/ci/en/">Cote d'Ivoire</a></li>
+                                                                <li class="gh"><a class="external-link" href="http://www.standardchartered.com/gh/en/">Ghana</a></li>
+                                                                <li class="ke"><a class="external-link" href="http://www.standardchartered.com/ke/en/">Kenya</a></li>
+                                                                <li class="mu"><a class="external-link" href="http://www.standardchartered.com/mu/en/">Mauritius</a></li>
+                                                                <li class="ng"><a class="external-link" href="http://www.standardchartered.com/ng/en/">Nigeria</a></li>
+                                                                <li class="sl"><a class="external-link" href="http://www.standardchartered.com/sl/en/">Sierra Leone</a></li>
+                                                                <li class="za"><a class="external-link" href="http://www.standardchartered.co.za/en/">South Africa</a></li>
+                                                                <li class="tz"><a class="external-link" href="http://www.standardchartered.com/tz/en/">Tanzania</a></li>
+                                                                <li class="gm"><a class="external-link" href="http://www.standardchartered.com/gm/en/">The Gambia</a></li>
+                                                                <li class="ug"><a class="external-link" href="http://www.standardchartered.com/ug/en/">Uganda</a></li>
+                                                                <li class="zm"><a class="external-link" href="http://www.standardchartered.com/zm/en/">Zambia</a></li>
+                                                                <li class="zw"><a class="external-link" href="http://www.standardchartered.com/zw/en/">Zimbabwe</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li id="middleeastTab" class="country-dropdown middle-east">
+                                                            <ul class="block-grid three-up mobile-two-up">
+                                                                <li class="bh"><a href="http://www.standardchartered.com/bh/" class="external-link">Bahrain</a></li>
+                                                                <li class="jo"><a href="http://www.standardchartered.com.jo/en/" class="external-link">Jordan</a></li>
+                                                                <li class="lb"><a href="http://www.standardchartered.com/lb/en/" class="external-link">Lebanon</a></li>
+                                                                <li class="om"><a href="http://www.standardchartered.com/om/en/" class="external-link">Oman</a></li>
+                                                                <li class="qa"><a href="http://www.standardchartered.com/qa/en/" class="external-link">Qatar</a></li>
+                                                                <li class="ae"><a href="http://www.standardchartered.ae/personal/home/en/index.html" class="external-link">United Arab Emirates</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li id="europeTab"  class="country-dropdown europe">
+                                                            <ul class="block-grid three-up mobile-two-up">
+                                                                <li class="at"><a class="external-link" href="http://www.standardchartered.com/at/en/">Austria</a></li>
+                                                                <li class="fr"><a class="external-link" href="http://www.standardchartered.com/fr/en/">France</a></li>
+                                                                <li class="de"><a class="external-link" href="http://www.standardchartered.de/en/">Germany</a></li>
+                                                                <li class="gg"><a class="external-link" href="http://www.standardchartered.com/gg/en/">Guernsey</a></li>
+                                                                <li class="ie"><a class="external-link" href="http://www.standardchartered.com/ie/en/">Ireland</a></li>
+                                                                <li class="it"><a class="external-link" href="http://www.standardchartered.com/it/en/">Italy</a></li>
+                                                                <li class="je"><a class="external-link" href="http://www.standardchartered.com/je/en/">Jersey</a></li>
+                                                                <li class="ru"><a class="external-link" href="http://www.standardchartered.com/ru/en/">Russia</a></li>
+                                                                <li class="se"><a class="external-link" href="http://www.standardchartered.com/se/en/">Sweden</a></li>
+                                                                <li class="ch"><a class="external-link" href="http://www.standardchartered.com/ch/en/">Switzerland</a></li>
+                                                                <li class="tr"><a class="external-link" href="http://www.standardchartered.com/tr/en/">Turkey</a></li>
+                                                                <li class="gb"><a class="external-link" href="http://www.standardchartered.com/uk/en/">United Kingdom</a></li>
+                                                            </ul>
+                                                        </li>
+                                                        <li id="americasTab"  class="country-dropdown">
+                                                            <ul class="block-grid three-up mobile-two-up">
+                                                                <li class="ar"><a class="external-link" href="http://www.standardchartered.com/ar/en/">Argentina</a></li>
+                                                                <li class="br"><a class="external-link" href="http://www.standardchartered.com/br/en/">Brazil</a></li>
+                                                                <li class="cl"><a class="external-link" href="http://www.standardchartered.com/cl/en/">Chile</a></li>
+                                                                <li class="co"><a class="external-link" href="http://www.standardchartered.com/co/en/">Colombia</a></li>
+                                                                <li class="fk"><a class="external-link" href="http://www.standardchartered.com/fk/en/">Falkland Islands</a></li>
+                                                                <li class="mx"><a class="external-link" href="http://www.standardchartered.com/mx/en/">Mexico</a></li>
+                                                                <li class="pe"><a class="external-link" href="http://www.standardchartered.com/pe/en/">Peru</a></li>
+                                                                <li class="us"><a class="external-link" href="http://www.standardchartered.com/us/en/">USA</a></li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="two columns">
+                                                <div class="cf">
+                                                    <dl class="vertical tabs">
+                                                        <dd class="active"><a href="#asia">Asia</a></dd>
+                                                        <dd><a href="#africa">Africa</a></dd>
+                                                        <dd><a href="#middleeast">Middle East</a></dd>
+                                                        <dd><a href="#europe">Europe</a></dd>
+                                                        <dd><a href="#americas">Americas</a></dd>
+                                                    </dl>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ft-text-nav">
+                                            <p>We are one of the world's most international banks, with over 1,700 branches, offices and outlets in 70 countries across the globe. <a href="about-us/index.html"><strong>Get to know us &raquo;</strong></a></p>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </article>
+                </div>
+            </header>
+            <!-- Universal Bar -->
+
+            <!-- Main Nav Bar block-grid six-up mobile-one-up-->
+            <nav class="container inlevel-menu-block cf personal-nav" id="mainNav">
+                <div class="row collapse">
+                    <div class="brand-header">
+                        <div class="standard-chartered-logo-holder">
+                            <a href="./"><img src="assets/pws/images/page/standard-chartered-logo-top.png"  alt="Standard Chartered Bank"  width="144" height="60"/></a>
+                        </div>
+                        <h3> Singapore </h3>
+                    </div>
+                </div>
+            </nav>
+            <!-- Main Nav Bar -->
+
+            <!-- Orbit Banner -->
+            <section class="container banner-container nw-temp-banner static-bx-banner" id="carousel">
+                <div class="row collapse">
+                    <div class="twelve columns">
+                        <ul class="bxslider">
+                            <li id="bxslid-1"> <img id="cta-bnr-img-1" src="assets/pws/images/banner/pic_masthead_1580x295_4dec.jpg"  alt="Priority Banking " onClick="openNewWin('priority-banking/promotion/ntb/index9438.html?pid=SG:out:HCR1:20140808');" style="cursor:pointer;cursor:hand;">
+                                <div class="bx-caption cf">
+                                    <p class="eleven columns white-txt"><strong>Priority Banking</strong> </br>We offer a suite of tailored wealth solutions to help you meet your financial future. Start a Priority Banking relationship and receive up to $1,100 in vouchers and gifts.</p>
+                                    <p class="twelve columns"> <a href="priority-banking/promotion/ntb/index9438.html?pid=SG:out:HCR1:20140808" class="button small green radius">Find out more</a> </p>
+                                </div>
+                            </li>
+                            <li id="bxslid-2"><img id="cta-bnr-img-2" src="assets/pws/images/banner/yec_masthead_1580x295_4dec.jpg"  alt="Festive 2014/2015 Promotion"   onClick="openNewWin('promotion/2014/twowaystosave/index467e.html?pid=SG:sttd:HCR2:20140707');" style="cursor:pointer;cursor:hand;">
+                                <div class="bx-caption cf">
+                                    <p class="eleven columns"><strong>Festive 2014/2015 Promotion </strong></br>Shop with your credit card from 14 November 2014 to 14 January 2015 and receive a SodaStream Soda Maker, GoPro HERO3+, or 1-night stay in a Marvelous Suite at W Singapore—Sentosa Cove.</p>
+                                    <p class="twelve columns"> <a href="promotion/2014/twowaystosave/index467e.html?pid=SG:sttd:HCR2:20140707" class="button small green radius">Find out more</a></p>
+                                </div>
+                            </li>
+                            <li id="bxslid-3"> <img  id="cta-bnr-img-3"  src="assets/pws/images/banner/dual_cards_masthead_1580x295_4dec.jpg" alt="Apply for two cards today "   onClick="openNewWin('promotion/2014/bonussaver/index6b25.html?pid=SG:Bonussaver:HCR3:20140530');" style="cursor:pointer;cursor:hand;">
+                                <div class="bx-caption cf">
+                                    <p class="eleven columns white-txt"><strong>Apply for two cards today </strong></br>Choose from 3 great gifts* (Samsung GALAXY Tab 4, BOSE Bluetooth Speaker or American Tourister luggage) when you apply for both the MANHATTAN World MasterCard and Platinum Visa or MasterCard.</p>
+                                    <p class="twelve columns"> <a  href="promotion/2014/bonussaver/index6b25.html?pid=SG:Bonussaver:HCR3:20140530" class="button small green radius">Find out more</a> </p>
+                                </div>
+                            </li>
+                            <li id="bxslid-4"><img id="cta-bnr-img-4" src="assets/pws/images/banner/cashone_masthead_1580x295_4dec.jpg" alt="CashOne personal loan" onClick="openNewWin('borrow/cam/index2bc7.html?pid=SG:cashone:HCR4:20130930');" style="cursor:pointer;cursor:hand;">
+                                <div class="bx-caption cf">
+                                    <p class="eleven columns white-txt"><strong>CashOne Personal Loan </strong></br>Get approval-in-principle for a loan of up to 4x your monthly income within 60-seconds. Plus, get a gift and a $100 voucher upon approval. </p>
+                                    <p class="twelve columns"> <a href="borrow/cam/index2bc7.html?pid=SG:cashone:HCR4:20130930" class="button small green radius">Find out more</a> </p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            <!-- Orbit Banner -->
+
+            <!-- TGL general information -->
+            <nav class="inpage-links shadow-block-full"> 
+                <div class="row" id="tgl_info">
+                    <div class="two columns tgl-logo-holder">
+                        <!--<img src="assets/pws/images/page/standard-chartered-logo-top.png"  alt="The Good Life®"  width="144" height="60"/>-->
+                        <a href="" ng-click="openDefault()"><img src="img/TGL_logo.png" alt="The Good Life®"  width="144" height="60"/></a>
+                    </div>
+                    <div class="ten columns">
+                        <h4>Great Deals. Your Way, every day.</h4>
+                        <p>The Good Life<sup>®</sup> is what you make of it. Be it dining, fashion, electronics, or nightlife, choose to live life your way every day with the deals you desire. Only with your Standard Chartered Card.</p>
+                        <p>Download The Good Life<sup>®</sup> app on App Store or Google Play today for exciting deals and mobile coupons at your fingertips.</p>
+                        <a href="https://www.sc.com/sg/itgl/"><img src="assets/pws/images/page/appstore_btn.jpg"></a>
+                        <a href="https://www.sc.com/sg/atgl/"><img src="assets/pws/images/page/googleplay_btn.jpg"></a>
+                    </div>
+                </div>
+            </nav>
+            <!-- TGL general information -->
+
+            <!-- TGL nav bar -->
+            <script>
+                        $(function () {
+                        $("#tgl_nav a").click(function (e) {
+                        //e.preventDefault();
+                        $("#tgl_nav a").removeClass("selected");
+                                $(this).addClass("selected");
+                                window.location.href = "#";
+                                $('html, body').animate({scrollTop: $('#tgl_info').offset().top}, 600);
+                                return false;
+                        });
+                                $("#priority").click(function () {
+                        window.location.href = "https://www.sc.com/sg/thegoodlife/#search?searchtext=visa%20infinite";
+                        });
+                        });</script>
+            <header class="inpage-links shadow-block-full persist-header-on">
+                <div class="standard-chartered-logo-holder">
+                    <a id="megaMenu" class="navbar-button show-for-small open"><span></span> Categories </a> </div>
+                <div class="row">
+                    <div class="nine columns">
+                        <div class="filters-with-search">
+                            <div class="filter cf" id="megaNav">
+                                <!-- START CHOICES -->
+                                <span></span>
+                                <ul id="tgl_nav">   
+                                    <li><a class="filter_featured_btn selected" ng-click="hide_featured = false;
+                                                showSubCat = null;
+                                                coupons_table = false; clearSearch()">Featured</a>
+                                    </li>
+
+                                    <li><a id="priority" class="filter_priority_btn">Priority Offers</a></li>
+
+                                    <li><a class="filter_all_btn" ng-click="filterCat = null;
+                                                showSubCat = null;
+                                                filterSubCat = null;
+                                                hide_featured = true;
+                                                coupons_table = false; clearSearch()">All Deals</a>
+                                    </li>
+
+                                    <li><a class="filter_dining_btn" ng-click="filterCat = dining;
+                                                showSubCat = diningSubCat;
+                                                filterSubCat = null;
+                                                hide_featured = true;
+                                                coupons_table = false; clearSearch()">Dining</a>
+                                    </li>
+
+                                    <li><a class="filter_lifestyle_btn" ng-click="filterCat = lifestyle;
+                                                showSubCat = lifestyleSubCat;
+                                                filterSubCat = null;
+                                                hide_featured = true;
+                                                coupons_table = false; clearSearch()">Lifestyle</a>
+                                    </li>
+
+                                    <li><a class="filter_online_btn" ng-click="filterCat = online;
+                                                showSubCat = onlineSubCat;
+                                                filterSubCat = null;
+                                                hide_featured = true;
+                                                coupons_table = false; clearSearch()">Online</a>
+                                    </li>
+
+                                    <li><a class="filter_mobile_btn" ng-click="coupons_table = true;
+                                                showSubCat = null;
+                                                featured = false; clearSearch()">Mobile Coupons</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="three columns">
+                        <div id="searchbar-card" class="searchbar-top search-on" style="">
+                            <input type="text" class="search-card sbox-on" id="cardSearch_txt" placeholder="Search" autocomplete="off" ng-model="search.$">
+                        </div>
+                    </div>
+                </div>
+                <section class="inpage-links shadow-block-full" style="padding:5px" ng-show="showSubCat" ng-click="clearSearch()">
+                    <div class="row">
+                        <div class="twelve columns">
+                            <div class="filters-with-search">
+                                <div class="filter cf" id="filtertags">
+                                    <ul id="filter_container" ng-repeat="category in allCategories| filter:showSubCat">   
+                                        <li class="feat-in" ng-repeat="subCategory in subCategories(category.subCategories)" ng-class="navClass('{{category.categoryName}}_{{subCategory.subCategoryName}}')">
+                                            <a href="#/{{category.categoryName}}_{{subCategory.subCategoryName}}" id="" style="background-image:url();" ng-click="returnScope().filterSubCat = {subCatID: subCategory.subCategoryId}">{{subCategory.subCategoryName}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </header>
+            <!-- TGL nav bar -->
+
+            <!-- Content Body -->
+            <article class="inpage-sections inpage-on">
+                <section class="inpage-content grey-box section-active" id="featured-cards">
+                    <div class="row">
+                        <div class="twelve columns">
+
+                            <!-- Featured Listing-->
+                            <div class="pin-container variable-sizes isotope" style="" ng-hide="hide_featured || coupons_table">
+                                <article ng-repeat="deal in featured_container = (deals| filter:featuredDeals| filter:search | orderBy:'merchantName')" class="elements credit-card-select business cashback isotope-item">
+                                    <div class="panel" ng-click="launch(deal)" style="cursor:pointer">                                                        <!-- data-animation="fade" data-reveal-id="expand_modal" -->
+                                        <header style="height:103px"> <img ng-src="{{deal.promoImage}}" fallback-src="img/wrong_img_link.png"></header>
+                                        <div class="elm-content-area cf">
+                                            <h5 class="card-title">{{deal.merchantName|cut:true:30:' ...'}}</h5>
+                                            <p ng-bind-html="deal.promoDesc|cut:true:60:' ...'"></p>
+                                        </div>
+                                        <div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{'background-image': 'url(img/{{showBanner(deal)}})'}"></div>
+                                        <!--
+                                            <aside>
+                                                <button class="button small radius green" ng-click="launch(deal)">More Details</button>
+                                            </aside>
+                                        -->
+                                        <footer class="row collapse">
+                                            <!--<div class="twelve columns text-center">Valid till {{deal.validTill.toLocaleString();}}</div>-->
+                                            <div class="twelve columns text-center">
+                                                Valid till {{deal.validTill| myDate | date:'d MMM y'}}
+                                                <img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>
+                                            </div>
+                                        </footer>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Deals Listing-->
+                            <div class="pin-container variable-sizes isotope" style="" ng-hide="!hide_featured || coupons_table">
+                                <article ng-repeat="deal in deals_container = (deals| filter:filterCat| filter:filterSubCat:true | filter:search | filter:{categoryID:filter.categoryID}| orderBy:'merchantName' | limitTo:totalDisplayed)" class="elements credit-card-select business cashback isotope-item">
+                                    <div class="panel" id="deals-display" ng-click="launch(deal)" style="cursor:pointer">                                                        <!-- data-animation="fade" data-reveal-id="expand_modal" -->
+                                        <header style="height:103px"> <img ng-src="{{deal.promoImage}}" fallback-src="img/wrong_img_link.png"></header>
+                                        <div class="elm-content-area cf">
+                                            <h5 class="card-title">{{deal.merchantName|cut:true:25:' ...'}}</h5>
+                                            <p ng-bind-html="deal.promoDesc|cut:true:60:' ...'"></p>
+                                        </div>
+                                        <div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{'background-image': 'url(img/{{showBanner(deal)}})'}"></div>
+                                        <!--
+                                        <aside>
+                                            <button class="button small radius green" ng-click="launch(deal)">More Details</button>
+                                        </aside>
+                                        -->
+                                        <footer class="row collapse">
+                                            <!--<div class="twelve columns text-center">Valid till {{deal.validTill.toLocaleString();}}</div>-->
+                                            <div class="twelve columns text-center">
+                                                Valid till {{deal.validTill| myDate | date:'d MMM y'}}
+                                                <img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>
+                                            </div>
+                                        </footer>
+                                    </div>
+                                </article>
+
+                            </div>
+
+                            <!-- Coupons Listing-->
+                            <div class="pin-container variable-sizes isotope" style="" ng-hide="!coupons_table">
+                                <article ng-repeat="coupon in coupons_container = (coupons| filter:search | orderBy:'merchantName')" class="elements credit-card-select business cashback isotope-item">
+                                    <div class="panel" ng-click="launch(coupon)" style="cursor:pointer">                                                        <!-- data-animation="fade" data-reveal-id="expand_modal" -->
+                                        <header style="height:103px"> <img ng-src="{{coupon.promoImage}}" fallback-src="img/wrong_img_link.png"></header>
+                                        <div class="elm-content-area cf">
+                                            <h5 class="card-title">{{coupon.merchantName|cut:true:30:' ...'}}</h5>
+                                            <p ng-bind-html="coupon.promoDesc|cut:true:60:' ...'"></p>
+                                        </div>
+                                        <footer class="row collapse">
+                                            <!--<div class="twelve columns text-center">Valid till {{deal.validTill.toLocaleString();}}</div>-->
+                                            <div class="twelve columns text-center">
+                                                Valid till {{coupon.validTill| date:'d MMM y'}}
+                                                <img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>
+                                            </div>
+                                        </footer>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-center" ng-if="totalDisplayed <= featured_container.length" ng-hide="hide_featured || coupons_table"><a class="button medium radius blue" ng-click="loadMore();">Load more</a></p>
+                    <p class="text-center" ng-if="totalDisplayed <= deals_container.length" ng-hide="!hide_featured || coupons_table"><a class="button medium radius blue" ng-click="loadMore();">Load more</a></p>
+                    <p class="text-center" ng-if="totalDisplayed <= coupons_container.length" ng-hide="!coupons_table"><a class="button medium radius blue" ng-click="loadMore();">Load more</a></p>
+
+                </section>
+            </article>
+            <!-- Content Body -->
+
+            <!-- Content End -->
+            <section class="bc-block">
+                <div class="row">
+                    <div class="nine columns">
+                        <ul class="breadcrumbs">
+                            <li class="home"><a href="./">SCB Home</a></li>
+                            <li class="current"><a href="./">The Good Life<sup>®</sup></a></li>
+                        </ul>
+                    </div>
+                    <div class="three columns">
+                        <a href="tnc.html" style="line-height: 35px; font-size: 12px; display: inline-block;">The Good Life<sup>®</sup> Terms and Conditions</a>
+                    </div>
+                </div>
+            </section>
+            <!-- Content End -->
+
+            <!-- Footer -->
+            <footer class="footer-block footer-links">
+                <div class="row">
+                    <div class="three columns block-ft">
+                        <h6 class="subheader show-for-small">Corporate</h6>
+                        <ul class="block-grid one-up mobile-two-up">
+                            <li><a href="about-us/index-2.html">About Us</a></li>
+                            <li><a href="about-us/awards-achievements.html">Awards & Achievements</a></li>
+                            <li><a href="about-us/fair-dealing-guidelines.html">Fair Dealing Guidelines</a></li>
+                            <li><a href="news-media/index.html">News & Media</a> </li>
+                            <li><a href="investor-relations/financial-results-pillar-3.html">Financial Results and Pillar 3 Disclosure</a> </li>
+                            <li><a href="sitemap.html">Sitemap</a> </li>
+                        </ul>
+                    </div>
+                    <div class="three nobg columns hide-for-small">
+                        <ul class="block-grid one-up mobile-one-up">
+                            <li><a href="https://www.sc.com/en/careers/professional-hires/leave-your-details.html" class="external-link">Careers</a> </li>
+                            <li><a href="www.standardchartered.com/sustainability/en/index.html" class="external-link">Sustainability</a> </li>
+                            <li><a href="investors.standardchartered.com/index.html" class="external-link">Investor Relations</a> </li>
+                            <li><a href="https://www.sc.com/en/learning-resources/global-research.html" class="external-link">Global Research</a> </li>
+                            <li><a href="https://www.sc.com/en/about-us/standard-chartered-worldwide/index.html" class="external-link">Worldwide Location</a> </li>
+                        </ul>
+                    </div>
+                    <div class="three liner-ft columns">
+                        <h6 class="subheader hide-for-small" style="font-size:11px;"> Standard Chartered 2013 - 2014<br />Standard Chartered Bank (Singapore) Limited<br />Reg No. 201224747C</h6>      <p class="show-for-small">&nbsp;</p>
+                        <ul class="block-grid one-up mobile-one-up">
+                            <li><a href="online-terms-conditions.html">Terms & Conditions</a></li>
+                            <li><a href="privacy.html#privacy">Privacy Statement</a></li>
+                            <li><a href="privacy.html#webPrivacy">Website Privacy Statement</a></li>
+                            <li><a href="e-banking-terms-conditions.html">E Banking Terms & Conditions</a></li>
+                            <li class="hide-for-small"><a href="personal-banking-terms-conditions.html">Personal Banking Terms & Conditions</a></li>
+                        </ul>
+                        <p class="show-for-small">&nbsp;</p>
+                        <h6 class="subheader show-for-small" style="font-size:11px;"> Standard Chartered 2013<br />Standard Chartered Bank (Singapore) Limited<br />Reg No. 201224747C</h6>
+                    </div>
+                </div>
+            </footer>
+            <!-- Footer -->
+
+            <div class="back-to-top">
+                <div> <a href="#">Back to Top</a> </div>
+            </div>
+        </div>
+        <!-- Body Container -->
+
+        <!-- Start: footer-end-home.html -->
+        <!--<script src="assets/pws/global-pws-data.json"></script>-->
+        <script src="assets/global/global.js"></script>
+        <script src="assets/global/global-enquire.js"></script>
+        <script src="assets/pws/sg-pws-custom.js"></script>
+        <!-- Start: Credit Card Tracking Scripts -->
+        <!--<script src="assets/pws/jquery.cookie.tracking.js"></script>-->
+        <!--<script src="assets/pws/checkSubCode.js"></script>-->
+        <!--<script src="assets/pws/jquery-query-string.js"></script>-->
+        <!-- End: Credit Card Tracking Scripts -->
+        <!-- End: footer-end-home.html -->
+        <!--<script src="assets/pws/global-pws-cornerstamp.js"></script>-->
+        <!--Start of data-analytics.html-->
+        <div id="alert-lightbox" class="reveal-modal large">
+            ﻿<div class="row">
+                <div class="two mobile-one columns ">
+                    <p class="single-icon-large icon-b5">
+                        <span class="icons_large"></span>
+                    </p>
+                </div>
+                <div class="ten mobile-three columns">
+                    <p>
+                        <b>September 26th 2014</b><br /><br />IT security researchers have recently discovered a vulnerability in a software that is commonly used in Unix and Linux operating systems to execute commands from applications. This vulnerability could allow an attacker to gain control over an affected machine, access confidential information and perform unauthorised activities.<br /><br />The Bank has carried out investigations and found no vulnerability in our systems. We will continue to monitor our systems and the external environment to take necessary action if a threat is detected.
+                    </p>
+                </div>
+            </div>
+            <a class="close-reveal-modal" ></a>
+        </div>
+
+        <div id="disclaimerModalNew" class="reveal-modal large">
+            <h3 class="subheader green-text">You're about to leave our website</h3>
+            <div class="row">
+                <div class="two mobile-one columns ">
+                    <p class="single-icon-large icon-b5"><span class="icons_large"></span></p>
+                </div>
+                <div class="ten mobile-three columns">
+                    <p>This is to inform that by clicking on the hyperlink, you will be leaving <em>sc.com/sg</em> and entering a website operated by other parties:</p>
+                    <h5 class="text-center" id="dest_url"></h5>
+                    <p>Such links are only provided on our website for the convenience of the Client and Standard Chartered Bank does not control or endorse such websites, and is not responsible for their contents.</p>
+                    <p> The use of such website is also subject to the terms of use and other terms and guidelines, if any, contained within each such website. In the event that any of the terms contained herein conflict with the terms of use or other terms and guidelines contained within any such website, then the terms of use and other terms and guidelines for such website shall prevail.</p>
+                    <p> Thank you for visiting <em>www.sc.com/sg</em> </p>
+                    <p> <a class="button small radius blue" onClick="acceptDisclaimer()">Proceed to third party website</a></p>
+                </div>
+            </div>
+            <a class="close-reveal-modal" ></a>
+        </div>
+        <div id="disclaimerPopup" class="reveal-modal large custom-disclaimer-popup">
+            <h3 class="subheader green-text">Disclaimer</h3>
+            <div class="row">
+                <div class="disclaimer-popup-box">
+                    <p>This link brings you to a third party Website, over which Standard Chartered Bank (Singapore) Limited has no control ("3rd Party Website"). Use of the 3rd Party Website will be entirely at your own risk, and subject to the terms of the 3rd Party Website, including those relating to confidentiality, data privacy and security.</p>
+                    <p>Standard Chartered Bank (Singapore) Limited makes no warranties, representations or undertakings about and does not endorse, recommend or approve the contents of the 3rd Party Website.</p>
+                    <p>In addition to the terms stated in Standard Chartered Bank (Singapore) Limited's <a href="http://www.sc.com/sg/legal/legal-internet.html" target="external-link">Important Legal Notices</a>, Standard Chartered Bank (Singapore) Limited shall have no responsibility or liability in connection with the content of or the consequences of accessing the 3rd Party Website, including any virus arising from or system failure associated with the 3rd Party Website.</p>
+                    <p>In the event of any inconsistency between the terms herein / the Bank's <a href="http://www.sc.com/sg/legal/legal-internet.html" target="external-link">Important Legal Notices</a> and the terms on the 3rd Party Website, the terms herein / the Bank's <a href="http://www.sc.com/sg/legal/legal-internet.html" target="external-link">Important Legal Notices</a> will prevail.</p>
+                    <p>By clicking "Proceed", you will be confirming that you have read and agreed to the terms herein and in the Bank's <a href="http://www.sc.com/sg/legal/legal-internet.html" target="external-link">Important Legal Notices</a>.</p>
+                </div>
+                <p>
+                    <a href="#" class="button small radius blue accept-disclaimer" target="external-link">Proceed</a>
+                </p>
+            </div>
+            <a class="close-reveal-modal"></a>
+        </div>
+        <style>
+            #non-existing-content-box {
+                padding: 0 10px 0 0;
+                border-right: 1px dashed #ccc;
+                border-bottom: none;
+            }
+            #existing-content-box {
+                padding: 0 0 0 10px;
+            }
+            #not-existing-customer-next-mobile-btn-container {
+                display:none;
+            }
+            #existing-customer-next-mobile-btn-container {
+                display:none;
+            }
+            #desktop-next-btns {
+                display:block;	
+            }
+
+            .lt-768 #non-existing-content-box {
+                padding: 0;
+                border-right: none;
+                border-bottom: 1px dashed #ccc;
+            }
+            .lt-768 #existing-content-box {
+                padding: 10px 0 0 0;
+            }
+            .lt-768 #not-existing-customer-next-mobile-btn-container {
+                display:block;
+            }
+            .lt-768 #existing-customer-next-mobile-btn-container {
+                display:block;
+            }
+            .lt-768 #desktop-next-btns {
+                display:none;	
+            }
+        </style>
+        <!--<script src="assets/pws/global-pws-message-data.json"></script>--> 
+        <!--<script src="assets/pws/global-pws-cards-data.js"></script>-->
+        <script src="assets/pws/global-pws-cta-data.json"></script>
+        <!--<script src="assets/pws/jquery.cookie.js"></script>-->
+        <script src="assets/pws/global-pws-cta-message.js"></script>
+        <!--        <script src="assets/pws/omni-data.json"  type="text/javascript"></script>
+                <script src="assets/pws/omni-script.js"  type="text/javascript"></script>-->
+        <!--End of data-analytics.html-->
+        <script src="assets/pws/pws-slider.min.js"></script>
+        <script type="text/javascript">
+                                                                        $('.bxslider').bxSlider({
+                                                                auto: true,
+                                                                        mode: 'fade',
+                                                                        pager: true,
+                                                                        captions: true,
+                                                                        adaptiveHeight: true,
+                                                                });</script>
+
+        <!-- JS for modal -->
+        <script src="https://code.angularjs.org/1.2.16/angular-sanitize.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bower-angular-translate/2.0.1/angular-translate.min.js"></script>
+        <script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
+        <script src="js/angularApp.js"></script>
+        <script src="js/ngDialog.js" type="text/javascript"></script>
+
+        <!-- JS for social share -->
+        <script src="js/angular-socialshare.min.js"></script>
+
+        <!-- JS for google map -->
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.underscore.js"></script>
+        <script src="js/angular-google-maps_dev_mapped.js"></script>
+    </body>
+
+</html>

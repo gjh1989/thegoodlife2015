@@ -1,0 +1,768 @@
+/* LOAN CASHEONE ADDED CSS */
+table.cashonetable { background:#E6E6E6; font-size:12px; border-color:#E6E6E6; border:none; border-collapse:collapse; border:1px solid #E6E6E6; }
+table.cashonetable thead { background:#F8F8F8; color:#33AD40; border-spacing:1px; }
+table.cashonetable tbody { border-spacing:0; }
+table.cashonetable thead tr th {  background:#F8F8F8; color:#33AD40; font-size:12px; border:1px solid #E6E6E6; }
+table.cashonetable thead tr th.title { font-size:14px; }
+table.cashonetable tr td.green-bg { background:#FFF; color:#33AD40; }
+table.cashonetable tr td.green-bg-head { background:#F8F8F8; color:#33AD40; font-size:14px; }
+table.cashonetable tbody tr.alt-row, table.cashonetable tbody tr { background:#FFF; border-bottom:none; }
+table.cashonetable tbody tr td { border-right:1px solid #E6E6E6; font-size:12px; }
+table.cashonetable tbody tr td p { font-size:12px; }
+.inpage-content p.small11 { font-size:11px; }
+.inpage-content p.small12 { font-size:12px; }
+.inpage-content p.greysmall { font-size:12px; color:#999; }
+.inpage-content h5.smaller { font-size:16px; margin:0 0 1em auto; }
+.greyboxarea { background:#FFFFFF url(images/page/greybg-cashone.png) bottom left repeat-x; padding-top:40px; margin-bottom:30px; }
+table thead th.tbody-head.text-left { text-align:left; }
+/* END OF LOAN CASHEONE ADDED CSS */
+
+/*h2 replace h1 css*/
+.orbit-caption .info-box h2{color:#fff;font-size:28px;margin:0 0 12px; font-family:"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;}
+
+
+.info-box .masthead-tnc { font-size:12px; margin-top:10px; }
+
+/* --------SME------- */
+.section-business-protection .sme-nav .brand-header .nav-bar > li.business-protection > a > h3, .section-business-expansion .sme-nav .brand-header .nav-bar > li.business-expansion > a > h3, .section-trade-working-capital .sme-nav .brand-header .nav-bar > li.trade-working-capital > a > h3, .section-yield-enhancement .sme-nav .brand-header .nav-bar > li.yield-enhancement > a > h3, .section-cross-border-solutions .sme-nav .brand-header .nav-bar > li.cross-border-solutions > a > h3 {
+	color:#29AD48;
+}
+.section-business-protection .sme-nav .brand-header .nav-bar > li.business-protection > a:first-child, .section-business-expansion .sme-nav .brand-header .nav-bar > li.business-expansion > a:first-child, .section-trade-working-capital .sme-nav .brand-header .nav-bar > li.trade-working-capital > a:first-child, .section-yield-enhancement .sme-nav .brand-header .nav-bar > li.yield-enhancement > a:first-child, .section-cross-border-solutions .sme-nav .brand-header .nav-bar > li.cross-border-solutions > a:first-child {
+	border-bottom-color:#29AD48;
+}
+
+/* Add this line for green indicator bar for carousel */
+/* .two-caption ul.orbit-bullets li { width: 50%; } */
+
+#filter_platinum a{background-position:2px -167px}
+#filter_platinum.active a,#filter_platinum:hover a{background-position:2px -195px}
+.filter-block {padding-top:15px;}
+
+
+
+
+
+.isotope-boxes {padding-top: 5px;}
+
+ol.lower-alpha {list-style-type:lower-alpha;}
+ol li .list-hypen {margin-left:30px; position:relative;}
+ol li .list-hypen p {margin-bottom: 10px; margin-left:10px;}
+ol li .list-hypen p span {display: block; left: -28px; position: absolute; text-align: right; width: 15px;}
+ol li .list-third p {padding-left: 25px;}
+ol li .list-third p span {width: 45px;}
+ol li .list-fourth p {padding-left: 30px;}
+ol li .list-fourth p span {width: 45px;}
+.box360 {width:188px;height:132px;float:left;margin-left:20px;}
+.box360text {float:left;width:775px;}
+.interested .panel {padding:10px; background:url(images/page/cross_selling_bnr_divider.jpg) top right no-repeat;}
+.interested .panel.last {background:none;}
+.interested .subheader {} 
+.interested [class*="column"]+[class*="column"]:last-child {
+float: left;
+}
+table.no-t-head th {
+font-weight: normal;
+border-left: none;
+text-align: center;
+line-height: 1em;
+color: #666;
+font-size: 24px;
+padding: 8px 10px 9px;
+display: table-cell;
+background: #f1fcf0;
+}
+
+table tr td.green-bg {background-color:#F1FCF0;}
+table tbody tr td li, table tr td li, .inpage-content table tbody tr td.left { text-align:left !important; float:none; }
+table tbody td.tbody-head.left, table thead th.tbody-head.left, table tbody td.left.tbody-head, table thead th.left.tbody-head { text-align:left !important; float:none !important; }
+
+.ex-small {
+	font-size:11px !important;
+}
+
+.icon-g1 span.icons_large {
+	background-position:-480px 0px;
+}
+
+/* Start of New Icons Addition */
+.icon-g1 span.icons_large {background-position:-480px 0px;}
+
+.icon-i4 span.icons_large { background-position:-640px -150px; }
+.icon-j4 span.icons_large { background-position:-720px -150px; }
+
+.icon-h6 span.icons_large { background-position:-560px -300px; }
+.icon-i6 span.icons_large { background-position:-640px -300px; }
+.icon-j6 span.icons_large { background-position:-720px -300px; }
+
+.icon-h8 span.icons_large { background-position:-560px -500px; }
+.icon-i8 span.icons_large { background-position:-640px -500px; }
+.icon-j8 span.icons_large { background-position:-720px -500px; }
+
+.icon-e9 span.icons_large { background-position:-320px -550px; }
+.icon-f9 span.icons_large { background-position:-400px -550px; }
+.icon-g9 span.icons_large { background-position:-480px -550px; }
+.icon-h9 span.icons_large { background-position:-560px -550px; }
+.icon-i9 span.icons_large { background-position:-640px -550px; }
+.icon-j9 span.icons_large { background-position:-720px -550px; }
+
+.icon-f11 span.icons_large { background-position:-400px -700px; }
+.icon-g11 span.icons_large { background-position:-480px -700px; }
+.icon-h11 span.icons_large { background-position:-560px -700px; }
+.icon-i11 span.icons_large { background-position:-640px -700px; }
+.icon-j11 span.icons_large { background-position:-720px -700px; }
+
+.icon-g12 span.icons_large { background-position:-480px -750px; }
+.icon-j12 span.icons_large { background-position:-720px -750px; }
+
+.icon-d14 span.icons_large { background-position:-240px -900px; }
+.icon-e14 span.icons_large { background-position:-320px -900px; }
+.icon-f14 span.icons_large { background-position:-400px -900px; }
+.icon-g14 span.icons_large { background-position:-480px -900px; }
+.icon-h14 span.icons_large { background-position:-560px -900px; }
+
+.icon-i15 span.icons_large { background-position:-640px -1000px; }
+.icon-j15 span.icons_large { background-position:-720px -1000px; }
+
+.icon-f16 span.icons_large { background-position:-400px -1050px; }
+
+.icon-e17 span.icons_large { background-position:-400px -1150px; }
+.icon-f17 span.icons_large { background-position:-400px -1150px; }
+.icon-g17 span.icons_large { background-position:-480px -1150px; }
+.icon-h17 span.icons_large { background-position:-560px -1150px; }
+.icon-i17 span.icons_large { background-position:-640px -1150px; }
+.icon-j17 span.icons_large { background-position:-720px -1150px; }
+
+.icon-j18 span.icons_large { background-position:-720px -1200px; }
+
+.icon-g19 span.icons_large { background-position:-480px -1300px; }
+.icon-h19 span.icons_large { background-position:-560px -1300px; }
+
+.icon-d21 span.icons_large { background-position:-240px -1450px; }
+.icon-e21 span.icons_large { background-position:-320px -1450px; }
+.icon-f21 span.icons_large { background-position:-400px -1450px; }
+.icon-g21 span.icons_large { background-position:-480px -1450px; }
+.icon-h21 span.icons_large { background-position:-560px -1450px; }
+.icon-i21 span.icons_large { background-position:-640px -1450px; }
+
+.icon-i22 span.icons_large { background-position:-640px -1550px; }
+.icon-j22 span.icons_large { background-position:-720px -1550px; }
+
+.icon-c23 span.icons_large { background-position:-160px -1600px; }
+.icon-d23 span.icons_large { background-position:-240px -1600px; }
+.icon-e23 span.icons_large { background-position:-320px -1600px; }
+.icon-f23 span.icons_large { background-position:-400px -1600px; }
+.icon-g23 span.icons_large { background-position:-480px -1600px; }
+.icon-h23 span.icons_large { background-position:-560px -1600px; }
+.icon-i23 span.icons_large { background-position:-640px -1600px; }
+.icon-j23 span.icons_large { background-position:-720px -1600px; }
+
+.icon-b27 span.icons_large { background-position:-80px -1800px; }
+.icon-c27 span.icons_large { background-position:-160px -1800px; }
+.icon-d27 span.icons_large { background-position:-240px -1800px; }
+.icon-e27 span.icons_large { background-position:-320px -1800px; }
+.icon-f27 span.icons_large { background-position:-400px -1800px; }
+.icon-g27 span.icons_large { background-position:-480px -1800px; }
+.icon-h27 span.icons_large { background-position:-560px -1800px; }
+.icon-i27 span.icons_large { background-position:-640px -1800px; }
+.icon-j27 span.icons_large { background-position:-720px -1800px; }
+
+.icon-c29 span.icons_large { background-position:-160px -1900px; }
+.icon-d29 span.icons_large { background-position:-240px -1900px; }
+.icon-e29 span.icons_large { background-position:-320px -1900px; }
+.icon-f29 span.icons_large { background-position:-400px -1900px; }
+.icon-g29 span.icons_large { background-position:-480px -1900px; }
+.icon-h29 span.icons_large { background-position:-560px -1900px; }
+.icon-i29 span.icons_large { background-position:-640px -1900px; }
+
+.icon-a30 span.icons_large { background-position:0px -1950px; }
+.icon-b30 span.icons_large { background-position:-80px -1950px; }
+.icon-c30 span.icons_large { background-position:-160px -1950px; }
+.icon-d30 span.icons_large { background-position:-240px -1950px; }
+.icon-e30 span.icons_large { background-position:-320px -1950px; }
+.icon-f30 span.icons_large { background-position:-400px -1950px; }
+.icon-g30 span.icons_large { background-position:-480px -1950px; }
+.icon-h30 span.icons_large { background-position:-560px -1950px; }
+.icon-i30 span.icons_large { background-position:-640px -1950px; }
+.icon-j30 span.icons_large { background-position:-720px -1950px; }
+
+.icon-a31 span.icons_large { background-position:0px -2000px; }
+.icon-b31 span.icons_large { background-position:-80px -2000px; }
+.icon-c31 span.icons_large { background-position:-160px -2000px; }
+.icon-d31 span.icons_large { background-position:-240px -2000px; }
+.icon-e31 span.icons_large { background-position:-320px -2000px; }
+.icon-f31 span.icons_large { background-position:-400px -2000px; }
+.icon-g31 span.icons_large { background-position:-480px -2000px; }
+.icon-h31 span.icons_large { background-position:-560px -2000px; }
+.icon-i31 span.icons_large { background-position:-640px -2000px; }
+.icon-j31 span.icons_large { background-position:-720px -2000px; }
+
+.icon-a32 span.icons_large { background-position:0px -2050px; }
+.icon-b32 span.icons_large { background-position:-80px -2050px; }
+.icon-c32 span.icons_large { background-position:-160px -2050px; }
+.icon-d32 span.icons_large { background-position:-240px -2050px; }
+.icon-e32 span.icons_large { background-position:-320px -2050px; }
+.icon-f32 span.icons_large { background-position:-400px -2050px; }
+.icon-g32 span.icons_large { background-position:-480px -2050px; }
+.icon-h32 span.icons_large { background-position:-560px -2050px; }
+.icon-i32 span.icons_large { background-position:-640px -2050px; }
+.icon-j32 span.icons_large { background-position:-720px -2050px; }
+
+.icon-a33 span.icons_large { background-position:0px -2100px; }
+.icon-b33 span.icons_large { background-position:-80px -2100px; }
+.icon-c33 span.icons_large { background-position:-160px -2100px; }
+.icon-d33 span.icons_large { background-position:-240px -2100px; }
+.icon-e33 span.icons_large { background-position:-320px -2100px; }
+.icon-f33 span.icons_large { background-position:-400px -2100px; }
+.icon-g33 span.icons_large { background-position:-480px -2100px; }
+.icon-h33 span.icons_large { background-position:-560px -2100px; }
+.icon-i33 span.icons_large { background-position:-640px -2100px; }
+.icon-j33 span.icons_large { background-position:-720px -2100px; }
+
+.icon-a34 span.icons_large { background-position:0px -2150px; }
+.icon-b34 span.icons_large { background-position:-80px -2150px; }
+.icon-c34 span.icons_large { background-position:-160px -2150px; }
+.icon-d34 span.icons_large { background-position:-240px -2150px; }
+.icon-e34 span.icons_large { background-position:-320px -2150px; }
+.icon-f34 span.icons_large { background-position:-400px -2150px; }
+.icon-g34 span.icons_large { background-position:-480px -2150px; }
+.icon-h34 span.icons_large { background-position:-560px -2150px; }
+.icon-i34 span.icons_large { background-position:-640px -2150px; }
+.icon-j34 span.icons_large { background-position:-720px -2150px; }
+
+.icon-a35 span.icons_large { background-position:0px -2200px; }
+.icon-b35 span.icons_large { background-position:-80px -2200px; }
+.icon-c35 span.icons_large { background-position:-160px -2200px; }
+.icon-d35 span.icons_large { background-position:-240px -2200px; }
+.icon-e35 span.icons_large { background-position:-320px -2200px; }
+.icon-f35 span.icons_large { background-position:-400px -2200px; }
+.icon-g35 span.icons_large { background-position:-480px -2200px; }
+.icon-h35 span.icons_large { background-position:-560px -2200px; }
+.icon-i35 span.icons_large { background-position:-640px -2200px; }
+.icon-j35 span.icons_large { background-position:-720px -2200px; }
+
+.icon-a36 span.icons_large { background-position:0px -2250px; }
+.icon-b36 span.icons_large { background-position:-80px -2250px; }
+.icon-c36 span.icons_large { background-position:-160px -2250px; }
+.icon-d36 span.icons_large { background-position:-240px -2250px; }
+.icon-e36 span.icons_large { background-position:-320px -2250px; }
+.icon-f36 span.icons_large { background-position:-400px -2250px; }
+.icon-g36 span.icons_large { background-position:-480px -2250px; }
+.icon-h36 span.icons_large { background-position:-560px -2250px; }
+.icon-i36 span.icons_large { background-position:-640px -2250px; }
+.icon-j36 span.icons_large { background-position:-720px -2250px; }
+
+.icon-a37 span.icons_large { background-position:0px -2300px; }
+.icon-b37 span.icons_large { background-position:-80px -2300px; }
+.icon-c37 span.icons_large { background-position:-160px -2300px; }
+.icon-d37 span.icons_large { background-position:-240px -2300px; }
+.icon-e37 span.icons_large { background-position:-320px -2300px; }
+.icon-f37 span.icons_large { background-position:-400px -2300px; }
+.icon-g37 span.icons_large { background-position:-480px -2300px; }
+.icon-h37 span.icons_large { background-position:-560px -2300px; }
+.icon-i37 span.icons_large { background-position:-640px -2300px; }
+.icon-j37 span.icons_large { background-position:-720px -2300px; }
+
+.icon-a38 span.icons_large { background-position:0px -2350px; }
+.icon-b38 span.icons_large { background-position:-80px -2350px; }
+.icon-c38 span.icons_large { background-position:-160px -2350px; }
+.icon-d38 span.icons_large { background-position:-240px -2350px; }
+.icon-e38 span.icons_large { background-position:-320px -2350px; }
+.icon-f38 span.icons_large { background-position:-400px -2350px; }
+.icon-g38 span.icons_large { background-position:-480px -2350px; }
+.icon-h38 span.icons_large { background-position:-560px -2350px; }
+.icon-i38 span.icons_large { background-position:-640px -2350px; }
+.icon-j38 span.icons_large { background-position:-720px -2350px; }
+
+.icon-a39 span.icons_large { background-position:0px -2400px; }
+.icon-b39 span.icons_large { background-position:-80px -2400px; }
+.icon-c39 span.icons_large { background-position:-160px -2400px; }
+.icon-d39 span.icons_large { background-position:-240px -2400px; }
+.icon-e39 span.icons_large { background-position:-320px -2400px; }
+.icon-f39 span.icons_large { background-position:-400px -2400px; }
+.icon-g39 span.icons_large { background-position:-480px -2400px; }
+.icon-h39 span.icons_large { background-position:-560px -2400px; }
+.icon-i39 span.icons_large { background-position:-640px -2400px; }
+.icon-j39 span.icons_large { background-position:-720px -2400px; }
+
+.icon-a40 span.icons_large { background-position:0px -2450px; }
+.icon-b40 span.icons_large { background-position:-80px -2450px; }
+.icon-c40 span.icons_large { background-position:-160px -2450px; }
+.icon-d40 span.icons_large { background-position:-240px -2450px; }
+.icon-e40 span.icons_large { background-position:-320px -2450px; }
+.icon-f40 span.icons_large { background-position:-400px -2450px; }
+.icon-g40 span.icons_large { background-position:-480px -2450px; }
+.icon-h40 span.icons_large { background-position:-560px -2450px; }
+.icon-i40 span.icons_large { background-position:-640px -2450px; }
+.icon-j40 span.icons_large { background-position:-720px -2450px; }
+
+.icon-a41 span.icons_large { background-position:0px -2500px; }
+.icon-b41 span.icons_large { background-position:-80px -2500px; }
+.icon-c41 span.icons_large { background-position:-160px -2500px; }
+.icon-d41 span.icons_large { background-position:-240px -2500px; }
+.icon-e41 span.icons_large { background-position:-320px -2500px; }
+.icon-f41 span.icons_large { background-position:-400px -2500px; }
+.icon-g41 span.icons_large { background-position:-480px -2500px; }
+.icon-h41 span.icons_large { background-position:-560px -2500px; }
+.icon-i41 span.icons_large { background-position:-640px -2500px; }
+.icon-j41 span.icons_large { background-position:-720px -2500px; }
+
+.icon-a42 span.icons_large { background-position:0px -2550px; }
+.icon-b42 span.icons_large { background-position:-80px -2550px; }
+.icon-c42 span.icons_large { background-position:-160px -2550px; }
+.icon-d42 span.icons_large { background-position:-240px -2550px; }
+.icon-e42 span.icons_large { background-position:-320px -2550px; }
+.icon-f42 span.icons_large { background-position:-400px -2550px; }
+.icon-g42 span.icons_large { background-position:-480px -2550px; }
+.icon-h42 span.icons_large { background-position:-560px -2550px; }
+.icon-i42 span.icons_large { background-position:-640px -2550px; }
+.icon-j42 span.icons_large { background-position:-720px -2550px; }
+
+.icon-a43 span.icons_large { background-position:0px -2600px; }
+.icon-b43 span.icons_large { background-position:-80px -2600px; }
+.icon-c43 span.icons_large { background-position:-160px -2600px; }
+.icon-d43 span.icons_large { background-position:-240px -2600px; }
+.icon-e43 span.icons_large { background-position:-320px -2600px; }
+.icon-f43 span.icons_large { background-position:-400px -2600px; }
+.icon-g43 span.icons_large { background-position:-480px -2600px; }
+.icon-h43 span.icons_large { background-position:-560px -2600px; }
+.icon-i43 span.icons_large { background-position:-640px -2600px; }
+.icon-j43 span.icons_large { background-position:-720px -2600px; }
+
+.icon-a44 span.icons_large { background-position:0px -2650px; }
+.icon-b44 span.icons_large { background-position:-80px -2650px; }
+.icon-c44 span.icons_large { background-position:-160px -2650px; }
+.icon-d44 span.icons_large { background-position:-240px -2650px; }
+.icon-e44 span.icons_large { background-position:-320px -2650px; }
+.icon-f44 span.icons_large { background-position:-400px -2650px; }
+.icon-g44 span.icons_large { background-position:-480px -2650px; }
+.icon-h44 span.icons_large { background-position:-560px -2650px; }
+.icon-i44 span.icons_large { background-position:-640px -2650px; }
+.icon-j44 span.icons_large { background-position:-720px -2650px; }
+
+.icon-a45 span.icons_large { background-position:0px -2700px; }
+.icon-b45 span.icons_large { background-position:-80px -2700px; }
+.icon-c45 span.icons_large { background-position:-160px -2700px; }
+.icon-d45 span.icons_large { background-position:-240px -2700px; }
+.icon-e45 span.icons_large { background-position:-320px -2700px; }
+.icon-f45 span.icons_large { background-position:-400px -2700px; }
+.icon-g45 span.icons_large { background-position:-480px -2700px; }
+.icon-h45 span.icons_large { background-position:-560px -2700px; }
+.icon-i45 span.icons_large { background-position:-640px -2700px; }
+.icon-j45 span.icons_large { background-position:-720px -2700px; }
+
+.icon-a46 span.icons_large { background-position:0px -2750px; }
+.icon-b46 span.icons_large { background-position:-80px -2750px; }
+.icon-c46 span.icons_large { background-position:-160px -2750px; }
+.icon-d46 span.icons_large { background-position:-240px -2750px; }
+.icon-e46 span.icons_large { background-position:-320px -2750px; }
+.icon-f46 span.icons_large { background-position:-400px -2750px; }
+.icon-g46 span.icons_large { background-position:-480px -2750px; }
+.icon-h46 span.icons_large { background-position:-560px -2750px; }
+.icon-i46 span.icons_large { background-position:-640px -2750px; }
+.icon-j46 span.icons_large { background-position:-720px -2750px; }
+
+.icon-a47 span.icons_large { background-position:0px -2800px; }
+.icon-b47 span.icons_large { background-position:-80px -2800px; }
+.icon-c47 span.icons_large { background-position:-160px -2800px; }
+.icon-d47 span.icons_large { background-position:-240px -2800px; }
+.icon-e47 span.icons_large { background-position:-320px -2800px; }
+.icon-f47 span.icons_large { background-position:-400px -2800px; }
+.icon-g47 span.icons_large { background-position:-480px -2800px; }
+.icon-h47 span.icons_large { background-position:-560px -2800px; }
+.icon-i47 span.icons_large { background-position:-640px -2800px; }
+.icon-j47 span.icons_large { background-position:-720px -2800px; }
+
+.icon-a48 span.icons_large { background-position:0px -2850px; }
+.icon-b48 span.icons_large { background-position:-80px -2850px; }
+.icon-c48 span.icons_large { background-position:-160px -2850px; }
+.icon-d48 span.icons_large { background-position:-240px -2850px; }
+.icon-e48 span.icons_large { background-position:-320px -2850px; }
+.icon-f48 span.icons_large { background-position:-400px -2850px; }
+.icon-g48 span.icons_large { background-position:-480px -2850px; }
+.icon-h48 span.icons_large { background-position:-560px -2850px; }
+.icon-i48 span.icons_large { background-position:-640px -2850px; }
+.icon-j48 span.icons_large { background-position:-720px -2850px; }
+
+.icon-a49 span.icons_large { background-position:0px -2900px; }
+.icon-b49 span.icons_large { background-position:-80px -2900px; }
+.icon-c49 span.icons_large { background-position:-160px -2900px; }
+.icon-d49 span.icons_large { background-position:-240px -2900px; }
+.icon-e49 span.icons_large { background-position:-320px -2900px; }
+.icon-f49 span.icons_large { background-position:-400px -2900px; }
+.icon-g49 span.icons_large { background-position:-480px -2900px; }
+.icon-h49 span.icons_large { background-position:-560px -2900px; }
+.icon-i49 span.icons_large { background-position:-640px -2900px; }
+.icon-j49 span.icons_large { background-position:-720px -2900px; }
+
+.icon-a50 span.icons_large { background-position:0px -2950px; }
+.icon-b50 span.icons_large { background-position:-80px -2950px; }
+.icon-c50 span.icons_large { background-position:-160px -2950px; }
+.icon-d50 span.icons_large { background-position:-240px -2950px; }
+.icon-e50 span.icons_large { background-position:-320px -2950px; }
+.icon-f50 span.icons_large { background-position:-400px -2950px; }
+.icon-g50 span.icons_large { background-position:-480px -2950px; }
+.icon-h50 span.icons_large { background-position:-560px -2950px; }
+.icon-i50 span.icons_large { background-position:-640px -2950px; }
+.icon-j50 span.icons_large { background-position:-720px -2950px; }
+
+/* End of New Icon Addition */
+
+
+#filter_shopping.active a, #filter_shopping:hover a,
+#filter_insurance_premium.active a, #filter_insurance_premium:hover a {
+    background-position: 2px -27px;
+}
+
+.card-reward {
+	height:200px;
+}
+
+.card-interest {
+    height: 320px;
+}
+
+.card-requirement {
+    height: 400px;
+}
+
+.financial-calculator-header h3 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0075B0;
+}
+
+.financial-calculator-header img {
+    margin-top: 15px;
+}
+    
+#Shell {
+    margin-bottom: 17px;
+}
+
+ol.alpha li { list-style-type:lower-alpha; }
+ol.roman li { list-style-type:lower-roman; }
+
+table.plain tbody { -moz-box-shadow:none !important; -webkit-box-shadow:none !important; box-shadow:none !important; }
+ul.green-arrow li { list-style-type:none !important; }
+ul.green-arrow li ol.alpha li { list-style-type:lower-alpha !important; background-image:none; }
+ul.green-arrow li ol.roman li { list-style-type:lower-roman !important; background-image:none; }
+
+ul.blank li { list-style:none !important; list-style-type:none !important; margin-left:0; padding-left:0 !important; }
+
+.papp-promo { position:relative; width:539px; height:130px; display:block; }
+
+.papp-promo .anchor-1 { display:block; position:absolute; left:22px; bottom:53px; width:143px; height:15px; }
+.papp-promo .anchor-2 { display:block; position:absolute; right:24px; bottom:7px; width:105px; height:20px; }
+
+.page-cta article {
+	background: #ffffff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffffff 0%, #d8d8d8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#d8d8d8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffffff 0%,#d8d8d8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffffff 0%,#d8d8d8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffffff 0%,#d8d8d8 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffffff 0%,#d8d8d8 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#d8d8d8',GradientType=0 ); /* IE6-8 */
+	height:auto!important;
+	text-align: center;
+	display: block;
+}
+.page-cta article .button {
+	background: #ffd148!important; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffd148 0%, #efbd1e 100%)!important; /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffd148), color-stop(100%,#efbd1e))!important; /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffd148 0%,#efbd1e 100%)!important; /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffd148 0%,#efbd1e 100%)!important; /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffd148 0%,#efbd1e 100%)!important; /* IE10+ */
+	background: linear-gradient(to bottom,  #ffd148 0%,#efbd1e 100%)!important; /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffd148', endColorstr='#efbd1e',GradientType=0 )!important; /* IE6-8 */
+
+	border:1px solid #eeb300;
+}
+.page-cta article .button:hover {
+	color:#ffffff;
+	background: #efbd1e!important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#efbd1e', endColorstr='#efbd1e')!important;
+	background: -webkit-gradient(linear, left top, left bottom, from(#efbd1e), to(#efbd1e))!important;
+	background: -webkit-linear-gradient(top, #efbd1e, #efbd1e)!important;
+	background: -moz-linear-gradient(top, #efbd1e, #efbd1e)!important;
+	background: -ms-linear-gradient(top, #efbd1e, #efbd1e)!important;
+	background: -o-linear-gradient(top, #efbd1e, #efbd1e)!important;
+	background: linear-gradient(top, #efbd1e, #efbd1e)!important;
+}
+.page-cta-fast article h5 {
+	background-image:url(images/page/cta_fast_logo.png);background-repeat:no-repeat;
+	padding-left: 96px;
+	min-height: 40px;
+	margin-top: -5px;
+	display: block;
+	width: 100%;
+	text-align: left;
+}
+.page-cta-fast article h5.no-cta { padding-right:0; }
+.page-cta-fast article a.button {margin-left: 30px;float: left;display: block;}
+.page-cta-fast article .con {max-width:100%;position:relative;display:inline-block;margin: 0 auto;}
+
+.page-cta article h5 {
+	background-image:url(images/page/icon_applynow.png);background-repeat:no-repeat;
+	padding-left: 96px;
+	min-height: 40px;
+	margin-top: -5px;
+	display: block;
+	width: 100%;
+	text-align: left;
+}
+.page-cta article h5.no-cta { padding-right:0; }
+.page-cta article a.button {margin-left: 30px;float: left;display: block;}
+.page-cta article .con {max-width:100%;position:relative;display:inline-block;margin: 0 auto;}
+
+/* GREEN PERSISTENT BAR */
+.page-cta article .button {
+	-webkit-box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, .3);
+	box-shadow: 0px 2px 1px 1px rgba(0, 0, 0, .3);
+	font-weight: bold;
+}
+.page-cta article h5 {
+	background-image:url(images/page/icon_persistent_bar.png);background-repeat:no-repeat;
+
+	/*text-align: center;*/
+	color:#ffffff;
+	font-weight: bold;
+	/*float: left;*/
+	/*min-width: 100%;*/
+}
+.page-cta article {
+	background: #7ef18c; /* Old browsers */
+	background: -moz-linear-gradient(top,  #7ef18c 0%, #33af41 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#7ef18c), color-stop(100%,#33af41)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #7ef18c 0%,#33af41 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #7ef18c 0%,#33af41 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #7ef18c 0%,#33af41 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #7ef18c 0%,#33af41 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7ef18c', endColorstr='#33af41',GradientType=0 ); /* IE6-8 */
+	border-right:1px solid #4fed62;
+	border-bottom:1px solid #4fed62;
+	border-left:1px solid #4fed62;
+	/*height:auto!important;
+	text-align: center;
+	display: block;*/
+
+	-webkit-box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, .3);
+	box-shadow: 0px 1px 0px 0px rgba(0, 0, 0, .3);
+}
+./*p*/age-cta article a.button {margin-left: 30px;right:0!important;top:0px!important;float: left;display: block;}
+
+/* END GREEN PERSISTANT BAR*/
+
+@media screen and (max-width:1024px) {
+	.page-cta article h5 {
+		text-align: left!important;
+		font-size: 14px;
+	}
+	.page-cta article a.button {
+		top: 8px;
+	}
+}
+@media screen and (max-width:479px) {
+	.page-cta article a.button {
+		margin-left: 96px!important;
+		top: 0px!important;
+	}
+	.page-cta article a.button {
+		top: 0!important;
+	}
+	.page-cta article {
+		min-height: 90px;
+		overflow-y: auto;
+	}
+}
+
+
+.tabs.vertical { border-bottom:1px solid #e6e6e6 !important; }
+
+.v-middle { vertical-align:middle !important; }
+
+p sup { vertical-align:super !important; }
+
+#extendLogin h6 a:after { top:8px !important; }
+#extendLogin h6 a { padding-top:10px !important; padding-bottom:10px !important; }
+.login-wrapper { padding:6px 22px 6px 22px !important; }
+
+
+.invite-only {padding:10px; font-style:normal; font-weight:bold; text-align:center;}
+
+/* Start of New Infobox Icons Addition */
+.infobox-anchor-link a.icon-small-in.more-rewarding:after {
+	background-position:-362px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.more-convenient:after {
+	background-position:-412px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.more-personal:after {
+	background-position:-463px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.loan:after {
+	background-position:-516px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.category-mortgage2:after {
+	background-position:-567px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.auto-financing:after {
+	background-position:-619px -269px;
+}
+
+.infobox-anchor-link a.icon-small-in.personal-insurance:after {
+	background-position:0px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.asset-protection:after {
+	background-position:-55px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.foreign-currency:after {
+	background-position:-111px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.market-outlook:after {
+	background-position:-168px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.scb-products:after {
+	background-position:-218px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.saving:after {
+	background-position:-268px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.current:after {
+	background-position:-313px -328px;
+}
+
+.infobox-anchor-link a.icon-small-in.time-deposit:after {
+	background-position:-362px -328px;
+}
+
+/* Start of Custom Disclaimer Styles */
+
+.custom-disclaimer-popup p {
+    font-size: 12px;
+}
+
+.custom-disclaimer-popup ul {
+    margin-left: 20px;
+}
+
+.custom-disclaimer-popup ul li {
+    font-size: 12px;
+}
+
+.custom-disclaimer-popup .disclaimer-popup-box {
+    border: 1px solid #999;
+    padding: 10px;
+    margin-bottom: 17px;
+    max-height: 400px;
+    overflow: auto;
+}
+
+.custom-disclaimer-popup .important {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.custom-disclaimer-popup a {
+	color:#26922C;
+	font-weight:bold;
+}
+
+/* End of Internal Disclaimer Styles */
+
+/* End of New Infobox Icons Addition */
+
+.financial-calculator .main-title {
+    float: left;
+}
+
+.financial-calculator .apply-title-btn {
+    float: right;
+    margin-top: 20px;
+}
+
+.financial-calculator .flash-content {
+    height: 619px;
+    margin-bottom: 17px;
+    clear: both;
+}
+
+/* TESTING */
+.extranav .brand-header .nav-bar > li > a > h3 { font-size:16px; }
+.extranav .brand-header .nav-bar > li > a > summary, .extranav .brand-header .nav-bar > li > a > span.summary { font-size:12px; }
+.extranav .brand-header .nav-bar > li > a:first-child { margin:0 6px; }
+.extranav .brand-header .nav-bar > li:first-child > a:first-child { margin-left:0; }
+
+.credit-cards .banner-block { position:relative; display:block; height:220px; }
+.credit-cards .banner-block div { position:absolute; top:0; left:0; z-index:8; }
+.credit-cards .banner-block div.active { z-index:10; }
+.credit-cards .banner-block div.last-active { z-index:9; }
+
+#creditcardlist .credit-card-select .panel-promo { padding:0; background:#f3f3f3; height:400px; } 
+
+@media screen and (max-width: 800px) {
+	.extranav .brand-header .nav-bar > li:first-child > a:first-child { margin-left:85px; }
+	.extranav .brand-header .nav-bar > li > a > summary, .extranav .brand-header .nav-bar > li > a > span.summary { display:none; visibility:hidden; }
+	.extranav .brand-header .nav-bar > li > a:first-child { margin:0 9px; }
+}
+
+.universal-grey #utilityNav ul.utility-action li.on-facebook { background: none; }
+
+@media only screen and (min-width: 768px) {
+	.two-caption ul.orbit-bullets li { width:50%; }
+    .sme-nav .brand-header {
+        min-height: 82px;
+    }
+    
+    .home-page .sme-nav #loginBox {
+        top: 82px;
+    }
+    
+    .sme-nav .brand-header .nav-bar > li > a {
+        min-height: 82px;
+    }
+}
+
+.pad45 {padding-top:45px;}
+
+@media only screen and (max-width: 768px) {
+	.pad45 {padding-top:0px;}
+}
+
+/* SHORTCUT KEYS - START*/
+#megaNav .shortcut-keys { border-top:1px solid #d5d5d5; width:100%; background:#d5d5d5 url(images/page/shortcut_meganav_bg.jpg) repeat-x; position:absolute; left:0; bottom:0; margin:0; padding:3px 0 0 0; z-index: 1000; } 
+#megaNav .shortcut-keys .header-title { color:#26922c; font-weight:normal; font-size:12px; margin-bottom:5px; float:left; margin:0 5px 0 25px;  }
+#megaNav .shortcut-keys p { font-size:12px; padding:3px;  float:left; line-height:24px; color:#6f6f6f; }
+#megaNav .shortcut-keys p span {  float:left; display:block; }
+#megaNav .shortcut-keys .keys-login, #megaNav .shortcut-keys .keys-contact, #megaNav .shortcut-keys .keys-scrollup { float:left; display:block; width:66px; height:24px; margin:0 5px;  }
+#megaNav .shortcut-keys .keys-login {background: url(images/page/online_banking.png) no-repeat scroll 0 0 transparent;}
+#megaNav .shortcut-keys .keys-contact {background: url(images/page/contact.png) no-repeat scroll 0 0 transparent;}
+#megaNav .shortcut-keys .keys-scrollup {background: url(images/page/scrollUp.png) no-repeat scroll 0 0 transparent;}
+div.shortcut-keys-container.hidden { display:none; visibility:hidden;}
+div.shortcut-keys-container .keys-content {height: 155px;position: relative;width: 243px;float:left;}
+div.shortcut-keys-container .keys-content .keys-login { display:block;width:66px;height:24px;background: url(images/page/online_banking.png) no-repeat scroll 0 0 transparent;float: right;margin-right:45px;}
+div.shortcut-keys-container .keys-content .keys-contact { display:block;width:66px;height:24px;background: url(images/page/contact.png) no-repeat scroll 0 0 transparent;float: right;margin-right:45px;}
+div.shortcut-keys-container .keys-content .keys-scrollup { display:block;width:66px;height:24px;background: url(images/page/scrollUp.png) no-repeat scroll 0 0 transparent;float: right; margin-right:45px;}
+div.shortcut-keys-container .clearfix { height:5px; }
+div.shortcut-keys-container .keys-content .header-title { color:#666; font-weight:normal; margin:0; }
+div.shortcut-keys-container .keys-content p { font-size:12px; margin: 0; color: #ccc; }
+div.shortcut-keys-container .keys-content p span {  float:left; display:block; }
+.clearfix { clear:both; }
+@media only screen and (min-width: 768px) {
+	.footer-links .three.nobg:after {
+		background: none;
+	}
+}
+/* SHORTCUT KEYS - END */

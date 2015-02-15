@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>gmap</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Q2iv9n054B1nQW2jx75ExL9mraF2wcI"></script>
+        <script type="text/javascript">
+            function initialize() {
+                var myLatlng = new google.maps.LatLng(1.296568, 103.852118);
+                var mapOptions = {
+                    center: myLatlng,
+                    zoom: 18,
+                    disableDefaultUI: true,
+                    draggable: false,
+                    zoomControl: false,
+                    scrollwheel: false,
+                    disableDoubleClickZoom: true
+                };
+                // To add the marker to the map, use the 'map' property
+                var marker = new google.maps.Marker({
+                    position: myLatlng,
+                    map: map
+                });
+
+                var map = new google.maps.Map(document.getElementById('map-canvas'),
+                        mapOptions);
+                marker.setMap(map);
+            }
+//            google.maps.event.addDomListener(window, "resize", function () {
+//                var center = map.getCenter();
+//                google.maps.event.trigger(map, "resize");
+//                map.setCenter(center);
+//            });
+            google.maps.event.addDomListener(window, 'resize', initialize);
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+        </script>
+        <style type="text/css">
+            html { height: 100% }
+            body { height: 100%; margin: 0; padding: 0 }
+            #map-canvas {height: 40%; width: 40%;}
+        </style>
+    </head>
+    <body>
+        <div id="map-canvas"></div>
+    </body>
+</html>

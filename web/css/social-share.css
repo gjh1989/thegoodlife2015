@@ -1,0 +1,241 @@
+/*--- LAYOUT ---*/
+.bs-line {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    position: absolute;
+    bottom:0;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: visible;
+}
+.bs-line-compress {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    bottom:0;
+    margin-left: auto;
+    margin-right: auto;
+    padding:10px 2% 0 2%;
+    overflow: visible;
+}
+.bs-col2 {
+    float: left;
+    vertical-align: top;
+    left:0;
+    min-height: 0.5px;
+}
+.bs-col2 {
+    width:33%;
+}
+
+/*--- BUTTONS ---*/
+button {
+    cursor:pointer;
+    border:none;
+}
+.bs-btn {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    width:100%;
+    padding:5px 2%;
+    display: block;
+}
+
+/* FOR THE FACEBOOK BUTTON */
+.bs-btn-fb.bs-btn-medium {
+    padding:7.3px;
+    padding-left: 40px;
+    font-size:14.5px;
+    background-image: url(../img/facebookIcon.png);
+    background-repeat: no-repeat;
+}
+
+.bs-btn-fb:hover {
+    opacity:0.8;
+    text-decoration: none;
+}
+.bs-btn-fb:focus {
+    box-shadow:1px 1px 4px 1px rgba(0, 0, 0, 0.1) inset;
+    text-decoration: none;
+}
+.bs-btn-fb.active {
+    box-shadow:0 0 0 200px rgba(0, 0, 0, 0.09) inset;
+    text-decoration: none;
+}
+.bs-btn-fb.active:hover {
+    opacity:1;
+}
+.bs-btn-fb.disabled {
+    cursor:none;
+}
+/*--- END FOR THE FACEBOOK BUTTON ---*/
+
+/* FOR THE GOOGLE BUTTON */
+.bs-btn-google.bs-btn-medium {
+    padding:7.3px;
+    padding-left: 40px;
+    font-size:14.5px;
+    background-image: url(../img/googlePlusIcon.png);
+    background-repeat: no-repeat;
+}
+
+.bs-btn-google:hover {
+    opacity:0.8;
+    text-decoration: none;
+}
+.bs-btn-google:focus {
+    box-shadow:1px 1px 4px 1px rgba(0, 0, 0, 0.1) inset;
+    text-decoration: none;
+}
+.bs-btn-google.active {
+    box-shadow:0 0 0 200px rgba(0, 0, 0, 0.09) inset;
+    text-decoration: none;
+}
+.bs-btn-google.active:hover {
+    opacity:1;
+}
+.bs-btn-google.disabled {
+    cursor:none;
+}
+/*--- END FOR THE Google BUTTON ---*/
+
+/* FOR THE TWITTER BUTTON */
+.bs-btn-twitter.bs-btn-medium {
+    padding:7.3px;
+    padding-left: 40px;
+    font-size:14.5px;
+    background-image: url(../img/twitterIcon.png);
+    background-repeat: no-repeat;
+}
+
+.bs-btn-twitter:hover {
+    opacity:0.8;
+    text-decoration: none;
+}
+.bs-btn-twitter:focus {
+    box-shadow:1px 1px 4px 1px rgba(0, 0, 0, 0.1) inset;
+    text-decoration: none;
+}
+.bs-btn-twitter.active {
+    box-shadow:0 0 0 200px rgba(0, 0, 0, 0.09) inset;
+    text-decoration: none;
+}
+.bs-btn-twitter.active:hover {
+    opacity:1;
+}
+.bs-btn-twitter.disabled {
+    cursor:none;
+}
+/*--- END FOR THE TWITTER BUTTON ---*/
+
+.bs-btn.bs-btn-medium {
+    padding:9.5px 2%;
+    font-size:14.5px;
+}
+
+.bs-btn:hover {
+    opacity:0.8;
+    text-decoration: none;
+}
+.bs-btn:focus {
+    box-shadow:1px 1px 4px 1px rgba(0, 0, 0, 0.1) inset;
+    text-decoration: none;
+}
+.bs-btn.active {
+    box-shadow:0 0 0 200px rgba(0, 0, 0, 0.09) inset;
+    text-decoration: none;
+}
+.bs-btn.active:hover {
+    opacity:1;
+}
+.bs-btn.disabled {
+    cursor:none;
+}
+/*--- UTILS ---*/
+/*lines*/
+/*align-x*/
+.bs-center-content {
+    text-align:center;
+}
+/*radius*/
+.bs-radius {
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius:3px;
+}
+/*vertical spacing*/
+.btn-share-separator {
+    min-height:10px;
+    clear:both;
+    float:none;
+    width:100%;
+}
+/*--- BACKGROUNDS ---*/
+.bg-btn-share {
+    background-color:#E8E8E8;
+}
+
+/*--- RESPONSIVE ---*/
+/*desktop*/
+@media screen and (min-width:800px) {
+    .mobile, .tablet {
+        display: none;
+    }
+    .desktop {
+        display: inherit;
+    }
+}
+/*tablet*/
+@media screen and (max-width:800px) {
+    .mobile, .desktop {
+        display: none;
+    }
+    .tablet {
+        display: inherit;
+    }
+    .line-tablet {
+        width:100%;
+        margin:0 auto;
+    }
+    .bs-btn.bs-btn-medium {
+        padding: 2px 2px;
+        font-size:14.5px;
+        width:150px;
+        alignment-adjust: middle;
+    }
+}
+/*mobile*/
+@media screen and (max-width:400px) {
+    .tablet, .desktop {
+        display: none;
+    }
+    .mobile {
+        display:inherit;
+    }
+    .line-mobile {
+        width:100%;
+        margin:0 auto;
+    }
+
+    .bs-btn.bs-btn-medium {
+        padding: 2px 2px;
+        font-size:14.5px;
+        width:90px;
+        position:inherit;
+    }
+}
+
+/*to show the popup only for screens > 640px*/
+@media only screen and (min-width: 640px) {
+    .bs-line{
+        position: absolute;
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

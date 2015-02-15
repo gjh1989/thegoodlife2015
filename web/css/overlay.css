@@ -1,0 +1,132 @@
+/* 
+  CSS for overlay of deals.
+*/
+
+.pull-right {
+    float:right;
+}
+
+.pull-left {
+    float:left;
+}
+
+.overlay-back {
+    width:100%;
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+
+.merc-img img {
+    max-width: 210px !important;
+   
+}
+
+#overlay.modal-body img {
+    display:block;
+    margin-top:20px;
+    margin-left:20px;
+    margin-bottom: 40px;
+    border-radius: 5px;
+    float: right;
+}
+
+#overlay .main-details {
+    width:100%; /*for the div size of the main details*/
+}
+
+#overlay .details p{ 
+  padding-bottom: 0px;  /*push down the share buttons from the map*/
+  display: block;
+  font-size:12px; /* for the T&C */
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+#overlay.modal-body #map {
+    max-width: none;
+}
+
+.details {
+  padding-bottom: 0px;  /*push down the share buttons from the map*/
+  display: block;
+}
+
+
+.overlay-back { /*the text area*/
+    padding: 5%;
+}
+
+.close-modal { /*the close button*/
+    display: block;
+    font-size:40px;
+}
+
+.modal-title { /*for the deal title*/
+    margin:0;
+    line-height: 1.42857143;
+    color:#26922c;
+    font-size: 24px;
+    height: auto;
+    text-transform: capitalize;
+}
+
+.modal-body { /*for the body of the overlay */
+    padding-top: 20px;
+    padding-bottom: 10px;
+    margin-bottom:0px; 
+    font-weight:bold;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+
+}
+.modal-body h6{ /*for the desc sub headers */
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    color:#0070ae;
+    font-weight:800;
+}
+
+#overlay main-details{
+    text-transform: capitalize;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    color: #666;
+}
+
+
+@media only screen and (max-width: 799px){
+    .overlay-back {
+        padding: 5%;
+    }
+    
+    .modal-content{ /*size of overlay*/
+        margin-left: 5%;
+        margin-right: 5%;
+        overflow: hidden;
+    }
+}
+
+@media (min-width:800px){ /*For tablet & above */
+    .overlay-back {
+        padding: 5%;
+    }
+    .modal-content{
+        margin-left: 5%;
+        margin-right: 5%;
+        overflow: hidden;
+        width: 590px;
+        margin: 30px auto;
+    }
+    
+}

@@ -1,0 +1,46 @@
+*, *:before, *:after {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+ *behavior: url(/sg/assets/global/boxsizing.htc);
+}
+
+p {
+	text-align: justify;
+}
+
+@media only screen and (max-width: 767px) {
+	
+    #dealsdisplay {
+        width:280px;
+    }
+    
+    .filter li {
+        float: none !important;
+    }
+
+}
+
+/*for the deal sub header & deal search backing*/
+.filters-with-search {
+    padding: 10px 0 15px 0 !important;
+}
+/*****/
+
+#filter_container>li>a.main {
+    text-align:left;
+    border-top:1px solid #ddd;
+    border-right:none
+}
+
+/**********************/
+.dropdown.right ul { right:0px;}
+#featured { background: url(/sg/assets/pws/images/page/standard-chartered-monochrome-logo.png) no-repeat center center #eee; }
+#featured img { display: none; }
+
+#deals-display img {
+    width: 210px;
+    height: 118px;
+    overflow: hidden;
+}
+
