@@ -6,19 +6,19 @@
     </servlet>
     <servlet>
         <servlet-name>recServlet</servlet-name>
-        <servlet-class>com.thegoodlife.servlet.recServlet</servlet-class>
+        <servlet-class>com.thegoodlife2015.servlet.recServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>recordRating</servlet-name>
-        <servlet-class>com.thegoodlife.servlet.recordRating</servlet-class>
+        <servlet-class>com.thegoodlife2015.servlet.recordRating</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>retrieveRating</servlet-name>
-        <servlet-class>com.thegoodlife.servlet.retrieveRating</servlet-class>
+        <servlet-class>com.thegoodlife2015.servlet.retrieveRating</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>recServlet</servlet-name>
-        <url-pattern>/recServlet</url-pattern>
+        <url-pattern>/recServlet/*</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>recordRating</servlet-name>

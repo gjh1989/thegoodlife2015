@@ -1,4 +1,4 @@
-package com.thegoodlife.servlet;
+package com.thegoodlife2015.servlet;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,7 +7,7 @@ package com.thegoodlife.servlet;
  */
 import java.sql.ResultSet;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-import com.thegoodlife.model.ConnectionManager;
+import com.thegoodlife2015.model.ConnectionManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -42,6 +44,53 @@ public class recServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws org.apache.mahout.cf.taste.common.TasteException
      */
+    private class RestRequest {
+    // Accommodate two requests, one for all resources, another for a specific resource
+    private Pattern regExAllPattern = Pattern.compile("/");
+    private Pattern regExIdPattern = Pattern.compile("/([0-9]*)");
+ 
+    private Integer fbID;
+    private Integer offerID;
+    
+    public RestRequest(String pathInfo) throws ServletException, IOException {
+      // regex parse pathInfo
+      Matcher matcher;
+ 
+      // Check for ID case first, since the All pattern would also match
+      matcher = regExIdPattern.matcher(pathInfo);
+      if (matcher.find()) {
+        fbID = Integer.parseInt(matcher.group(1));
+      }
+      if (matcher.find()) {
+        offerID = Integer.parseInt(matcher.group(1));
+        return;
+      }
+      
+      matcher = regExAllPattern.matcher(pathInfo);
+      if (matcher.find()) return;
+      throw new ServletException("Invalid URI");
+    }
+
+    public Integer getFbID() {
+        return fbID;
+    }
+
+    public void setFbID(Integer fbID) {
+        this.fbID = fbID;
+    }
+
+    public Integer getOfferID() {
+        return offerID;
+    }
+
+    public void setOfferID(Integer offerID) {
+        this.offerID = offerID;
+    }
+ 
+    
+  }
+    
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, TasteException {
         response.setContentType("text/html;charset=UTF-8");
@@ -49,7 +98,9 @@ public class recServlet extends HttpServlet {
 
         //specifying the number of recommendations to be generated
         int noOfRecommendations = 2;
-
+        RestRequest resourceValues = new RestRequest(request.getPathInfo());
+        int fbID = resourceValues.getFbID();
+        
         // Specifications tables  
         String tablename = "deals_rating";
         String col1 = "userid";
@@ -123,15 +174,15 @@ public class recServlet extends HttpServlet {
 
             /*Initalizing the recommender */
             ItemBasedRecommender recommender = new GenericItemBasedRecommender(dataModel, itemSimilarity);
-
-            List<RecommendedItem> recommendations = recommender.recommend(303, noOfRecommendations);
+            
+            List<RecommendedItem> recommendations = recommender.recommend(fbID, noOfRecommendations);
 
             //  write output to file
 //            for (RecommendedItem recommendedItem : recommendations) {
 //                out.println("303" + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
 //                out.println();
 //            }
-            JSONObject jsonObject = getJsonFromMyFormObject(recommendations);
+            JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbID);
             out.println(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
@@ -160,13 +211,13 @@ public class recServlet extends HttpServlet {
         }
     }
 
-    public static JSONObject getJsonFromMyFormObject(List<RecommendedItem> recommendations) {
+    public static JSONObject getJsonFromMyFormObject(List<RecommendedItem> recommendations, int fbID) {
         JSONObject responseDetailsJson = new JSONObject();
         JSONArray jsonArray = new JSONArray();
 
         for (int i = 0; i < recommendations.size(); i++) {
             JSONObject formDetailsJson = new JSONObject();
-            formDetailsJson.put("userid", "303");
+            formDetailsJson.put("userid", fbID);
             formDetailsJson.put("dealid", recommendations.get(i).getItemID());
 
             jsonArray.add(formDetailsJson);

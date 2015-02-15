@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.thegoodlife.controller;
+package com.thegoodlife2015.controller;
 
-import com.thegoodlife.model.*;
+import com.thegoodlife2015.model.RatingDAO;
+import com.thegoodlife2015.model.Rating;
 import java.util.ArrayList;
 /**
  *

@@ -1,4 +1,4 @@
-package com.thegoodlife.model;
+package com.thegoodlife2015.model;
 
 import java.sql.*;
 import java.util.Properties;

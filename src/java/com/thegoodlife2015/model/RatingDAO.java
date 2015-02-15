@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.thegoodlife.model;
+package com.thegoodlife2015.model;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

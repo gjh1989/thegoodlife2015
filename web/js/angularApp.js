@@ -1,5 +1,5 @@
 angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp'])
-        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval) {
+        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval, recServlet) {
 
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
@@ -100,6 +100,19 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
                 return $scope.subCategory;
             };
+            
+            //filter recommendati2n
+            $scope.recommendFilter = function (deal, recommendations) {
+                return deal.categoryID === recommendations.recommendations[1].dealid || deal.categoryID === recommendations.recommendations[2].dealid;
+            };
+            
+            //retrieve recommended deals using factory retrieveRecommendations
+            $scope.recommendedDeals = recServlet.get({fbID:1});
+
+            $scope.recommendedDeals.$promise.then(function(data) {
+                $scope.recommendedDeals = data;
+            });
+            
 
             //check deal priority for banner display
             $scope.showBanner = function (deal) {
@@ -189,15 +202,17 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                deferred.resolve(resp.data);
 //            });
 
-//            $http.get('http://testtest-jhgoh.rhcloud.com/getDeals').then(function (resp) {
-//                deferred.resolve(resp.data);
-//            });
-
-            $http.get('webservice.json').then(function (resp) {
+            $http.get('https://thegoodlife2015-jhgoh.rhcloud.com/getDeals').then(function (resp) {
                 deferred.resolve(resp.data);
             });
+
             return deferred.promise;
         })
+        
+            
+        .factory('recServlet', ['$resource', function($resource){
+            return $resource('https://thegoodlife2015-jhgoh.rhcloud.com/recServlet/:fbID'); 
+        }])
 
         //replace missing picture on pins
         .directive('fallbackSrc', function () {
@@ -348,17 +363,14 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 });
                 //-- Methods -----//
                 
+                var offerID = $scope.deal.offerID;
+                
                 //to retrieve rating of a deal using factory retrieveRating goes here
-                $scope.rating = retrieveRating.get({fbID:1, offerID:20});
+                $scope.rating = retrieveRating.get({fbID:1, offerID:offerID});
                 $scope.rating.$promise.then(function(data) {
                     $scope.rating = data[0];
                     console.log(data);
                 });
-                
-                var rec = [$scope.deal];
-                
-                //retrieve recommended deals using factory retrieveRecommendations
-                $scope.recommendedDeals = rec;
                 
                 
                 $scope.no = function () {
@@ -387,18 +399,9 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
             };
         })
         .factory('retrieveRating', ['$resource', function($resource){
-            return $resource('/retrieveRating/:fbID/:offerID'); 
+            return $resource('https://thegoodlife2015-jhgoh.rhcloud.com/retrieveRating/:fbID/:offerID'); 
         }])
-    
-        .factory('retrieveRecommendations', function($http, $q, offerID, fbID){
-            var deferred = $q.defer();
 
-            $http.get('/retrieveRating?offerID=' + offerID + '&fbID=' + fbID).then(function (resp) {
-                deferred.resolve(resp.data);
-            });
-
-            return deferred.promise;
-        });
 //== Services ================================================================//
 
 angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers'])
@@ -631,7 +634,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row">'+
                         '<div class="twelve columns">'+
                             '<div class="pin-container variable-sizes isotope">'+
-                                '<article ng-repeat="eachRecmd in recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
+                                '<article ng-repeat="eachRecmd in deals | recommendFilter(eachRecmd, recommendedDeals)" class="elements credit-card-select business cashback isotope-item">'+
                                     '<div class="panel" id="deals-display" ng-click="launch(eachRecmd)" style="cursor:pointer">'+
                                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>'+
                                         '<div class="elm-content-area cf">'+
