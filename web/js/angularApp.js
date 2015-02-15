@@ -1,9 +1,10 @@
 angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp'])
-        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval, recServlet) {
+        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval) {
 
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
+            //filter recommendation
 
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
@@ -26,8 +27,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
-                //console.log(data);
-                $scope.deals = data.offer.added.list;
+                console.log(data);
+                $rootScope.deals = data.offer.added.list;
                 $scope.coupons = data.coupon.added.list;
                 $scope.allCategories = data.category.added.list;
             });
@@ -101,19 +102,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 return $scope.subCategory;
             };
             
-            //filter recommendati2n
-            $scope.recommendFilter = function (deal, recommendations) {
-                return deal.categoryID === recommendations.recommendations[1].dealid || deal.categoryID === recommendations.recommendations[2].dealid;
-            };
             
-            //retrieve recommended deals using factory retrieveRecommendations
-            $scope.recommendedDeals = recServlet.get({fbID:1});
-
-            $scope.recommendedDeals.$promise.then(function(data) {
-                $scope.recommendedDeals = data;
-            });
-            
-
             //check deal priority for banner display
             $scope.showBanner = function (deal) {
                 var isFeatured = deal.isFeatured == 1;
@@ -202,7 +191,11 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                deferred.resolve(resp.data);
 //            });
 
-            $http.get('https://thegoodlife2015-jhgoh.rhcloud.com/getDeals').then(function (resp) {
+//            $http.get('/getDeals').then(function (resp) {
+//                deferred.resolve(resp.data);
+//            });
+            
+            $http.get('webservice.json').then(function (resp) {
                 deferred.resolve(resp.data);
             });
 
@@ -210,10 +203,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
         })
         
             
-        .factory('recServlet', ['$resource', function($resource){
-            return $resource('https://thegoodlife2015-jhgoh.rhcloud.com/recServlet/:fbID'); 
-        }])
-
         //replace missing picture on pins
         .directive('fallbackSrc', function () {
             var fallbackSrc = {
@@ -235,7 +224,15 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 //return newDate.format('d M Y');
             };
         })
-
+        
+        //
+        .filter('recommendFilter', function () {
+            return function (deal, recommendations) {
+                return false;
+                //return deal.offerID === recommendations[0].dealid || deal.offerID === recommendations[1].dealid;
+            };
+        })
+          
         //Google map
         .controller('mapCtrl', function ($scope, $rootScope) {
             $scope.showMap = true;
@@ -352,7 +349,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'rating', 'recommendedDeals', 'retrieveRating', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, rating, recommendedDeals, retrieveRating) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'recommendedDeals', 'retrieveRating', 'recServlet', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, recommendedDeals, recServlet) {
                 //-- Variables -----//
 
                 $scope.header = $scope.deal.merchantName;
@@ -363,15 +360,11 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 });
                 //-- Methods -----//
                 
-                var offerID = $scope.deal.offerID;
-                
-                //to retrieve rating of a deal using factory retrieveRating goes here
-                $scope.rating = retrieveRating.get({fbID:1, offerID:offerID});
-                $scope.rating.$promise.then(function(data) {
-                    $scope.rating = data[0];
+                //retrieve recommended deals using factory retrieveRecommendations
+                $scope.recommendedDeals = recServlet.get({fbID:1});
+                $scope.recommendedDeals.$promise.then(function(data) {
                     console.log(data);
                 });
-                
                 
                 $scope.no = function () {
                     $modalInstance.dismiss('no');
@@ -399,7 +392,11 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
             };
         })
         .factory('retrieveRating', ['$resource', function($resource){
-            return $resource('https://thegoodlife2015-jhgoh.rhcloud.com/retrieveRating/:fbID/:offerID'); 
+            return $resource('/retrieveRating/:fbID/:offerID'); 
+        }])
+    
+        .factory('recServlet', ['$resource', function($resource){
+            return $resource('/recServlet/:fbID'); 
         }])
 
 //== Services ================================================================//
@@ -497,7 +494,7 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                              * @param	header 	string
                              * @param	msg 	string
                              */
-                            confirm: function (header, msg, imgUrl, rating, recommendedDeals, sz) {
+                            confirm: function (header, msg, imgUrl, recommendedDeals, sz) {
                                 if (angular.isDefined(sz))
                                     sz = (angular.equals(sz, 'sm') || angular.equals(sz, 'lg')) ? sz : wSize;
                                 else
@@ -519,9 +516,6 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                                         imgUrl: function () {
                                             return angular.copy(imgUrl);
                                         },
-                                        rating: function () {
-                                            return angular.copy(rating);
-                                        },
                                         recommendedDeals: function () {
                                             return angular.copy(recommendedDeals);
                                         }
@@ -541,7 +535,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
         // Add default templates via $templateCache
         .run(['$templateCache', '$interpolate', function ($templateCache, $interpolate) {
-
+                
                 // get interpolation symbol (possible that someone may have changed it in their application instead of using '{{}}')
                 var startSym = $interpolate.startSymbol();
                 var endSym = $interpolate.endSymbol();
@@ -550,13 +544,12 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<link rel="stylesheet" href="css/overlay.css">' +
                         //button to close
                         '<div class="overlay-back">' + //start of padding div
-                        '<a type="button" class="close-modal" ng-click="no()">x&nbsp;</a>' +
+                        '<div type="button" class="close-modal" ng-click="no()" style="cursor: pointer">x</div>' +
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
                         '<div ng-controller="RatingCtrl">'+
-                            '<div>{{$parent.rating}}</div>'+
-                            '<div star-rating rating-value="$parent.rating" max="5"></div>'+
+                            '<div star-rating rating-value="5" max="5"></div>'+
                         '</div>' +
                         '</div>' +
                         //body of popup
@@ -634,8 +627,9 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row">'+
                         '<div class="twelve columns">'+
                             '<div class="pin-container variable-sizes isotope">'+
-                                '<article ng-repeat="eachRecmd in deals | recommendFilter(eachRecmd, recommendedDeals)" class="elements credit-card-select business cashback isotope-item">'+
-                                    '<div class="panel" id="deals-display" ng-click="launch(eachRecmd)" style="cursor:pointer">'+
+                                '<div ng-repeat="id in recommendedDeals">{{id.dealid}}</div>'+
+                                '<article ng-repeat="eachRecmd in deals | recommendFilter:eachRecmd:recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
+                                    '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">'+
                                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>'+
                                         '<div class="elm-content-area cf">'+
                                             '<h5 class="card-title">{{eachRecmd.merchantName|cut:true:25:\' ...\'}}</h5>'+

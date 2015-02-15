@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,51 +42,6 @@ public class recServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      * @throws org.apache.mahout.cf.taste.common.TasteException
      */
-    private class RestRequest {
-    // Accommodate two requests, one for all resources, another for a specific resource
-    private Pattern regExAllPattern = Pattern.compile("/");
-    private Pattern regExIdPattern = Pattern.compile("/([0-9]*)");
- 
-    private Integer fbID;
-    private Integer offerID;
-    
-    public RestRequest(String pathInfo) throws ServletException, IOException {
-      // regex parse pathInfo
-      Matcher matcher;
- 
-      // Check for ID case first, since the All pattern would also match
-      matcher = regExIdPattern.matcher(pathInfo);
-      if (matcher.find()) {
-        fbID = Integer.parseInt(matcher.group(1));
-      }
-      if (matcher.find()) {
-        offerID = Integer.parseInt(matcher.group(1));
-        return;
-      }
-      
-      matcher = regExAllPattern.matcher(pathInfo);
-      if (matcher.find()) return;
-      throw new ServletException("Invalid URI");
-    }
-
-    public Integer getFbID() {
-        return fbID;
-    }
-
-    public void setFbID(Integer fbID) {
-        this.fbID = fbID;
-    }
-
-    public Integer getOfferID() {
-        return offerID;
-    }
-
-    public void setOfferID(Integer offerID) {
-        this.offerID = offerID;
-    }
- 
-    
-  }
     
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -102,10 +55,10 @@ public class recServlet extends HttpServlet {
         int fbID = resourceValues.getFbID();
         
         // Specifications tables  
-        String tablename = "deals_rating";
-        String col1 = "userid";
-        String col2 = "dealid";
-        String col3 = "rating";
+        String tablename = "rating";
+        String col1 = "fbID";
+        String col2 = "offerID";
+        String col3 = "rate";
 
         //Input for database connections
         // grab environment variable

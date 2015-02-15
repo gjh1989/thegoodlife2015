@@ -30,7 +30,7 @@ public class ConnectionManager {
             dbUser = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
             dbPassword = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
 
-            dbURL = "jdbc:mysql://" + host + ":" + port + "/" + "thegoodlife2015";
+            dbURL = "jdbc:mysql://" + host + ":" + port + "/" + dbName;
 
         } else {
 

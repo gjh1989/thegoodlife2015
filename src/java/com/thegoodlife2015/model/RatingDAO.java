@@ -25,7 +25,7 @@ public class RatingDAO {
     private static final String RETRIEVE_All_RATING_OF_DEAL = "SELECT * from rating where offerID = ?";
     
     
-    public static void insertOneRating(String fbID, int offerID, int subCatID, int rate){
+    public static void insertOneRating(int fbID, int offerID, int subCatID, int rate){
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -33,7 +33,7 @@ public class RatingDAO {
         try {
             conn = ConnectionManager.getConnection();
             pst = conn.prepareStatement(INSERT_ONE_RATING);
-            pst.setString(1, fbID);
+            pst.setInt(1, fbID);
             pst.setInt(2, offerID);
             pst.setInt(3, subCatID);
             pst.setInt(4, rate);
@@ -46,27 +46,27 @@ public class RatingDAO {
         }
     }
     
-    public static Rating retrieveOneRating(String fbID, int offerID){
+    public static Rating retrieveOneRating(int fbID, int offerID){
         Rating r = null;
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
-        
+        System.out.println("-----------1----------------");
         try {
             conn = ConnectionManager.getConnection();
             pst = conn.prepareStatement(RETRIEVE_ONE_RATING);
-            pst.setString(1, fbID);
+            pst.setInt(1, fbID);
             pst.setInt(2, offerID);
             rs = pst.executeQuery();
             if (rs.next()) {
-                r = new Rating(rs.getString("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate"));
+                r = new Rating(rs.getInt("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             ConnectionManager.close(conn, pst, rs);
         }
-        
+        System.out.println("-----------2----------------");
         return r;
     }
     
@@ -81,7 +81,7 @@ public class RatingDAO {
             pst = conn.prepareStatement(RETRIEVE_ALL_RATING);
             rs = pst.executeQuery();
             while (rs.next()) {
-                ratingArr.add(new Rating(rs.getString("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
+                ratingArr.add(new Rating(rs.getInt("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -92,7 +92,7 @@ public class RatingDAO {
         return ratingArr;
     }
     
-    public static void updateOneRating(String fbID, int offerID, int rate){
+    public static void updateOneRating(int fbID, int offerID, int rate){
         Connection conn = null;
         PreparedStatement pst = null;
         ResultSet rs = null;
@@ -101,7 +101,7 @@ public class RatingDAO {
             conn = ConnectionManager.getConnection();
             pst = conn.prepareStatement(UPDATE_ONE_RATING);
             pst.setInt(1, rate);
-            pst.setString(2, fbID);
+            pst.setInt(2, fbID);
             pst.setInt(3, offerID);
             pst.executeUpdate();
             
@@ -113,7 +113,7 @@ public class RatingDAO {
     }
     
     
-    public static ArrayList<Rating> retrieveAllRatingOfUser(String fbID){
+    public static ArrayList<Rating> retrieveAllRatingOfUser(int fbID){
         
         ArrayList<Rating> ratingArr = new ArrayList<>();
         Connection conn = null;
@@ -123,10 +123,10 @@ public class RatingDAO {
         try {
             conn = ConnectionManager.getConnection();
             pst = conn.prepareStatement(RETRIEVE_All_RATING_OF_USER);
-            pst.setString(1, fbID);
+            pst.setInt(1, fbID);
             rs = pst.executeQuery();
             while (rs.next()) {
-                ratingArr.add(new Rating(rs.getString("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
+                ratingArr.add(new Rating(rs.getInt("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,7 +150,7 @@ public class RatingDAO {
             pst.setInt(1, offerID);
             rs = pst.executeQuery();
             while (rs.next()) {
-                ratingArr.add(new Rating(rs.getString("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
+                ratingArr.add(new Rating(rs.getInt("fbID"), rs.getInt("offerID"), rs.getInt("subCatID"), rs.getInt("rate")) );
             }
         } catch (SQLException e) {
             e.printStackTrace();

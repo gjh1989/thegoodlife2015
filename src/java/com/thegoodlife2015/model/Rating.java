@@ -11,23 +11,23 @@ package com.thegoodlife2015.model;
  */
 public class Rating {
     
-    private String fbID;
+    private int fbID;
     private int offerID;
     private int subCatID;
     private int rate;
 
-    public Rating(String fbID, int offerID, int subCatID, int rate) {
+    public Rating(int fbID, int offerID, int subCatID, int rate) {
         this.fbID = fbID;
         this.offerID = offerID;
         this.subCatID = subCatID;
         this.rate = rate;
     }
 
-    public String getFbID() {
+    public int getFbID() {
         return fbID;
     }
 
-    public void setFbID(String fbID) {
+    public void setFbID(int fbID) {
         this.fbID = fbID;
     }
 

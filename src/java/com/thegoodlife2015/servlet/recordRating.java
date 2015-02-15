@@ -32,12 +32,11 @@ public class recordRating extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try(PrintWriter out = response.getWriter()) {
+        PrintWriter out = response.getWriter();
+        try {
             //retrieve session
-            HttpSession session = request.getSession();
-
             /* TODO output your page here. You may use following sample code. */
-            String fbID = request.getParameter("fbID");
+            int fbID = Integer.parseInt(request.getParameter("fbID"));
             int offerID = Integer.parseInt(request.getParameter("offerID"));
             int subCatID = Integer.parseInt(request.getParameter("subCatID"));
             int rate = Integer.parseInt(request.getParameter("rate"));
@@ -45,6 +44,8 @@ public class recordRating extends HttpServlet {
             TGLController.insertOrUpdateOneRating(fbID, offerID, subCatID, rate);
             
             
+        } finally {
+            out.close();
         }
     }
 

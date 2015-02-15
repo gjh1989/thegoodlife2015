@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author locnguyen
  */
-public class retrieveRating extends HttpServlet {
+public class getOneRating extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -29,22 +29,26 @@ public class retrieveRating extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        try{
+        try {
+            //retrieve session
             /* TODO output your page here. You may use following sample code. */
-            //out.println("1");
-            RestRequest resourceValues = new RestRequest(request.getPathInfo());
-            //out.println(resourceValues);
-            int fbID = resourceValues.getFbID();
-            //out.println(fbID);
-            int offerID = resourceValues.getOfferID();
-            //out.println(offerID);
-            Rating r = TGLController.retrieveOneRating(fbID, offerID);
-            out.println("{rate:" + r.getRate() + "}");
+            int fbID = Integer.parseInt(request.getParameter("fbID"));
+            int offerID = Integer.parseInt(request.getParameter("offerID"));
+            
+            if (fbID > 0 && offerID > 0){
+                Rating rate = TGLController.retrieveOneRating(fbID, offerID);
+                if (rate !=null){
+                    out.println(rate.getRate());
+                } else {
+                    out.println(0);
+                }
+            } else {
+                out.println(0);
+            }
         } finally {
             out.close();
         }
@@ -76,12 +80,7 @@ public class retrieveRating extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try(PrintWriter out = response.getWriter()) {
-            
-            /* TODO output your page here. You may use following sample code. */
-            out.println(122343421);
-        }
+        processRequest(request, response);
     }
 
     /**

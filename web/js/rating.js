@@ -4,9 +4,19 @@
  * and open the template in the editor.
  */
 
-angular.module("RatingApp", [])
-.controller("RatingCtrl", function($scope) {
+angular.module("RatingApp", ['ngResource'])
+.controller("RatingCtrl", function($scope, $http) {
   $scope.rating = 5;
+  //to retrieve rating of a deal using factory retrieveRating goes here
+  $scope.retrievedRating = retrieveRating.get({fbID:1, offerID:20});
+  $scope.retrievedRating.$promise.then(function(data) {
+    $scope.retrievedRating = data.rate;
+    console.log(data );
+  });
+
+//    $http.get('/getOneRating?fbID=1&offerID=20').success(function(data){
+//        console.log(data);
+//    })
   $scope.rateFunction = function(rating) {
     alert("Rating selected - " + rating);
   };
@@ -56,5 +66,8 @@ angular.module("RatingApp", [])
     });
 
     return deferred.promise;
-});
+})
+.factory('retrieveRating', ['$resource', function($resource){
+    return $resource('/thegoodlife2015/retrieveRating/:fbID/:offerID'); 
+}])
 

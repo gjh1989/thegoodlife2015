@@ -24,12 +24,12 @@ public class TGLController {
         return allRating;
     }
     
-    public static Rating retrieveOneRating(String fbID, int offerID) {
+    public static Rating retrieveOneRating(int fbID, int offerID) {
         Rating r = RatingDAO.retrieveOneRating(fbID, offerID);
         return r;
     }
     
-    public static void insertOrUpdateOneRating(String fbID, int offerID, int subCatID, int rate){
+    public static void insertOrUpdateOneRating(int fbID, int offerID, int subCatID, int rate){
         System.out.println("insertt");
         if (validateRatingExist( fbID,  offerID)){
             RatingDAO.updateOneRating(fbID, offerID, rate);
@@ -38,7 +38,7 @@ public class TGLController {
         }
     }
     
-    public static boolean validateRatingExist(String fbID, int offerID){
+    public static boolean validateRatingExist(int fbID, int offerID){
         Rating rating = RatingDAO.retrieveOneRating(fbID, offerID);
         return rating != null;
     }
