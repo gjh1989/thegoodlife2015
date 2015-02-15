@@ -134,8 +134,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             var hourAfter = '15';
             var minAfter = '30';
 
-            var timeOut = '10';
-
             $interval(function () {
                 var currentDate = new Date();
                 var hour = currentDate.getHours().toString();
@@ -162,11 +160,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     }
                 }, diningDeals);
                 $rootScope.chosenDeal = diningDeals[Math.floor(Math.random() * diningDeals.length)];
-
-//                ngDialog.open({
-//                    template: 'firstDialogId',
-//                    controller: 'InsideCtrl'
-//                });
+                
                 var dialog = ngDialog.open({
                     template:
                             '<div class="ngdialog-message">' +
@@ -180,8 +174,10 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     plain: true
                 });
                 dialog.closePromise.then(function (data) {
-                    //console.log(data.value);
-                    $scope.launch(data.value);
+                    if (data.value != '$document') {
+                        $scope.launch(data.value);
+                    }
+                    //
                 });
             };
 

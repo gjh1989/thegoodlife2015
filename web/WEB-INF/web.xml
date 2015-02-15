@@ -8,6 +8,10 @@
         <servlet-name>getDeals</servlet-name>
         <servlet-class>getDeals</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>randomdeals</servlet-name>
+        <servlet-class>randomdeals</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>recServlet</servlet-name>
         <url-pattern>/recServlet</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>getDeals</servlet-name>
         <url-pattern>/getDeals</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>randomdeals</servlet-name>
+        <url-pattern>/randomdeals</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
