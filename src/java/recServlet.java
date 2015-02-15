@@ -53,7 +53,7 @@ public class recServlet extends HttpServlet {
         String servername = "localhost";
         String username = "root";
         String password = "";
-        String dbname = "thegoodlife";
+        String dbname = "thegoodlife2015";
 
         //setup for second connection
         java.sql.Connection conn = null;

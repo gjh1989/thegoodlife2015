@@ -5,7 +5,6 @@ package com.thegoodlife.servlet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import java.sql.ResultSet;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import com.thegoodlife.model.ConnectionManager;
@@ -29,7 +28,6 @@ import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 
-
 public class recServlet extends HttpServlet {
 
     /**
@@ -46,10 +44,10 @@ public class recServlet extends HttpServlet {
             throws ServletException, IOException, TasteException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+
         //specifying the number of recommendations to be generated
         int noOfRecommendations = 2;
-        
+
         // Specifications tables  
         String tablename = "deals_rating";
         String col1 = "userid";
@@ -65,7 +63,7 @@ public class recServlet extends HttpServlet {
         String dbname;
         String port;
         String PROPS_FILENAME = "/connection.properties";
-        
+
         if (host != null) {
             // this is production environment
             // obtain database connection properties from environment variables
@@ -74,7 +72,8 @@ public class recServlet extends HttpServlet {
             dbname = System.getenv("OPENSHIFT_APP_NAME");
             username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
             password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
-
+            //out.println(servername + " " + port + " " + dbname + " " + username + " " + password);
+            
         } else {
 
             try {
@@ -90,22 +89,23 @@ public class recServlet extends HttpServlet {
                 dbname = props.getProperty("db.name");
                 username = props.getProperty("db.user");
                 password = props.getProperty("db.password");
+
+                //out.println(servername + " " + port + " " + dbname + " " + username + " " + password);
             } catch (Exception ex) {
                 // unable to load properties file
                 String message = "Unable to load '" + PROPS_FILENAME + "'.";
 
-                System.out.println(message);
+                out.println(message);
                 Logger.getLogger(ConnectionManager.class.getName()).log(Level.SEVERE, message, ex);
                 throw new RuntimeException(message, ex);
             }
         }
-        
+
         //setup for second connection
         java.sql.Connection conn = null;
         java.sql.Statement stmt = null;
         ResultSet rs = null;
-        
-        
+
         try {
             ///Initialize connection for Mahout input
             MysqlDataSource dataSource = new MysqlDataSource();
@@ -113,7 +113,7 @@ public class recServlet extends HttpServlet {
             dataSource.setUser(username);
             dataSource.setPassword(password);
             dataSource.setDatabaseName(dbname);
-            
+
             MySQLJDBCDataModel dataModel = new MySQLJDBCDataModel(dataSource, tablename, col1, col2, col3, null);
 
             /*Specifies the Similarity algorithm*/
@@ -125,12 +125,10 @@ public class recServlet extends HttpServlet {
             List<RecommendedItem> recommendations = recommender.recommend(303, noOfRecommendations);
 
             //  write output to file
-            recommendations.stream().map((recommendedItem) -> {
-                out.println("104" + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
-                return recommendedItem;
-            }).forEach((_item) -> {
+            for (RecommendedItem recommendedItem : recommendations) {
+                out.println("303" + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
                 out.println();
-            });
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -156,22 +154,6 @@ public class recServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        //close writer
-//        outt.close();
-
-//        PrintWriter out = response.getWriter();
-//        DataModel model = new FileDataModel(new File("C:/Users/JunHong/Desktop/ml-100k/test.csv"));
-//        UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
-//        UserNeighborhood neighborhood = new NearestNUserNeighborhood(2, similarity, model);
-//        Recommender recommender = new GenericUserBasedRecommender(model, neighborhood, similarity);
-//
-//        List<RecommendedItem> recommendations = recommender.recommend(1, 1);
-//        try {
-//            for (RecommendedItem recommendation : recommendations) {
-//                out.println(" recommendation: " + recommendation);
-//            }
-//        } catch (RuntimeException e) {
-//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
