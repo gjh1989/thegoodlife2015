@@ -27,6 +27,8 @@ import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 public class recServlet extends HttpServlet {
 
@@ -73,7 +75,7 @@ public class recServlet extends HttpServlet {
             username = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
             password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
             //out.println(servername + " " + port + " " + dbname + " " + username + " " + password);
-            
+
         } else {
 
             try {
@@ -125,10 +127,12 @@ public class recServlet extends HttpServlet {
             List<RecommendedItem> recommendations = recommender.recommend(303, noOfRecommendations);
 
             //  write output to file
-            for (RecommendedItem recommendedItem : recommendations) {
-                out.println("303" + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
-                out.println();
-            }
+//            for (RecommendedItem recommendedItem : recommendations) {
+//                out.println("303" + "," + recommendedItem.getItemID() + "," + recommendedItem.getValue());
+//                out.println();
+//            }
+            JSONObject jsonObject = getJsonFromMyFormObject(recommendations);
+            out.println(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -154,6 +158,21 @@ public class recServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static JSONObject getJsonFromMyFormObject(List<RecommendedItem> recommendations) {
+        JSONObject responseDetailsJson = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
+
+        for (int i = 0; i < recommendations.size(); i++) {
+            JSONObject formDetailsJson = new JSONObject();
+            formDetailsJson.put("userid", "303");
+            formDetailsJson.put("dealid", recommendations.get(i).getItemID());
+
+            jsonArray.add(formDetailsJson);
+        }
+        responseDetailsJson.put("recommendations", jsonArray);
+        return responseDetailsJson;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
