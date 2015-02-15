@@ -85,7 +85,7 @@ public class retrieveRating extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             RestRequest resourceValues = new RestRequest(request.getPathInfo());
             String fbID = ""+ resourceValues.getFbID();
-            int offerID = resourceValues.offerID;
+            int offerID = resourceValues.getOfferID();
             Rating r = TGLController.retrieveOneRating(fbID, offerID);
             out.println(r.getRate());
         }

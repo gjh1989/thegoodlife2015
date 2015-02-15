@@ -1,4 +1,4 @@
-angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog'])
+angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp'])
         .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval) {
 
             $scope.name = 'yes';
@@ -304,7 +304,7 @@ angular.module('ng').filter('cut', function () {
 
 //== Controllers =============================================================//
 
-angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.translate'])
+angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.translate', 'ngResource'])
 
         /**
          * Default translations in English.
@@ -337,7 +337,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'rating', 'recommendedDeals', 'retrieveRating', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, rating, recommendedDeals, retrieveRating) {
                 //-- Variables -----//
 
                 $scope.header = $scope.deal.merchantName;
@@ -347,7 +347,19 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     $scope.imgUrl = result;
                 });
                 //-- Methods -----//
-
+                
+                //to retrieve rating of a deal using factory retrieveRating goes here
+                $scope.rating = retrieveRating.get({fbID:1, offerID:$scope.deal.offerID});
+                $scope.rating.$promise.then(function(data) {
+                    $scope.rating = data[0];
+                });
+                
+                var rec = [$scope.deal];
+                
+                //retrieve recommended deals using factory retrieveRecommendations
+                $scope.recommendedDeals = rec;
+                
+                
                 $scope.no = function () {
                     $modalInstance.dismiss('no');
                 }; // end close
@@ -372,6 +384,19 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     return deferred.promise;
                 }
             };
+        })
+        .factory('retrieveRating', ['$resource', function($resource){
+            return $resource('/retrieveRating/:fbID/:offerID'); 
+        }])
+    
+        .factory('retrieveRecommendations', function($http, $q, offerID, fbID){
+            var deferred = $q.defer();
+
+            $http.get('/retrieveRating?offerID=' + offerID + '&fbID=' + fbID).then(function (resp) {
+                deferred.resolve(resp.data);
+            });
+
+            return deferred.promise;
         });
 //== Services ================================================================//
 
@@ -468,7 +493,7 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                              * @param	header 	string
                              * @param	msg 	string
                              */
-                            confirm: function (header, msg, imgUrl, sz) {
+                            confirm: function (header, msg, imgUrl, rating, recommendedDeals, sz) {
                                 if (angular.isDefined(sz))
                                     sz = (angular.equals(sz, 'sm') || angular.equals(sz, 'lg')) ? sz : wSize;
                                 else
@@ -489,6 +514,12 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                                         },
                                         imgUrl: function () {
                                             return angular.copy(imgUrl);
+                                        },
+                                        rating: function () {
+                                            return angular.copy(rating);
+                                        },
+                                        recommendedDeals: function () {
+                                            return angular.copy(recommendedDeals);
                                         }
                                     }
                                 }); // end modal.open
@@ -519,6 +550,9 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
+                        '<div ng-controller="RatingCtrl">'+
+                            '<div star-rating rating-value="$parent.rating" max="5"></div>'+
+                        '</div>' +
                         '</div>' +
                         //body of popup
                         '<div class="modal-body" id="overlay">' +
@@ -584,7 +618,40 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div style="margin-bottom: 20px;"></div>' +
                         '</div>' +
                         '</div>' + //end of modal-body
-                        '</div>' + '</div>'); //--end of padding div
-
+                        '</div>' + 
+                                
+                        '<div class="overlay-back" style="margin-top:50px; background-color:#f3f3f3 !important;">' + //start of padding div
+                        '<div class="modal-header dialog-header-confirm">' +
+                        '<h4 class="modal-title">Related Pins</h4>' +
+                        '</div>' +
+                        '<article class="inpage-sections inpage-on">'+
+                        '<section class="inpage-content grey-box section-active" id="featured-cards">'+
+                        '<div class="row">'+
+                        '<div class="twelve columns">'+
+                            '<div class="pin-container variable-sizes isotope">'+
+                                '<article ng-repeat="eachRecmd in recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
+                                    '<div class="panel" id="deals-display" ng-click="launch(eachRecmd)" style="cursor:pointer">'+
+                                        '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>'+
+                                        '<div class="elm-content-area cf">'+
+                                            '<h5 class="card-title">{{eachRecmd.merchantName|cut:true:25:\' ...\'}}</h5>'+
+                                            '<p ng-bind-html="eachRecmd.promoDesc|cut:true:60:\' ...\'"></p>'+
+                                        '</div>'+
+                                        '<div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{\'background-image\': \'url(img/{{showBanner(eachRecmd)}})\'}"></div>'+
+                                        
+                                        '<footer class="collapse">'+
+                                            '<div class="columns text-center">'+
+                                                'Valid till {{eachRecmd.validTill| myDate | date:\'d MMM y\'}}'+
+                                                '<img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>'+
+                                            '</div>'+
+                                        '</footer>'+
+                                    '</div>'+
+                                '</article>'+
+                            '</div>'+
+                        '</article>'+
+                        '</section>'+
+                        '</div>'+
+                        '</div>'+
+                        '</div>' +
+                        '</div>'); 
             }]); // end run / dialogs
 
