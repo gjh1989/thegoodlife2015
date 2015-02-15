@@ -349,9 +349,10 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 //-- Methods -----//
                 
                 //to retrieve rating of a deal using factory retrieveRating goes here
-                $scope.rating = retrieveRating.get({fbID:1, offerID:$scope.deal.offerID});
+                $scope.rating = retrieveRating.get({fbID:1, offerID:20});
                 $scope.rating.$promise.then(function(data) {
                     $scope.rating = data[0];
+                    console.log(data);
                 });
                 
                 var rec = [$scope.deal];
@@ -551,6 +552,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
                         '<div ng-controller="RatingCtrl">'+
+                            '<div>{{$parent.rating}}</div>'+
                             '<div star-rating rating-value="$parent.rating" max="5"></div>'+
                         '</div>' +
                         '</div>' +
