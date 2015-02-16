@@ -5,15 +5,17 @@
  */
 
 angular.module("RatingApp", ['ngResource'])
-.controller("RatingCtrl", function($scope, $http) {
+.controller("RatingCtrl", function($scope, retrieveRating) {
   $scope.rating = 5;
+  $scope.dealRate = 5;
   //to retrieve rating of a deal using factory retrieveRating goes here
-  $scope.retrievedRating = retrieveRating.get({fbID:1, offerID:20});
-  $scope.retrievedRating.$promise.then(function(data) {
-    $scope.retrievedRating = data.rate;
-    console.log(data );
+  $scope.dealRate = retrieveRating.get({fbID:1, offerID:20});
+  $scope.dealRate.$promise.then(function(data) {
+    $scope.dealRate = data.rate;
+    console.log(data);
   });
-
+  
+  
 //    $http.get('/getOneRating?fbID=1&offerID=20').success(function(data){
 //        console.log(data);
 //    })
@@ -21,7 +23,7 @@ angular.module("RatingApp", ['ngResource'])
     alert("Rating selected - " + rating);
   };
 })
-.directive("starRating", function($rootScope) {
+.directive("starRating", function($rootScope, $http) {
   return {
     restrict : "A",
     template : "<ul class='rating'>" +
@@ -46,6 +48,9 @@ angular.module("RatingApp", ['ngResource'])
       };
       scope.toggle = function(offerID, subCatID, index) {
         scope.ratingValue = index + 1;
+        $http.get('/recordRating?fbID='+ 1 + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).then(function (resp) {
+            console.log(resp.data);
+        });
         console.log(offerID + "-" + subCatID +"-"+ (index + 1));
         scope.onRatingSelected({
           rating : index + 1
@@ -58,16 +63,8 @@ angular.module("RatingApp", ['ngResource'])
     }
   };
 })
-.factory('recordRating', function($http, $q, offerID, subCatID){
-    var deferred = $q.defer();
 
-    $http.get('/recordRating?offerID=' + offerID + '&subCatID=' + subCatID).then(function (resp) {
-        deferred.resolve(resp.data);
-    });
-
-    return deferred.promise;
-})
 .factory('retrieveRating', ['$resource', function($resource){
-    return $resource('/thegoodlife2015/retrieveRating/:fbID/:offerID'); 
-}])
+    return $resource('/retrieveRating/:fbID/:offerID', {fbID:'@fbID', offerID:'offerID'}); 
+}]);
 

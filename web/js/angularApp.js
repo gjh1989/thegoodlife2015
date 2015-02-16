@@ -191,7 +191,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                deferred.resolve(resp.data);
 //            });
 
-//            $http.get('/getDeals').then(function (resp) {
+//            $http.get('/thegoodlife2015/getDeals').then(function (resp) {
 //                deferred.resolve(resp.data);
 //            });
             
@@ -227,9 +227,15 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
         
         //
         .filter('recommendFilter', function () {
-            return function (deal, recommendations) {
-                return false;
-                //return deal.offerID === recommendations[0].dealid || deal.offerID === recommendations[1].dealid;
+            return function (deals, recommendations) {
+                console.log('recommendFilter',arguments);
+                var filtered =[];
+                angular.forEach(deals, function(deal) {
+                    if( parseInt(deal.offerID) === recommendations[0].dealid || parseInt(deal.offerID) === recommendations[1].dealid ) {
+                        filtered.push(deal);
+                    }
+                });
+                return filtered;
             };
         })
           
@@ -349,7 +355,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'recommendedDeals', 'retrieveRating', 'recServlet', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, recommendedDeals, recServlet) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'recommendedDeals', 'recServlet', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, recommendedDeals, recServlet) {
                 //-- Variables -----//
 
                 $scope.header = $scope.deal.merchantName;
@@ -360,10 +366,12 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 });
                 //-- Methods -----//
                 
+                
                 //retrieve recommended deals using factory retrieveRecommendations
                 $scope.recommendedDeals = recServlet.get({fbID:1});
                 $scope.recommendedDeals.$promise.then(function(data) {
-                    console.log(data);
+                    $scope.recommendedDeals = data.recommendations;
+                    console.log(data.recommendations);
                 });
                 
                 $scope.no = function () {
@@ -391,9 +399,6 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 }
             };
         })
-        .factory('retrieveRating', ['$resource', function($resource){
-            return $resource('/retrieveRating/:fbID/:offerID'); 
-        }])
     
         .factory('recServlet', ['$resource', function($resource){
             return $resource('/recServlet/:fbID'); 
@@ -549,7 +554,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
                         '<div ng-controller="RatingCtrl">'+
-                            '<div star-rating rating-value="5" max="5"></div>'+
+                            '<div star-rating rating-value="dealRate" max="5"></div>'+
                         '</div>' +
                         '</div>' +
                         //body of popup
@@ -627,8 +632,8 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row">'+
                         '<div class="twelve columns">'+
                             '<div class="pin-container variable-sizes isotope">'+
-                                '<div ng-repeat="id in recommendedDeals">{{id.dealid}}</div>'+
-                                '<article ng-repeat="eachRecmd in deals | recommendFilter:eachRecmd:recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
+                                '<div ng-repeat="id in recommendedDeals]">{{id.dealid}}</div>'+
+                                '<article ng-repeat="eachRecmd in deals | recommendFilter:recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
                                     '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">'+
                                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>'+
                                         '<div class="elm-content-area cf">'+
