@@ -39,8 +39,7 @@
         <link rel="stylesheet" href="assets/pws/sg-pws-custom.css">
 
         <!-- local css links -->
-        <link rel="stylesheet" href="css/global-pws_eugene.css">
-        <link rel="stylesheet" href="css/global_eugene.css">
+        <link rel="stylesheet" href="css/global-tgl.css">
 
         <!-- ng-dialog -->
         <link href="css/ngDialog.css" rel="stylesheet" type="text/css"/>
@@ -54,6 +53,7 @@
 
         <link href="css/modal.css" rel="stylesheet" type="text/css"/>
         <link href="css/rating.css" rel="stylesheet">
+
 
         <!-- Style for social sharing -->
         <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
@@ -92,126 +92,6 @@
         <!--[if lt IE 9]>
               <link rel="stylesheet" href="/sg/assets/pws/global-pws-ls-slide-ie-two.css">
           <![endif]-->
-        <style>
-            .brand-header{
-                padding:40px;
-            }
-
-            .tgl-logo-holder{
-                position: relative;
-                left: 10px;
-                top: 18px;
-            }
-
-            .featured{
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 61px;
-                height: 61px;
-                background-image: url(img/exclusive.png);
-                background-repeat: no-repeat;
-                z-index: 2;
-            }
-
-            #tgl_nav li a{
-                color: #444;
-                position: relative;
-            }
-
-            #tgl_nav li a.selected{
-                color:#29ad48;
-            }
-
-            #tgl_nav li a:hover{
-                color:#29ad48;
-            }
-
-            .filter_featured_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_priority_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_dining_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_lifestyle_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_online_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_all_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter_mobile_btn.selected {
-                background-position: 0px -25px !important;
-                font-size: 12px;
-                color:#29ad48;
-            }
-
-            .filter li.active a {
-                color:#41ab3c;
-            }
-
-            @media \0screen {
-                .nw-temp-banner.static-bx-banner .bx-wrapper .bx-caption p {
-                    padding-right: 60px!important;
-                }
-            } 
-            @media only screen and (min-device-width : 768px) and (max-device-width : 1000px) {
-                .nw-temp-banner.static-bx-banner .bx-wrapper .bx-caption p {
-                    padding-right: 60px!important;
-                }
-            }
-            @media only screen and (max-width: 767px) {
-                .brand-header {
-                    padding: 0;
-                }    
-            }
-            @media (min-width: 360px) and (max-width: 519px)  {
-                .elements .panel,.corner-stamp .panel,.elements,.corner-stamp {
-                    width: 98%;
-                }
-
-                #dealsdisplay {
-                    width:320px;
-                }
-            }
-
-            @media (min-width: 520px) and (max-width: 744px)  {
-                .elements .panel,.corner-stamp .panel,.elements,.corner-stamp {
-                    width: 230px;
-                }
-            }
-
-            @media only screen and (max-width:479px) {
-                /*remove the carosel for mobile */
-                #carousel {
-                    display: none; 
-                }
-
-            }
-        </style>
 
         <!-- Body Container -->
         <div role="main" id="wrapper" ng-controller="dialogServiceTest" style="{{modalFreezeBG}}">
@@ -432,8 +312,9 @@
                     <div class="brand-header">
                         <div class="standard-chartered-logo-holder">
                             <a href="./"><img src="assets/pws/images/page/standard-chartered-logo-top.png"  alt="Standard Chartered Bank"  width="144" height="60"/></a>
+                            <a class="tgl-logo-holder-mobile" href="" ng-click="openDefault()"><img src="img/TGL_logo.png" alt="The Good Life®"  width="144" height="60"/></a>
                         </div>
-                        <a href="#" ng-click="login()"><h3> Singapore </h3></a>
+                        <h3> Singapore </h3>
                     </div>
                 </div>
             </nav>
@@ -444,28 +325,28 @@
                 <div class="row collapse">
                     <div class="twelve columns">
                         <ul class="bxslider">
-                            <li id="bxslid-1"> <img id="cta-bnr-img-1" src="assets/pws/images/banner/pic_masthead_1580x295_4dec.jpg"  alt="Priority Banking " onClick="openNewWin('priority-banking/promotion/ntb/index9438.html?pid=SG:out:HCR1:20140808');" style="cursor:pointer;cursor:hand;">
+                            <li id="bxslid-1"><img id="cta-bnr-img-2" src="assets/pws/images/banner/masthead_bonus-saver.jpg"  alt="Bonus$aver"   onClick="openNewWin('save/current-bonussaverbb44.html?camp_id=N:SG-S:BON$AV-M:O-P:CBS-C:MKR-B:NA-R:ETD-T:NA-O:EIR-L:NA-D:140317-I:10002497');" style="cursor:pointer;cursor:hand;">
                                 <div class="bx-caption cf">
-                                    <p class="eleven columns white-txt"><strong>Priority Banking</strong> </br>We offer a suite of tailored wealth solutions to help you meet your financial future. Start a Priority Banking relationship and receive up to $1,100 in vouchers and gifts.</p>
-                                    <p class="twelve columns"> <a href="priority-banking/promotion/ntb/index9438.html?pid=SG:out:HCR1:20140808" class="button small green radius">Find out more</a> </p>
+                                    <p class="eleven columns white-txt"><strong>Bonus$aver frees you to do more with your savings.</strong></br>Earn up to 1.88% p.a. interest and receive a gift.</p>
+                                    <p class="twelve columns"> <a href="save/current-bonussaverbb44.html?camp_id=N:SG-S:BON$AV-M:O-P:CBS-C:MKR-B:NA-R:ETD-T:NA-O:EIR-L:NA-D:140317-I:10002497" class="button small green radius">Find out more</a></p>
                                 </div>
                             </li>
-                            <li id="bxslid-2"><img id="cta-bnr-img-2" src="assets/pws/images/banner/yec_masthead_1580x295_4dec.jpg"  alt="Festive 2014/2015 Promotion"   onClick="openNewWin('promotion/2014/twowaystosave/index467e.html?pid=SG:sttd:HCR2:20140707');" style="cursor:pointer;cursor:hand;">
+                            <li id="bxslid-2"> <img id="cta-bnr-img-1" src="assets/pws/images/banner/masthead_singpost.jpg"  alt="SingPost" onClick="openNewWin('promotion/2015/singpost/index0ae1.html?camp_id=N:SG-S:SCBHMB-M:O-P:SGP-C:BNR-B:NA-R:NA-T:NA-O:NA-L:NA-D:140908-I:10002460');" style="cursor:pointer;cursor:hand;">
                                 <div class="bx-caption cf">
-                                    <p class="eleven columns"><strong>Festive 2014/2015 Promotion </strong></br>Shop with your credit card from 14 November 2014 to 14 January 2015 and receive a SodaStream Soda Maker, GoPro HERO3+, or 1-night stay in a Marvelous Suite at W Singapore—Sentosa Cove.</p>
-                                    <p class="twelve columns"> <a href="promotion/2014/twowaystosave/index467e.html?pid=SG:sttd:HCR2:20140707" class="button small green radius">Find out more</a></p>
+                                    <p class="eleven columns white-txt"><strong>Shop smarter online with SingPost Platinum Visa Credit Card</strong> </br>Enjoy Online Price Guarantee , 7% CashBack and more.</p>
+                                    <p class="twelve columns"> <a href="promotion/2015/singpost/index0ae1.html?camp_id=N:SG-S:SCBHMB-M:O-P:SGP-C:BNR-B:NA-R:NA-T:NA-O:NA-L:NA-D:140908-I:10002460" class="button small green radius">Find out more</a> </p>
                                 </div>
                             </li>
-                            <li id="bxslid-3"> <img  id="cta-bnr-img-3"  src="assets/pws/images/banner/dual_cards_masthead_1580x295_4dec.jpg" alt="Apply for two cards today "   onClick="openNewWin('promotion/2014/bonussaver/index6b25.html?pid=SG:Bonussaver:HCR3:20140530');" style="cursor:pointer;cursor:hand;">
+                            <li id="bxslid-3"> <img  id="cta-bnr-img-3"  src="assets/pws/images/banner/masthead_CNY.jpg" alt="SGD Time Deposit"   onClick="openNewWin('promotion/2015/cny/index2ba0.html?camp_id=N:SG-S:SCBHMB-M:O-P:CYH-C:BNR-B:NA-R:NA-T:NA-O:NA-L:NA-D:140908-I:10002430');" style="cursor:pointer;cursor:hand;">
                                 <div class="bx-caption cf">
-                                    <p class="eleven columns white-txt"><strong>Apply for two cards today </strong></br>Choose from 3 great gifts* (Samsung GALAXY Tab 4, BOSE Bluetooth Speaker or American Tourister luggage) when you apply for both the MANHATTAN World MasterCard and Platinum Visa or MasterCard.</p>
-                                    <p class="twelve columns"> <a  href="promotion/2014/bonussaver/index6b25.html?pid=SG:Bonussaver:HCR3:20140530" class="button small green radius">Find out more</a> </p>
+                                    <p class="eleven columns white-txt"><strong>Earn up to 1.40% p.a. on SGD Time Deposit. </strong></br>Be rewarded when you invest, insure and spend on your credit card.</p>
+                                    <p class="twelve columns"> <a  href="promotion/2015/cny/index2ba0.html?camp_id=N:SG-S:SCBHMB-M:O-P:CYH-C:BNR-B:NA-R:NA-T:NA-O:NA-L:NA-D:140908-I:10002430" class="button small green radius">Find out more</a> </p>
                                 </div>
                             </li>
-                            <li id="bxslid-4"><img id="cta-bnr-img-4" src="assets/pws/images/banner/cashone_masthead_1580x295_4dec.jpg" alt="CashOne personal loan" onClick="openNewWin('borrow/cam/index2bc7.html?pid=SG:cashone:HCR4:20130930');" style="cursor:pointer;cursor:hand;">
+                            <li id="bxslid-4"><img id="cta-bnr-img-4" src="assets/pws/images/banner/masthead_cashone.jpg" alt="Enjoy peace of mind with CashOne" onClick="openNewWin('borrow/cam/index19c0.html?pid=S:SCBHMB:N:SG-P:CPL-M:O-R:NA-L:NA-O:NA-D:140908-10001601');" style="cursor:pointer;cursor:hand;">
                                 <div class="bx-caption cf">
-                                    <p class="eleven columns white-txt"><strong>CashOne Personal Loan </strong></br>Get approval-in-principle for a loan of up to 4x your monthly income within 60-seconds. Plus, get a gift and a $100 voucher upon approval. </p>
-                                    <p class="twelve columns"> <a href="borrow/cam/index2bc7.html?pid=SG:cashone:HCR4:20130930" class="button small green radius">Find out more</a> </p>
+                                    <p class="eleven columns white-txt"><strong>Enjoy peace of mind with CashOne</strong></br>Get approval-in-principle within 60 seconds  and receive a gift.</p>
+                                    <p class="twelve columns"> <a href="borrow/cam/index19c0.html?pid=S:SCBHMB:N:SG-P:CPL-M:O-R:NA-L:NA-O:NA-D:140908-10001601" class="button small green radius">Find out more</a> </p>
                                 </div>
                             </li>
                         </ul>
@@ -511,7 +392,7 @@
                 <div class="standard-chartered-logo-holder">
                     <a id="megaMenu" class="navbar-button show-for-small open"><span></span> Categories </a> </div>
                 <div class="row">
-                    <div class="nine columns">
+                    <div class="eleven columns">
                         <div class="filters-with-search">
                             <div class="filter cf" id="megaNav">
                                 <!-- START CHOICES -->
@@ -528,7 +409,7 @@
                                                 showSubCat = null;
                                                 filterSubCat = null;
                                                 hide_featured = true;
-                                                coupons_table = false; clearSearch()">All Deals</a>
+                                                coupons_table = false; clearSearch()"> All Deals</a>
                                     </li>
 
                                     <li><a class="filter_dining_btn" ng-click="filterCat = dining;
@@ -560,7 +441,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="three columns">
+                    <div class="one columns">
                         <div id="searchbar-card" class="searchbar-top search-on" style="">
                             <input type="text" class="search-card sbox-on" id="cardSearch_txt" placeholder="Search" autocomplete="off" ng-model="search.$">
                         </div>
@@ -795,43 +676,7 @@
             </div>
             <a class="close-reveal-modal"></a>
         </div>
-        <style>
-            #non-existing-content-box {
-                padding: 0 10px 0 0;
-                border-right: 1px dashed #ccc;
-                border-bottom: none;
-            }
-            #existing-content-box {
-                padding: 0 0 0 10px;
-            }
-            #not-existing-customer-next-mobile-btn-container {
-                display:none;
-            }
-            #existing-customer-next-mobile-btn-container {
-                display:none;
-            }
-            #desktop-next-btns {
-                display:block;	
-            }
 
-            .lt-768 #non-existing-content-box {
-                padding: 0;
-                border-right: none;
-                border-bottom: 1px dashed #ccc;
-            }
-            .lt-768 #existing-content-box {
-                padding: 10px 0 0 0;
-            }
-            .lt-768 #not-existing-customer-next-mobile-btn-container {
-                display:block;
-            }
-            .lt-768 #existing-customer-next-mobile-btn-container {
-                display:block;
-            }
-            .lt-768 #desktop-next-btns {
-                display:none;	
-            }
-        </style>
         <!--<script src="assets/pws/global-pws-message-data.json"></script>--> 
         <!--<script src="assets/pws/global-pws-cards-data.js"></script>-->
         <script src="assets/pws/global-pws-cta-data.json"></script>
@@ -856,17 +701,15 @@
         <script src="js/ui-bootstrap-tpls-0.11.0.min.js"></script>
         <script src="js/angularApp.js"></script>
         <script src="js/ngDialog.js" type="text/javascript"></script>
-        <script src="js/rating.js"></script>
-
+        
         <!-- JS for social share -->
         <script src="js/angular-socialshare.min.js"></script>
 
         <!-- JS for google map -->
         <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.underscore.js"></script>
         <script src="js/angular-google-maps_dev_mapped.js"></script>
-        
-        <!-- JS for facebooklogin -->
         <script src="js/angular-facebook.js" type="text/javascript"></script>
+
     </body>
 
 </html>

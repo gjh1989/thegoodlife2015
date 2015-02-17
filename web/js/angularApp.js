@@ -1,4 +1,4 @@
-angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp', 'facebook'])
+angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'facebook'])
         .config(function (FacebookProvider) {
             FacebookProvider.init('433973590092596');
         })
@@ -34,32 +34,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 $rootScope.deals = data.offer.added.list;
                 $scope.coupons = data.coupon.added.list;
                 $scope.allCategories = data.category.added.list;
-//                var sql = "";
-//                for (i =0; i <data.offer.added.list.length; i++ ){
-//                    var deal = data.offer.added.list[i];
-//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
-//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
-//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
-//                }
-//                for (i =0; i <data.offer.added.list.length; i++ ){
-//                    var deal = data.offer.added.list[i];
-//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
-//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
-//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
-//                }
-//                for (i =0; i <data.offer.added.list.length; i++ ){
-//                    var deal = data.offer.added.list[i];
-//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
-//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
-//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
-//                }
-//                for (i =0; i <data.offer.added.list.length; i++ ){
-//                    var deal = data.offer.added.list[i];
-//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
-//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
-//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
-//                }
-//                console.log(sql);
             });
 
             //check current page(sub-category) user is on
@@ -242,6 +216,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     auth_type: 'rerequest'
                 });
             };
+            
 
         }) // end controller(dialogsServiceTest)
 
@@ -351,6 +326,10 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             }
             $scope.outletMarkers = markers;
         })
+        
+//        .factory('retrieveRating', ['$resource', function($resource){
+//            return $resource('/retrieveRating/:fbID/:offerID', {fbID:'@fbID', offerID:'offerID'}, {get:{method:'GET'}}); 
+//        }]);
 
 //custom truncate function for data display
 angular.module('ng').filter('cut', function () {
@@ -414,7 +393,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', 'recServlet', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, recServlet) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl) {
                 //-- Variables -----//
 
                 $scope.header = $scope.deal.merchantName;
@@ -425,8 +404,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 });
                 //-- Methods -----//
 
-                $scope.recommendedDeas = recServlet.get({fbID:1, offerID:20});
-
+                
                 $scope.no = function () {
                     $modalInstance.dismiss('no');
                 }; // end close
@@ -434,6 +412,14 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $scope.yes = function () {
                     $modalInstance.close('yes');
                 }; // end yes
+                
+                //for render the rating bar
+                $scope.rating = 5;
+                $scope.dealRate = 5;
+                
+                $scope.rateFunction = function(rating) {
+                  alert("Rating selected - " + rating);
+                };
             }]) // end ConfirmDialogCtrl / dialogs.controllers
         .factory('Utils', function ($q) {
             return {
@@ -453,9 +439,48 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
             };
         })
 
-        .factory('recServlet', ['$resource', function ($resource) {
-                return $resource('/recServlet/:fbID');
-            }])
+        //controller for rating 
+        .directive("starRating", function($rootScope, $http) {
+          return {
+            restrict : "A",
+            template : "<ul class='rating'>" +
+                       "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle("+ $rootScope.deal.offerID + "," + $rootScope.deal.subCatID + ",$index)'>" +
+                       "    <i class='fa fa-star'></i>" + //&#9733
+                       "  </li>" +
+                       "</ul>",
+            scope : {
+              ratingValue : "=",
+              max : "=",
+              onRatingSelected : "&"
+
+            },
+            link : function(scope, elem, attrs) {
+              var updateStars = function() {
+                scope.stars = [];
+                for ( var i = 0; i < scope.max; i++) {
+                  scope.stars.push({
+                    filled : i < scope.ratingValue
+                  });
+                }
+              };
+              scope.toggle = function(offerID, subCatID, index) {
+                scope.ratingValue = index + 1;
+                $http.get('/thegoodlife2015/recordRating?fbID='+ 1 + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).then(function (resp) {
+                    console.log(resp.data);
+                });
+                console.log(offerID + "-" + subCatID +"-"+ (index + 1));
+                scope.onRatingSelected({
+                  rating : index + 1
+                });
+              };
+              scope.$watch("ratingValue", function(oldVal, newVal) {
+                if (newVal) { updateStars(); }
+              });
+
+            }
+          };
+        })
+
 
 //== Services ================================================================//
 
@@ -603,7 +628,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
-                        '<div ng-controller="RatingCtrl">' +
+                        '<div>' +
                         '<div star-rating rating-value="dealRate" max="5"></div>' +
                         '</div>' +
                         '</div>' +
