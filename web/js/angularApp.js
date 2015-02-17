@@ -1,5 +1,9 @@
-angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp'])
-        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval) {
+angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'RatingApp', 'facebook'])
+        .config(function (FacebookProvider) {
+            FacebookProvider.init('433973590092596');
+        })
+
+        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval, Facebook) {
 
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
@@ -126,8 +130,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
                 return $scope.subCategory;
             };
-            
-            
+
+
             //check deal priority for banner display
             $scope.showBanner = function (deal) {
                 var isFeatured = deal.isFeatured == 1;
@@ -187,7 +191,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     }
                 }, diningDeals);
                 $rootScope.chosenDeal = diningDeals[Math.floor(Math.random() * diningDeals.length)];
-                
+
                 var dialog = ngDialog.open({
                     template:
                             '<div class="ngdialog-message">' +
@@ -208,6 +212,36 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 });
             };
 
+            $scope.loginStatus = 'disconnected';
+            $scope.facebookIsReady = false;
+            $scope.user = null;
+
+            $scope.login = function () {
+                Facebook.login(function (response) {
+                    if (response.status === 'connected') {
+                        // Logged into your app and Facebook.
+                        console.log('Welcome!  Fetching your information.... ');
+                        Facebook.api('/me', function (response) {
+                            console.log('Good to see you, ' + response.name + '.');
+                            $scope.loginStatus = response.status;
+                            Facebook.getLoginStatus(function (response) {
+                                console.log(response.authResponse.accessToken);
+                            });
+                        });
+                    } else if (response.status === 'not_authorized') {
+                        // The person is logged into Facebook, but not your app.
+                        console.log('User cancelled login or did not fully authorize.');
+                    } else {
+                        // The person is not logged into Facebook, so we're not sure if
+                        // they are logged into this app or not.
+                        console.log('User cancelled login or did not fully authorize.');
+                    }
+                }, {
+                    scope: 'user_friends',
+                    auth_type: 'rerequest'
+                });
+            };
+
         }) // end controller(dialogsServiceTest)
 
         .factory('dealData', function ($http, $q) {
@@ -219,15 +253,15 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //            $http.get('/thegoodlife2015/getDeals').then(function (resp) {
 //                deferred.resolve(resp.data);
 //            });
-            
+
             $http.get('webservice.json').then(function (resp) {
                 deferred.resolve(resp.data);
             });
 
             return deferred.promise;
         })
-        
-            
+
+
         //replace missing picture on pins
         .directive('fallbackSrc', function () {
             var fallbackSrc = {
@@ -249,21 +283,21 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 //return newDate.format('d M Y');
             };
         })
-        
+
         //
         .filter('recommendFilter', function () {
             return function (deals, recommendations) {
-                console.log('recommendFilter',arguments);
-                var filtered =[];
-                angular.forEach(deals, function(deal) {
-                    if( parseInt(deal.offerID) === recommendations[0].dealid || parseInt(deal.offerID) === recommendations[1].dealid ) {
+                console.log('recommendFilter', arguments);
+                var filtered = [];
+                angular.forEach(deals, function (deal) {
+                    if (parseInt(deal.offerID) === recommendations[0].dealid || parseInt(deal.offerID) === recommendations[1].dealid) {
                         filtered.push(deal);
                     }
                 });
                 return filtered;
             };
         })
-          
+
         //Google map
         .controller('mapCtrl', function ($scope, $rootScope) {
             $scope.showMap = true;
@@ -390,15 +424,15 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     $scope.imgUrl = result;
                 });
                 //-- Methods -----//
-                
-                
+
+
                 //retrieve recommended deals using factory retrieveRecommendations
-                $scope.recommendedDeals = recServlet.get({fbID:1});
-                $scope.recommendedDeals.$promise.then(function(data) {
+                $scope.recommendedDeals = recServlet.get({fbID: 1});
+                $scope.recommendedDeals.$promise.then(function (data) {
                     $scope.recommendedDeals = data.recommendations;
                     console.log(data.recommendations);
                 });
-                
+
                 $scope.no = function () {
                     $modalInstance.dismiss('no');
                 }; // end close
@@ -424,10 +458,10 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 }
             };
         })
-    
-        .factory('recServlet', ['$resource', function($resource){
-            return $resource('/recServlet/:fbID'); 
-        }])
+
+        .factory('recServlet', ['$resource', function ($resource) {
+                return $resource('/recServlet/:fbID');
+            }])
 
 //== Services ================================================================//
 
@@ -565,7 +599,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
         // Add default templates via $templateCache
         .run(['$templateCache', '$interpolate', function ($templateCache, $interpolate) {
-                
+
                 // get interpolation symbol (possible that someone may have changed it in their application instead of using '{{}}')
                 var startSym = $interpolate.startSymbol();
                 var endSym = $interpolate.endSymbol();
@@ -578,8 +612,8 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
-                        '<div ng-controller="RatingCtrl">'+
-                            '<div star-rating rating-value="dealRate" max="5"></div>'+
+                        '<div ng-controller="RatingCtrl">' +
+                        '<div star-rating rating-value="dealRate" max="5"></div>' +
                         '</div>' +
                         '</div>' +
                         //body of popup
@@ -646,41 +680,39 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div style="margin-bottom: 20px;"></div>' +
                         '</div>' +
                         '</div>' + //end of modal-body
-                        '</div>' + 
-                                
+                        '</div>' +
                         '<div class="overlay-back" style="margin-top:50px; background-color:#f3f3f3 !important;">' + //start of padding div
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">Related Pins</h4>' +
                         '</div>' +
-                        '<article class="inpage-sections inpage-on">'+
-                        '<section class="inpage-content grey-box section-active" id="featured-cards">'+
-                        '<div class="row">'+
-                        '<div class="twelve columns">'+
-                            '<div class="pin-container variable-sizes isotope">'+
-                                '<div ng-repeat="id in recommendedDeals]">{{id.dealid}}</div>'+
-                                '<article ng-repeat="eachRecmd in deals | recommendFilter:recommendedDeals" class="elements credit-card-select business cashback isotope-item">'+
-                                    '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">'+
-                                        '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>'+
-                                        '<div class="elm-content-area cf">'+
-                                            '<h5 class="card-title">{{eachRecmd.merchantName|cut:true:25:\' ...\'}}</h5>'+
-                                            '<p ng-bind-html="eachRecmd.promoDesc|cut:true:60:\' ...\'"></p>'+
-                                        '</div>'+
-                                        '<div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{\'background-image\': \'url(img/{{showBanner(eachRecmd)}})\'}"></div>'+
-                                        
-                                        '<footer class="collapse" style="height:30px;">'+
-                                            '<div class="columns text-center">'+
-                                                'Valid till {{eachRecmd.validTill| myDate | date:\'d MMM y\'}}'+
-                                                '<img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>'+
-                                            '</div>'+
-                                        '</footer>'+
-                                    '</div>'+
-                                '</article>'+
-                            '</div>'+
-                        '</article>'+
-                        '</section>'+
-                        '</div>'+
-                        '</div>'+
+                        '<article class="inpage-sections inpage-on">' +
+                        '<section class="inpage-content grey-box section-active" id="featured-cards">' +
+                        '<div class="row">' +
+                        '<div class="twelve columns">' +
+                        '<div class="pin-container variable-sizes isotope">' +
+                        '<div ng-repeat="id in recommendedDeals]">{{id.dealid}}</div>' +
+                        '<article ng-repeat="eachRecmd in deals | recommendFilter:recommendedDeals" class="elements credit-card-select business cashback isotope-item">' +
+                        '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">' +
+                        '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
+                        '<div class="elm-content-area cf">' +
+                        '<h5 class="card-title">{{eachRecmd.merchantName|cut:true:25:\' ...\'}}</h5>' +
+                        '<p ng-bind-html="eachRecmd.promoDesc|cut:true:60:\' ...\'"></p>' +
                         '</div>' +
-                        '</div>'); 
+                        '<div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{\'background-image\': \'url(img/{{showBanner(eachRecmd)}})\'}"></div>' +
+                        '<footer class="collapse" style="height:30px;">' +
+                        '<div class="columns text-center">' +
+                        'Valid till {{eachRecmd.validTill| myDate | date:\'d MMM y\'}}' +
+                        '<img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>' +
+                        '</div>' +
+                        '</footer>' +
+                        '</div>' +
+                        '</article>' +
+                        '</div>' +
+                        '</article>' +
+                        '</section>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>');
             }]); // end run / dialogs
 
