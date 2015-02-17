@@ -8,7 +8,7 @@ angular.module("RatingApp", ['ngResource'])
 .controller("RatingCtrl", function($scope, retrieveRating) {
   $scope.rating = 5;
   $scope.dealRate = 5;
-  //to retrieve rating of a deal using factory retrieveRating goes here
+    //to retrieve rating of a deal using factory retrieveRating goes here
   $scope.dealRate = retrieveRating.get({fbID:1, offerID:20});
   $scope.dealRate.$promise.then(function(data) {
     $scope.dealRate = data.rate;
@@ -65,6 +65,6 @@ angular.module("RatingApp", ['ngResource'])
 })
 
 .factory('retrieveRating', ['$resource', function($resource){
-    return $resource('/retrieveRating/:fbID/:offerID', {fbID:'@fbID', offerID:'offerID'}); 
+    return $resource('/retrieveRating/:fbID/:offerID', {fbID:'@fbID', offerID:'offerID'}, {get:{method:'GET'}}); 
 }]);
 

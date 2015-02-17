@@ -642,7 +642,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                                         '</div>'+
                                         '<div style="position: absolute; top: 0; left: 0; width: 61px; height: 61px; background-repeat: no-repeat; z-index: 2;" ng-style="{\'background-image\': \'url(img/{{showBanner(eachRecmd)}})\'}"></div>'+
                                         
-                                        '<footer class="collapse">'+
+                                        '<footer class="collapse" style="height:30px;">'+
                                             '<div class="columns text-center">'+
                                                 'Valid till {{eachRecmd.validTill| myDate | date:\'d MMM y\'}}'+
                                                 '<img src="img/info.png" alt="" style=" height:7%; width:7%; float: right; position:relative"/>'+
