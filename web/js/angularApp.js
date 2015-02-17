@@ -27,10 +27,35 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
-                console.log(data);
                 $rootScope.deals = data.offer.added.list;
                 $scope.coupons = data.coupon.added.list;
                 $scope.allCategories = data.category.added.list;
+//                var sql = "";
+//                for (i =0; i <data.offer.added.list.length; i++ ){
+//                    var deal = data.offer.added.list[i];
+//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
+//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
+//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
+//                }
+//                for (i =0; i <data.offer.added.list.length; i++ ){
+//                    var deal = data.offer.added.list[i];
+//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
+//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
+//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
+//                }
+//                for (i =0; i <data.offer.added.list.length; i++ ){
+//                    var deal = data.offer.added.list[i];
+//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
+//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
+//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
+//                }
+//                for (i =0; i <data.offer.added.list.length; i++ ){
+//                    var deal = data.offer.added.list[i];
+//                    var randInt = (Math.floor(Math.random() * (50 - 1 + 1)) + 1);
+//                    var randInt1 = (Math.floor(Math.random() * (5 - 1 + 1)) + 1);
+//                    sql = sql + ",(" + randInt + ", " +deal.offerID+ ", "+deal.subCatID+", "+ randInt1+ ")" ; 
+//                }
+//                console.log(sql);
             });
 
             //check current page(sub-category) user is on
