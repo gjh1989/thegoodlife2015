@@ -37,7 +37,8 @@ public class retrieveRating extends HttpServlet {
         try{
             /* TODO output your page here. You may use following sample code. */
             //out.println("1");
-            RestRequest resourceValues = new RestRequest(request.getPathInfo());
+            String path = request.getPathInfo();
+            RestRequest resourceValues = new RestRequest(path);
             //out.println(resourceValues);
             int fbID = resourceValues.getFbID();
             //out.println(fbID);

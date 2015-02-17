@@ -51,7 +51,8 @@ public class recServlet extends HttpServlet {
 
         //specifying the number of recommendations to be generated
         int noOfRecommendations = 2;
-        RestRequest resourceValues = new RestRequest(request.getPathInfo());
+        String path = request.getPathInfo();
+        RestRequest resourceValues = new RestRequest(path);
         int fbID = resourceValues.getFbID();
         
         // Specifications tables  

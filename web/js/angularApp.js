@@ -160,9 +160,9 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             //Time trigger notification
             $scope.notification = false;
 
-            var hourBefore = '13';
+            var hourBefore = '15';
             var minBefore = '30';
-            var hourAfter = '15';
+            var hourAfter = '18';
             var minAfter = '30';
 
             $interval(function () {
