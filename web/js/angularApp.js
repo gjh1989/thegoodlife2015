@@ -180,7 +180,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     showClose:false
                 });
                 dialog.closePromise.then(function (data) {
-                    if (data.value != '$document') {
+                    if (data.value !== '$document') {
                         $scope.launch(data.value);
                     }
                     //
@@ -189,9 +189,9 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
             $scope.loginStatus = 'disconnected';
             $scope.facebookIsReady = false;
-            $scope.user = null;
+            $rootScope.fbUserID = 9586849583;
 
-            $scope.login = function () {
+            $scope.fbLogin = function () {
                 Facebook.login(function (response) {
                     if (response.status === 'connected') {
                         // Logged into your app and Facebook.
@@ -199,6 +199,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         Facebook.api('/me', function (response) {
                             console.log('Good to see you, ' + response.name + '.');
                             $scope.loginStatus = response.status;
+                            $scope.fbUserID = response.id;
                             Facebook.getLoginStatus(function (response) {
                                 console.log(response.authResponse.accessToken);
                             });
@@ -327,9 +328,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.outletMarkers = markers;
         })
         
-//        .factory('retrieveRating', ['$resource', function($resource){
-//            return $resource('/retrieveRating/:fbID/:offerID', {fbID:'@fbID', offerID:'offerID'}, {get:{method:'GET'}}); 
-//        }]);
+
 
 //custom truncate function for data display
 angular.module('ng').filter('cut', function () {
@@ -360,7 +359,7 @@ angular.module('ng').filter('cut', function () {
 
 //== Controllers =============================================================//
 
-angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.translate', 'ngResource'])
+angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.translate'])
 
         /**
          * Default translations in English.
@@ -393,7 +392,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', '$http', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, $http) {
                 //-- Variables -----//
 
                 $scope.header = $scope.deal.merchantName;
@@ -413,9 +412,13 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     $modalInstance.close('yes');
                 }; // end yes
                 
-                //for render the rating bar
-                $scope.rating = 5;
-                $scope.dealRate = 5;
+                //for rendering the rating bar
+                $scope.dealRate = -1;
+                
+                $http.get('/retrieveRating/'+ $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
+                    $scope.dealRate = resp.rate;
+                });
+                
                 
                 $scope.rateFunction = function(rating) {
                   alert("Rating selected - " + rating);
@@ -438,19 +441,24 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 }
             };
         })
+        
+//        .factory('retrieveRating', ['$resource', function($resource){
+//            return $resource('/thegoodlife2015/retrieveRating/:fbID/:offerID'); 
+//        }])
 
         //controller for rating 
         .directive("starRating", function($rootScope, $http) {
           return {
             restrict : "A",
             template : "<ul class='rating'>" +
-                       "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle("+ $rootScope.deal.offerID + "," + $rootScope.deal.subCatID + ",$index)'>" +
+                       "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle(" + $rootScope.fbUserID + ",deal.offerID,deal.subCatID,$index)'>" +
                        "    <i class='fa fa-star'></i>" + //&#9733
                        "  </li>" +
                        "</ul>",
             scope : {
               ratingValue : "=",
               max : "=",
+              deal : "=",
               onRatingSelected : "&"
 
             },
@@ -463,12 +471,12 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                   });
                 }
               };
-              scope.toggle = function(offerID, subCatID, index) {
+              scope.toggle = function(fbUserID, offerID, subCatID, index) {
                 scope.ratingValue = index + 1;
-                $http.get('/thegoodlife2015/recordRating?fbID='+ 1 + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).then(function (resp) {
-                    console.log(resp.data);
+                
+                $http.get('/recordRating?fbID='+ fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
                 });
-                console.log(offerID + "-" + subCatID +"-"+ (index + 1));
+                
                 scope.onRatingSelected({
                   rating : index + 1
                 });
@@ -620,8 +628,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                 var startSym = $interpolate.startSymbol();
                 var endSym = $interpolate.endSymbol();
                 $templateCache.put('/dialogs/confirm.html',
-                        //import overlay.css for styles
-                        '<link rel="stylesheet" href="css/overlay.css">' +
+                        
                         //button to close
                         '<div class="overlay-back">' + //start of padding div
                         '<div type="button" class="close-modal" ng-click="no()" style="cursor: pointer">x</div>' +
@@ -629,7 +636,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
                         '<div>' +
-                        '<div star-rating rating-value="dealRate" max="5"></div>' +
+                        '<div star-rating deal="deal" rating-value="dealRate" max="5"></div>' +
                         '</div>' +
                         '</div>' +
                         //body of popup

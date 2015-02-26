@@ -53,7 +53,7 @@ public class recServlet extends HttpServlet {
         int noOfRecommendations = 2;
         String path = request.getPathInfo();
         RestRequest resourceValues = new RestRequest(path);
-        int fbID = resourceValues.getFbID();
+        int fbID = Integer.parseInt(resourceValues.getFbID(), 36);
         
         // Specifications tables  
         String tablename = "rating";

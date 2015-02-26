@@ -40,12 +40,16 @@ public class retrieveRating extends HttpServlet {
             String path = request.getPathInfo();
             RestRequest resourceValues = new RestRequest(path);
             //out.println(resourceValues);
-            int fbID = resourceValues.getFbID();
+            String fbID = resourceValues.getFbID();
             //out.println(fbID);
             int offerID = resourceValues.getOfferID();
             //out.println(offerID);
             Rating r = TGLController.retrieveOneRating(fbID, offerID);
-            out.println("{rate:" + r.getRate() + "}");
+            if (r !=null){
+                out.println("{\"rate\":" + r.getRate() + "}");
+            } else {
+                out.println("{\"rate\":" + -1 + "}");
+            }
         } finally {
             out.close();
         }

@@ -19,7 +19,7 @@ import javax.servlet.ServletException;
     private Pattern regExAllPattern = Pattern.compile("/");
     private Pattern regExIdPattern = Pattern.compile("/([0-9]*)");
 
-    private Integer fbID;
+    private String fbID;
     private Integer offerID;
 
     public RestRequest(String pathInfo) throws ServletException, IOException {
@@ -29,7 +29,7 @@ import javax.servlet.ServletException;
       // Check for ID case first, since the All pattern would also match
       matcher = regExIdPattern.matcher(pathInfo);
       if (matcher.find()) {
-        fbID = Integer.parseInt(matcher.group(1));
+        fbID = matcher.group(1);
       }
       if (matcher.find()) {
         offerID = Integer.parseInt(matcher.group(1));
@@ -41,11 +41,11 @@ import javax.servlet.ServletException;
       throw new ServletException("Invalid URI");
     }
 
-    public Integer getFbID() {
+    public String getFbID() {
         return fbID;
     }
 
-    public void setFbID(Integer fbID) {
+    public void setFbID(String fbID) {
         this.fbID = fbID;
     }
 

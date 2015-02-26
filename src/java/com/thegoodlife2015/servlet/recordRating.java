@@ -36,11 +36,10 @@ public class recordRating extends HttpServlet {
         try {
             //retrieve session
             /* TODO output your page here. You may use following sample code. */
-            int fbID = Integer.parseInt(request.getParameter("fbID"));
+            String fbID = request.getParameter("fbID");
             int offerID = Integer.parseInt(request.getParameter("offerID"));
             int subCatID = Integer.parseInt(request.getParameter("subCatID"));
             int rate = Integer.parseInt(request.getParameter("rate"));
-            
             TGLController.insertOrUpdateOneRating(fbID, offerID, subCatID, rate);
             
             

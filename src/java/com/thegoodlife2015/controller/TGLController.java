@@ -24,21 +24,22 @@ public class TGLController {
         return allRating;
     }
     
-    public static Rating retrieveOneRating(int fbID, int offerID) {
+    public static Rating retrieveOneRating(String fbID, int offerID) {
         Rating r = RatingDAO.retrieveOneRating(fbID, offerID);
         return r;
     }
     
-    public static void insertOrUpdateOneRating(int fbID, int offerID, int subCatID, int rate){
-        System.out.println("insertt");
+    public static void insertOrUpdateOneRating(String fbID, int offerID, int subCatID, int rate){
         if (validateRatingExist( fbID,  offerID)){
+            System.out.println("update");
             RatingDAO.updateOneRating(fbID, offerID, rate);
         }else{
+            System.out.println("insert");
             RatingDAO.insertOneRating(fbID, offerID, subCatID, rate);
         }
     }
     
-    public static boolean validateRatingExist(int fbID, int offerID){
+    public static boolean validateRatingExist(String fbID, int offerID){
         Rating rating = RatingDAO.retrieveOneRating(fbID, offerID);
         return rating != null;
     }

@@ -36,10 +36,10 @@ public class getOneRating extends HttpServlet {
         try {
             //retrieve session
             /* TODO output your page here. You may use following sample code. */
-            int fbID = Integer.parseInt(request.getParameter("fbID"));
+            String fbID = request.getParameter("fbID");
             int offerID = Integer.parseInt(request.getParameter("offerID"));
             
-            if (fbID > 0 && offerID > 0){
+            if (fbID != null && offerID > 0){
                 Rating rate = TGLController.retrieveOneRating(fbID, offerID);
                 if (rate !=null){
                     out.println(rate.getRate());
