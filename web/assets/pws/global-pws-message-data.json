@@ -1,9 +1,0 @@
-var data_message = { 
-
-"message": {
-	"active": "1",
-	"id": "1",
-	"importance": "green",
-	"copy": "We are pleased to advise that Standard Chartered Bank has been issuing CTS-2010 standard compliant cheque books to our customers since April"
-}
-}

@@ -1,55 +1,63 @@
 *, *:before, *:after {
-	-webkit-box-sizing:border-box;
-	-moz-box-sizing:border-box;
-	box-sizing:border-box;
- *behavior: url(/sg/assets/global/boxsizing.htc);
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    *behavior: url(../sg/assets/global/boxsizing.htc);
 }
 
 p {
-	text-align: justify;
+    text-align: justify;
+}
+
+#subCat{
+    font-size: 14px;
 }
 
 @media only screen and (max-width: 767px) {
-	
+
     #dealsdisplay {
         width:280px;
     }
-    
+
     .filter li {
         float: none !important;
-    
+
         height: 40px;
-}
+    }
 
 }
 
 /*for the deal sub header & deal search backing*/
 .filters-with-search {
-    padding: 10px 0 15px 0 !important;
+    padding: 5px 0 10px 0 !important;
 }
 /*****/
 
 #filter_container>li>a.main {
     text-align:left;
     border-top:1px solid #ddd;
-    border-right:none
+    border-right:none;
 }
 
 /**********************/
 .dropdown.right ul { right:0px;}
-#featured { background: url(/sg/assets/pws/images/page/standard-chartered-monochrome-logo.png) no-repeat center center #eee; }
+#featured { background: url(../sg/assets/pws/images/page/standard-chartered-monochrome-logo.png) no-repeat center center #eee; }
 #featured img { display: none; }
 
-#deals-display img {
+#deal-img {
     width: 210px;
     height: 118px;
     overflow: hidden;
 }
 
+#panel-display{
+    cursor:pointer;
+}
 
 /*for the main SCB img*/
 img, object, embed {
     max-width: none;
+    border-radius: 15px;
 }
 
 /* for the singapore */
@@ -61,54 +69,62 @@ img, object, embed {
     font-size: 22px;
     margin: 0;
     padding: 0;
-    
+
 }
 
 .tgl-logo-holder img {
     width:100px !important;
     height:52px !important;
     margin-top: 40px;
+    border-radius: 0px;
 }
 
 
 @media only screen and (max-width: 767px) {
     .brand-header>.standard-chartered-logo-holder img {
-        width:100px !important;
+        width:100px;
         height:42px !important;
     }
-    
-    
+
+
     .brand-header h3 {
         top: 30px;
         left: 130px;
         font-size: 18px;
     }
-    
+
     /*for the goodlife img*/
     .tgl-logo-holder img{
         display: none;
     }
-    
-    .brand-header>.standard-chartered-logo-holder>.tgl-logo-holder-mobile img {
+
+    .tgl-logo-holder-mobile img {
         width:80px !important;
         height:42px !important;
         margin-bottom: 10px;
         float:right;
+        border-radius: 0px;
     }
-    
+
     #searchbar-card .search-card {
-        top:-57px !important;
+        top:-45px !important;
         margin-right: 10px;
         float: right;
     }
     
+    .searchbar-browser{
+        display:none;
+    }
+    
+
 }
 
 .ten.columns img { /*for the app store + google play images*/
-    max-width:140px;
+    max-width:100px;
     max-height:45px;
     margin-bottom: 20px;
     margin-top: 28px;
+    border-radius: 0px;
 }
 
 /* push down the boilerplate words */
@@ -132,15 +148,15 @@ img, object, embed {
     .credit-card-select .elm-content-area {
         height: auto !important;
     }
-    
+
     #tgl_info.row h4 {
-     display: none;
+        display: none;
     }
-    
+
     .ten.columns img { /*for the app store + google play images*/
         display:none;
     }
-    
+
     .inpage-links {
         padding: 0 !important; 
     }
@@ -148,9 +164,9 @@ img, object, embed {
 
 /* for the placement of the search button */
 #searchbar-card .search-card {
-    top:4px;
-    margin-right: 10px;
-    float: right;
+    top: 2px; 
+    margin-right: 10px; 
+    float: right; 
 }
 
 /* EUGENE CHANGED THIS 360 to 502 THIS MAKES THEM TAKE UP THE WHOLE SPACE*/
@@ -159,8 +175,8 @@ img, object, embed {
         width: 97% !important;
         cursor:pointer;
     }
-    
-   .ten.columns img { /*for the app store + google play images*/
+
+    .ten.columns img { /*for the app store + google play images*/
         width:110px !important; 
         height:40px !important;
     }
@@ -204,7 +220,7 @@ img, object, embed {
 /* EDITED TO SHOW CATEGORY PICTURES*/
 .filter_featured_btn {
     background-image: url(../img/category_images/featured.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_featured_btn:active {
@@ -220,7 +236,7 @@ img, object, embed {
 
 .filter_priority_btn {
     background-image: url(../img/category_images/priority.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_priority_btn:hover {
@@ -236,7 +252,7 @@ img, object, embed {
 
 .filter_dining_btn {
     background-image: url(../img/category_images/dining.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_dining_btn:hover {
@@ -252,7 +268,7 @@ img, object, embed {
 
 .filter_lifestyle_btn {
     background-image: url(../img/category_images/lifestyle.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_lifestyle_btn:hover {
@@ -268,7 +284,7 @@ img, object, embed {
 
 .filter_online_btn {
     background-image: url(../img/category_images/online.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_online_btn:hover {
@@ -284,7 +300,7 @@ img, object, embed {
 
 .filter_all_btn {
     background-image: url(../img/category_images/alldeals.png) !important;
-    padding: 4px 6px 4px 38px !important;
+    padding: 4px 6px 4px 34px !important;
     font-size: 15px !important;
 }
 .filter_all_btn:hover {
@@ -300,7 +316,7 @@ img, object, embed {
 
 .filter_mobile_btn {
     background-image: url(../img/category_images/mobile.png) !important;
-    padding: 4px 6px 4px 38px !important; 
+    padding: 4px 6px 4px 34px !important; 
     font-size: 15px !important;
 }
 .filter_mobile_btn:hover {
@@ -325,12 +341,12 @@ img, object, embed {
 
     .universal-grey #header .searchbar-top input.sbox-on {
         width: 90px;
-        background: #fff url(../assets/global/images/page/search-icon.png) 60px 7px no-repeat;
+        background: #fff url(../sg/assets/global/images/page/search-icon.png) 60px 7px no-repeat;
     }
 
     #header .searchbar-top input.sbox-off {
         width: 300px;
-        background: #fff url(../assets/global/images/page/search-icon.png) 270px 7px no-repeat;
+        background: #fff url(../sg/assets/global/images/page/search-icon.png) 270px 7px no-repeat;
     }
 }
 
@@ -339,27 +355,27 @@ img, object, embed {
     .sticky .standard-chartered-logo-holder img {
         width: 100px;
     }
-    
+
     p.eight columns {
         float:right;
     }
-    
+
 }
-    
+
 @media only screen and (min-width:768px) {
     .sticky .standard-chartered-logo-holder img {
         width: 100% !important;
     }
-    
-    .brand-header>.standard-chartered-logo-holder>.tgl-logo-holder-mobile img {
+
+    .tgl-logo-holder-mobile {
         display:none;
-}
+    }
 }
 
 @media only screen and (max-width:800px) {
     .searchbar-top input#search-box.sbox-on {
         width: 34px;
-        background: url(../assets/global/images/page/search-icon.png) center center no-repeat;
+        background: url(../sg/assets/global/images/page/search-icon.png) center center no-repeat;
         -webkit-border-radius: 1000px;
         -moz-border-radius: 1000px;
         -ms-border-radius: 1000px;
@@ -371,13 +387,17 @@ img, object, embed {
     #megaMenu,#megaLogin {
         left: 10px !important;
     }
+    
+    .browserNavbar{
+        display:none;
+    }
 
     .navbar-button span {
         display: block;
         position: absolute;
         left: 0;
         top: 0;
-        background: url(../assets/global/images/page/iconlib_small.png) no-repeat;
+        background: url(../sg/assets/global/images/page/iconlib_small.png) no-repeat;
         height: 32px;
         width: 32px;
     }
@@ -386,7 +406,7 @@ img, object, embed {
         padding: 0px !important;
         /*padding: 5px;*/
     }
-    
+
     .standard-chartered-logo-holder {
         padding: 20px;
         margin-bottom:10px;
@@ -396,12 +416,12 @@ img, object, embed {
     }
 
     #megaNav.nav-bar>li.has-flyout>a:first-child {
-        background: url(../assets/global/images/page/more-ways-grey-bg.png) no-repeat 95% center;
+        background: url(../sg/assets/global/images/page/more-ways-grey-bg.png) no-repeat 95% center;
     }
 
     .inpage-links p { /*remove the scroll on boilerplate*/
         width:100% !important;
-        
+
     }
 
     /* EUGENE EDITED THIS FOR THE MOBILE DROPDOWN */
@@ -410,48 +430,48 @@ img, object, embed {
         margin-bottom: 4px;
         margin-top:4px;
     }
-    
+
     .filter li a {
         height: 44px !important;
         overflow: hidden !important;
     }
-    
+
     .filter_featured_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_priority_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_all_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_dining_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_lifestyle_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_online_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
     .filter_mobile_btn {
         padding: 15px 6px 15px 28px;
-        font-size: 12px;
+        font-size: 11px;
         background-image: none;
     }
-    
+
     .filter #filter_container>li{ /*FOR THE BLOODY BUTTON BACKINGS */
         border-color: #eee;
         height:25px;
@@ -466,21 +486,20 @@ img, object, embed {
         background: -ms-linear-gradient(top,#f4f4f4,#fefefe);
         background: -o-linear-gradient(top,#f4f4f4,#fefefe);
         background: linear-gradient(top,#f4f4f4,#fefefe);
-        background-image: url(../assets/global/images/page/more-ways-grey-bg.png);
+        background-image: url(../sg/assets/global/images/page/more-ways-grey-bg.png);
         background-repeat:no-repeat !important;
-   
     }
-    
-    #filtertags { /*HIDE THE SUB HEADERS*/
+
+    .filters-with-search { /*HIDE THE SUB HEADERS*/
         display:none;
     }
-    
+
     #searchbar-card .search-card { 
-    /* for the placement of the search button */
+        /* for the placement of the search button */
         margin-right: 10px;
         float: right;
     }
-    
+
     #megaMenu,#megaLogin {
         left: 10px !important;
         position: absolute;
@@ -517,17 +536,6 @@ img, object, embed {
     position: relative;
     left: 10px;
     top: 18px;
-}
-
-.featured{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 61px;
-    height: 61px;
-    background-image: url(img/exclusive.png);
-    background-repeat: no-repeat;
-    z-index: 2;
 }
 
 #tgl_nav li a{
@@ -625,5 +633,44 @@ img, object, embed {
     #carousel {
         display: none; 
     }
+}
 
+@media only screen and (min-width:768px) {
+    #globalheader {
+        display:none;
+    }
+}
+
+#outlet-distance{
+    text-align: right;
+    width:100%;
+    padding: 3px 13px;
+    font-size: 14px;
+}
+
+.panel-with-distance{
+    padding: 5px 0 0 !important;
+}
+
+.normal-search{
+    display: none;
+}
+
+.header-with-distance{
+    height: 121px;
+}
+
+.header-without-distance{
+    height: 106px;
+}
+
+.categories-mobile-navbar-ei {
+    display:none;
+}
+
+.outlet-list{
+    display: none;
+}
+.outlet-link{
+    color: blue;
 }

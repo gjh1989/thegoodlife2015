@@ -16,19 +16,18 @@
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     bottom:0;
-    margin-left: auto;
-    margin-right: auto;
-    padding:10px 2% 0 2%;
+    /*margin-left: auto;
+    margin-right: auto;*/
+    /*padding:10px 42% 0 2%;*/
+    padding:10px 10px 10px 10px ;
     overflow: visible;
 }
 .bs-col2 {
+    /*width: 10%;*/
     float: left;
     vertical-align: top;
-    left:0;
+    /*left:0;*/
     min-height: 0.5px;
-}
-.bs-col2 {
-    width:33%;
 }
 
 /*--- BUTTONS ---*/
@@ -49,7 +48,7 @@ button {
 /* FOR THE FACEBOOK BUTTON */
 .bs-btn-fb.bs-btn-medium {
     padding:7.3px;
-    padding-left: 40px;
+    padding-left: 25px;
     font-size:14.5px;
     background-image: url(../img/facebookIcon.png);
     background-repeat: no-repeat;
@@ -78,7 +77,7 @@ button {
 /* FOR THE GOOGLE BUTTON */
 .bs-btn-google.bs-btn-medium {
     padding:7.3px;
-    padding-left: 40px;
+    padding-left: 25px;
     font-size:14.5px;
     background-image: url(../img/googlePlusIcon.png);
     background-repeat: no-repeat;
@@ -107,7 +106,7 @@ button {
 /* FOR THE TWITTER BUTTON */
 .bs-btn-twitter.bs-btn-medium {
     padding:7.3px;
-    padding-left: 40px;
+    padding-left: 25px;
     font-size:14.5px;
     background-image: url(../img/twitterIcon.png);
     background-repeat: no-repeat;
@@ -174,10 +173,11 @@ button {
     clear:both;
     float:none;
     width:100%;
+    padding-left: 14px;
 }
 /*--- BACKGROUNDS ---*/
 .bg-btn-share {
-    background-color:#E8E8E8;
+    background-color:#FFFFFF;
 }
 
 /*--- RESPONSIVE ---*/
@@ -199,7 +199,7 @@ button {
         display: inherit;
     }
     .line-tablet {
-        width:100%;
+        max-width: 40px;
         margin:0 auto;
     }
     .bs-btn.bs-btn-medium {

@@ -1,28 +1,40 @@
-angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'facebook'])
+angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.translate', '720kb.socialshare', 'uiGmapgoogle-maps', 'ngDialog', 'geolocation', 'facebook'])
         .config(function (FacebookProvider) {
             FacebookProvider.init('433973590092596');
         })
-
-        .controller('dialogServiceTest', function ($scope, $rootScope, $timeout, dialogs, dealData, $location, ngDialog, $interval, Facebook) {
+        
+        .controller('dialogServiceTest', function ($scope, $rootScope, dialogs, dealData, $location, ngDialog, $interval, geolocation, Facebook) {
 
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
-            //filter recommendation
-
+            $scope.selectedIndex = 'Featured';
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
-                var dlg = dialogs.confirm(deal);
-                //console.log("opened");
                 $rootScope.deal = deal;
+                var dlg = dialogs.confirm(deal);
                 dlg.result.then(function (btn) {
                     $scope.confirmed = 'You confirmed "Yes."';
                 }, function (btn) {
                     $scope.confirmed = 'You confirmed "No."';
                     $scope.modalFreezeBG = '';
-                    //console.log("closed");
                 });
             }; // end launch
+
+            //dropdown for sorting and filter
+            $scope.filterOptions = {
+                options: [
+                    {id: 1, name: '--- Select ---', value: "all"},
+                    {id: 2, name: 'Latest', value: "offerID"},
+                    {id: 3, name: 'MasterCard', value: "All Standard Chartered MasterCard Cards only"},
+                    {id: 4, name: 'Visa', value: "All Standard Chartered Visa Cards only"},
+                    {id: 5, name: 'Expiring Deals', value: "validTill"}
+                ]
+            };
+
+            $scope.filterItem = {
+                option: $scope.filterOptions.options[0]
+            };
 
             //load more function for deals
             $scope.loadMore = function () {
@@ -32,15 +44,90 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
                 $rootScope.deals = data.offer.added.list;
-                $scope.coupons = data.coupon.added.list;
-                $scope.allCategories = data.category.added.list;
+                $rootScope.coupons = data.coupon.added.list;
+                $rootScope.allCategories = data.category.added.list;
             });
+
+            //check current page(category) user is on
+            $scope.catClass = function (selectedCat) {
+                $scope.selectedIndex = selectedCat;
+                //$scope.clearSearch();
+            };
 
             //check current page(sub-category) user is on
             $scope.navClass = function (page) {
                 var currentRoute = $location.path().substring(1) || '';
+                //$location.path(currentRoute);
                 return page === currentRoute ? 'active' : '';
             };
+
+            //filter by letter
+            $scope.alphabet = "abcdefghijklmnopqrstuvwxyz".split("");
+
+            $scope.setActiveLetter = function (letter) {
+                $scope.selectedIndex = 'All_Deals';
+                $rootScope.activeLetter = letter;
+                $scope.hide_featured = true;
+                $scope.coupons_table = false;
+                $scope.search = null;
+                $scope.searchText = null;
+                $rootScope.searchText = null;
+                $scope.filterCat = null;
+                $scope.filterSubCat = null;
+                $scope.showSubCat = null;
+                $scope.sortingOption = null;
+                $scope.selectedCard = '';
+                $scope.sortingOption = null;
+                $scope.filterItem.option = $scope.filterOptions.options[0];
+            };
+
+            $scope.setActiveSearch = function (searchText) {
+                $scope.selectedIndex = 'All_Deals';
+                $rootScope.searchText = searchText;
+                $scope.hide_featured = true;
+                $scope.coupons_table = false;
+            };
+
+            function clearSearchCatSubCat() {
+                $rootScope.searchText = null;
+                $scope.searchText = null;
+                $rootScope.activeLetter = null;
+                $scope.search = null;
+                $scope.filterCat = null;
+                $scope.filterSubCat = null;
+                $scope.showSubCat = null;
+            }
+
+            $scope.$watch('filterItem', function () {
+                $scope.reverse = false;
+                $scope.selectedCard = '';
+                $scope.sortingOption = null;
+
+                if ($scope.filterItem.option.name === "Latest") {
+                    $scope.selectedIndex = 'All_Deals';
+                    $scope.sortingOption = $scope.filterItem.option.value;
+                    $scope.reverse = true;
+                    $scope.selectedCard = '';
+                    clearSearchCatSubCat();
+
+                } else if ($scope.filterItem.option.name === "Valid Date") {
+                    $scope.selectedIndex = 'All_Deals';
+                    $scope.sortingOption = $scope.filterItem.option.value;
+                    $scope.reverse = false;
+                    $scope.selectedCard = '';
+                    clearSearchCatSubCat();
+                } else if ($scope.filterItem.option.name === "MasterCard") {
+                    $scope.selectedIndex = 'All_Deals';
+                    $scope.selectedCard = $scope.filterItem.option.value;
+                    $scope.sortingOption = null;
+                    clearSearchCatSubCat();
+                } else if ($scope.filterItem.option.name === "Visa") {
+                    $scope.selectedIndex = 'All_Deals';
+                    $scope.selectedCard = $scope.filterItem.option.value;
+                    $scope.sortingOption = null;
+                    clearSearchCatSubCat();
+                }
+            }, true);
 
             $scope.dining = function (deal) {
                 return deal.categoryID === '6';
@@ -57,6 +144,10 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.featuredDeals = function (deal) {
                 //return deal.isFeatured === '1' || deal.keywords.indexOf("home_feature")>-1;
                 return deal.keywords.indexOf("home_feature") > -1;
+            };
+
+            $scope.priortyDeals = function (deal) {
+                return deal.cardType.indexOf("Visa Infinite") > -1;
             };
 
             $scope.diningSubCat = function (category) {
@@ -78,7 +169,11 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             //clear search in $scope and reset loaded display
             $scope.clearSearch = function () {
                 $scope.search = null;
+                $rootScope.searchText = null;
+                $rootScope.activeLetter = null;
+                $scope.filterItem.option = $scope.filterOptions.options[0];
                 $scope.totalDisplayed = 20;
+                $scope.searchText = null;
             };
 
             //validate non-empty/empty sub-category
@@ -89,8 +184,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     var count = 0;
                     var subCatId = categories[i].subCategoryId;
 
-                    for (var j = 0; j < $scope.deals.length; j++) {
-                        var deal = $scope.deals[j];
+                    for (var j = 0; j < $rootScope.deals.length; j++) {
+                        var deal = $rootScope.deals[j];
 
                         if (deal.subCatID === subCatId) {
                             count++;
@@ -100,22 +195,22 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         $scope.subCategory.push(categories[i]);
                     }
                 }
-                //console.log($scope.subCategory);
 
                 return $scope.subCategory;
             };
-
 
             //check deal priority for banner display
             $scope.showBanner = function (deal) {
                 var isFeatured = deal.isFeatured == 1;
                 var cardType = deal.cardType;
-                var isMaster = cardType.indexOf("MasterCard") > -1;
-                var isVisa = cardType.indexOf("Visa") > -1;
+                var isMaster = cardType.toLowerCase().indexOf("mastercard") > -1;
+                var isVisa = cardType.toLowerCase().indexOf("visa") > -1;
 
                 //return {background-image: url(img/exclusive.png)}
                 if (isFeatured && isMaster && isVisa) {
                     return "exclusive.png";
+                } else if (isMaster && isVisa) {
+                    return '';
                 } else if (isFeatured && isMaster) {
                     return "master.png";
                 } else if (isFeatured && isVisa) {
@@ -132,65 +227,112 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             };
 
             //Time trigger notification
-            $scope.notification = false;
+            //$scope.notification = false;
 
-            var hourBefore = '15';
-            var minBefore = '30';
-            var hourAfter = '18';
-            var minAfter = '30';
+            function dateObj(d) {
+                var parts = d.split(/:|\s/),
+                        date = new Date();
+                if (parts.pop().toLowerCase() == 'pm')
+                    parts[0] = (+parts[0]) + 12;
+                date.setHours(+parts.shift());
+                date.setMinutes(+parts.shift());
+                return date;
+            }
 
             $interval(function () {
-                var currentDate = new Date();
-                var hour = currentDate.getHours().toString();
-                var minutes = currentDate.getMinutes().toString();
+                var now = new Date();
 
-                if (hour == hourBefore) {
-                    if (minutes >= minBefore) {
-                        $scope.openDefault();
-                    }
-                } else if (hour == hourAfter) {
-                    if (minutes <= minAfter) {
-                        $scope.openDefault();
-                    }
-                } else if (hour >= hourBefore && hour <= hourAfter) {
-                    $scope.openDefault();
+                if (now < dateObj('11:59 AM') && now > dateObj('7:00 AM')) {
+                    $scope.openDefault("time_triggered_deal_1");
+                } else if (now < dateObj('1:59 PM') && now > dateObj('12:00 PM')) {
+                    $scope.openDefault("time_triggered_deal_2");
+                } else if (now < dateObj('3:59 PM') && now > dateObj('2:00 PM')) {
+                    $scope.openDefault("time_triggered_deal_3");
+                } else if (now < dateObj('5:59 PM') && now > dateObj('4:00 PM')) {
+                    $scope.openDefault("time_triggered_deal_4");
+                } else {
+                    $scope.openDefault("time_triggered_deal_5");
                 }
             }, 5000, 1);
 
-            $scope.openDefault = function () {
-                var diningDeals = [];
-                angular.forEach($scope.deals, function (deal, key) {
-                    if (deal.categoryID == 6) {
+            $scope.openDefault = function (keyword) {
+                var timeTriggeredDeals = [];
+                angular.forEach($rootScope.deals, function (deal, key) {
+                    if (deal.keywords.indexOf(keyword) > -1) {
                         this.push(deal);
                     }
-                }, diningDeals);
-                $rootScope.chosenDeal = diningDeals[Math.floor(Math.random() * diningDeals.length)];
+                }, timeTriggeredDeals);
 
-                var dialog = ngDialog.open({
-                    template:
-                            '<div class="ngdialog-message">' +
-                            '<h3 ng-show="chosenDeal">{{chosenDeal.merchantName|cut:true:30:" ..."}}</h3>' +
-                            '<img src="img/notif.png">' +
-                            '<p ng-show="chosenDeal" ng-bind-html="chosenDeal.promoDesc|cut:true:50"></p>' +
-                            '<div class="ngdialog-buttons">' +
-                            '<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(chosenDeal)">See Deal</button></div>' +
-                            '</div>' +
-                            '</div>',
-                    plain: true,
-                    showClose:false
-                });
-                dialog.closePromise.then(function (data) {
-                    if (data.value !== '$document') {
-                        $scope.launch(data.value);
-                    }
-                    //
-                });
+                if (timeTriggeredDeals.length != 0) {
+//                    angular.forEach($rootScope.deals, function (deal, key) {
+//                        this.push(deal);
+//                    }, timeTriggeredDeals);
+//                    $rootScope.chosenDeal = timeTriggeredDeals[Math.floor(Math.random() * timeTriggeredDeals.length)];
+                    $rootScope.chosenDeal = timeTriggeredDeals[Math.floor(Math.random() * timeTriggeredDeals.length)];
+                    var dialog = ngDialog.open({
+                        template:
+                                '<div class="ngdialog-message">' +
+                                '<h3 ng-show="chosenDeal">{{chosenDeal.merchantName|cut:true:30:" ..."}}</h3>' +
+                                '<img src="img/notif.png">' +
+                                '<p ng-show="chosenDeal" ng-bind-html="chosenDeal.promoDesc|cut:true:50"></p>' +
+                                '<div class="ngdialog-buttons">' +
+                                '<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(chosenDeal)">See Deal</button></div>' +
+                                '</div>' +
+                                '</div>',
+                        plain: true,
+                        showClose: false
+                    });
+                    dialog.closePromise.then(function (data) {
+                        if (data.value != '$document') {
+                            $scope.launch(data.value);
+                        }
+                        //
+                    });
+                }
+
             };
 
+            geolocation.getLocation().then(function (data) {
+                $rootScope.coords = {lat: data.coords.latitude, long: data.coords.longitude};
+                $scope.showNearMe = true;
+            }, function (error) {
+                $rootScope.geoError = error;
+                $scope.showNearMe = false;
+            });
+
+            $scope.distance = function (coords, deal) {
+                if (typeof $rootScope.geoError === 'string') {
+                    console.log($rootScope.geoError);
+                    return 0;
+                }
+                var arr = [];
+                var R = 6378100; // Radius of the earth in m
+                for (var i = 0; i < deal.outletCount; i++) {
+                    var dLat = (deal.outletList[i].latitude - coords.lat) * (Math.PI / 180);
+                    var dLon = (deal.outletList[i].longitude - coords.long) * (Math.PI / 180);
+                    var a =
+                            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                            Math.cos(coords.lat * Math.PI / 180) * Math.cos(deal.outletList[i].latitude * Math.PI / 180) *
+                            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                    var d = R * c; // Distance in m
+                    arr.push(Math.round(d));
+                }
+                if (arr.length !== 0) {
+                    var ret = Math.min.apply(Math, arr);
+                    if (ret > 1000) {
+                        return (Math.round(ret / 10)) / 100 + 'km';
+                    } else {
+                        return ret + 'm';
+                    }
+                }
+            };
+            
+            //facebook login
             $scope.loginStatus = 'disconnected';
             $scope.facebookIsReady = false;
             $rootScope.fbUserID = 9586849583;
-
+            
             $scope.fbLogin = function () {
                 Facebook.login(function (response) {
                     if (response.status === 'connected') {
@@ -217,7 +359,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     auth_type: 'rerequest'
                 });
             };
-            
 
         }) // end controller(dialogsServiceTest)
 
@@ -227,17 +368,15 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                deferred.resolve(resp.data);
 //            });
 
-//            $http.get('/thegoodlife2015/getDeals').then(function (resp) {
+//            $http.get('http://thegoodlife2015-jhgoh.rhcloud.com/getDeals').then(function (resp) {
 //                deferred.resolve(resp.data);
 //            });
 
             $http.get('webservice.json').then(function (resp) {
                 deferred.resolve(resp.data);
             });
-
             return deferred.promise;
         })
-
 
         //replace missing picture on pins
         .directive('fallbackSrc', function () {
@@ -261,7 +400,98 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             };
         })
 
-        //
+        //filter by letter
+        .filter('firstLetter', function ($rootScope) {
+            return function (input) {
+                input = input || [];
+                var out = [];
+                if ($rootScope.activeLetter != null) {
+                    input.forEach(function (item) {
+                        //console.log("current item is", item, item.charAt(0));
+                        if (item.merchantName.charAt(0).toLowerCase() == $rootScope.activeLetter) {
+                            out.push(item);
+                        }
+                    });
+                    return out;
+                } else {
+                    return input;
+                }
+            }
+        })
+
+        //custom search
+        .filter('customSearch', function ($rootScope) {
+            //diacritics library
+            function removeAccents(value) {
+                var accent = [
+                    /[\300-\306]/g, /[\340-\346]/g, // A, a
+                    /[\310-\313]/g, /[\350-\353]/g, // E, e
+                    /[\314-\317]/g, /[\354-\357]/g, // I, i
+                    /[\322-\330]/g, /[\362-\370]/g, // O, o
+                    /[\331-\334]/g, /[\371-\374]/g, // U, u
+                    /[\321]/g, /[\361]/g, // N, n
+                    /[\307]/g, /[\347]/g, // C, c
+                ],
+                        noaccent = ['A', 'a', 'E', 'e', 'I', 'i', 'O', 'o', 'U', 'u', 'N', 'n', 'C', 'c'];
+
+                for (var i = 0; i < accent.length; i++) {
+                    value = value.replace(accent[i], noaccent[i]);
+                }
+
+                return value;
+            }
+
+            return function (input) {
+                input = input || [];
+                var out = [];
+                if ($rootScope.searchText != null) {
+                    var searchInput = $rootScope.searchText;
+                    var tempCategory = $rootScope.allCategories;
+
+                    var categorySearchId = "";
+                    var subCategorySearchId = "";
+
+                    tempCategory.forEach(function (category) {
+                        //console.log(category.superCategoryID + " " + category.categoryName);
+                        if (searchInput.toLowerCase() == category.categoryName.toLowerCase()) {
+                            categorySearchId = category.superCategoryID;
+                        } else {
+                            category.subCategories.forEach(function (subCategory) {
+                                if (searchInput.toLowerCase() == subCategory.subCategoryName.toLowerCase()) {
+                                    subCategorySearchId = subCategory.subCategoryId;
+                                }
+                            })
+                        }
+                    })
+
+                    input.forEach(function (item) {
+//                if (item.merchantName.charAt(0).toLowerCase() == $rootScope.activeLetter) {
+//                    out.push(item);
+//                }
+                        if (categorySearchId != null && item.categoryID == categorySearchId) {
+                            out.push(item);
+                        } else if (subCategorySearchId != null && item.subCatID == subCategorySearchId) {
+                            out.push(item);
+                        } else {
+                            if (removeAccents(item.cardType.toLowerCase()).indexOf(searchInput.toLowerCase()) > -1) {
+                                out.push(item);
+                            } else if (removeAccents(item.merchantName.toLowerCase()).indexOf(searchInput.toLowerCase()) > -1) {
+                                out.push(item);
+                            } else if (removeAccents(item.promoConditions.toLowerCase()).indexOf(searchInput.toLowerCase()) > -1) {
+                                out.push(item);
+                            } else if (removeAccents(item.promoDesc.toLowerCase()).indexOf(searchInput.toLowerCase()) > -1) {
+                                out.push(item);
+                            }
+
+                        }
+                    })
+                    return out;
+                } else {
+                    return input;
+                }
+            }
+        })
+        
         .filter('recommendFilter', function () {
             return function (deals) {
                 var filtered = [];
@@ -279,24 +509,31 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.showMap = true;
             $scope.map = {center: {latitude: 1.3000, longitude: 103.8000}, zoom: 10, bounds: {}};
             $scope.options = {scrollwheel: false};
-            //console.log($rootScope.deal);
+
+            $scope.reset = function () {
+                $scope.map = {center: {latitude: 1.3000, longitude: 103.8000}, zoom: 10, bounds: {}};
+                for (var i = 0; i < $scope.outletMarkers.length; i++) {
+                    $scope.outletMarkers[i].show = false;
+                }
+            };
 
             var createMarker = function (i, object) {
-                //console.log(deal);
                 var latitude = '';
                 var longitude = '';
                 var addr = '';
                 var name = '';
-                if (object.outletList != null) {
+                if (object.offerID > 0) {
                     latitude = object.outletList[i].latitude;
                     longitude = object.outletList[i].longitude;
                     addr = object.outletList[i].outletAddress;
                     name = object.outletList[i].outletName;
-                } else {
+                } 
+                if (object.couponId > 0) {
                     latitude = object.mcouponOutletList[i].latitude;
                     longitude = object.mcouponOutletList[i].longitude;
                     addr = object.mcouponOutletList[i].outletAddress;
-                    name = object.mcouponOutletList[i].outletName;
+                    name = object.mcouponOutletList[i].outletName;;
+                    
                 }
 
                 var ret = {
@@ -306,10 +543,27 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     show: false,
                     id: i
                 };
-                //console.log(ret);
 
                 ret.onClick = function () {
-                    //console.log("Clicked!");
+                    for (var i = 0; i < $scope.outletMarkers.length; i++) {
+                        $scope.outletMarkers[i].show = false;
+                    }
+                    $scope.map.zoom = 13;
+                    ret.show = true;
+                    $scope.$apply();
+                };
+                return ret;
+            };
+            var createCurrentMarker = function () {
+                var ret = {
+                    latitude: $rootScope.coords.lat,
+                    longitude: $rootScope.coords.long,
+                    title: "You're here",
+                    show: false,
+                    icon: 'img/current-location.png',
+                    id: i
+                };
+                ret.onClick = function () {
                     for (var i = 0; i < $scope.outletMarkers.length; i++) {
                         $scope.outletMarkers[i].show = false;
                     }
@@ -321,13 +575,26 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             };
             $scope.outletMarkers = [];
             var markers = [];
-            for (var i = 0; i < $rootScope.deal.outletCount; i++) {
-                //console.log(i);
-                markers.push(createMarker(i, $rootScope.deal));
+            if ($rootScope.deal.couponId > 0){
+                for (var i = 0; i < $rootScope.deal.outletCount; i++) {
+                    markers.push(createMarker(i, $rootScope.deal));
+                    console.log("more than zero");
+                }
+            }else {
+                for (var i = 0; i < $rootScope.deal.outletCount; i++) {
+                    markers.push(createMarker(i, $rootScope.deal));
+                }
             }
+            
+
+            if (typeof $rootScope.geoError === 'string') {
+                console.log($rootScope.geoError);
+            } else {
+                markers.push(createCurrentMarker());
+            }
+
             $scope.outletMarkers = markers;
-        })
-        
+        });
 
 
 //custom truncate function for data display
@@ -403,7 +670,6 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 });
                 //-- Methods -----//
 
-                
                 $scope.no = function () {
                     $modalInstance.dismiss('no');
                 }; // end close
@@ -411,6 +677,14 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $scope.yes = function () {
                     $modalInstance.close('yes');
                 }; // end yes
+
+                $scope.onTextClick = function ($event) {
+                    $event.target.select();
+                };
+                
+                $scope.see_map = function (address){
+                    window.open('https://www.google.com.sg/maps/place/' + address,'_blank');
+                };
                 
                 //for rendering the rating bar
                 $scope.dealRate = -1;
@@ -441,12 +715,19 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 }
             };
         })
+        .directive('selectOnClick', function () {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+                    element.on('click', function () {
+                        this.select();
+                        console.log("selected");
+                    });
+                }
+            };
+        })
         
-//        .factory('retrieveRating', ['$resource', function($resource){
-//            return $resource('/thegoodlife2015/retrieveRating/:fbID/:offerID'); 
-//        }])
-
-        //controller for rating 
+        //directive for rating bar
         .directive("starRating", function($rootScope, $http) {
           return {
             restrict : "A",
@@ -487,8 +768,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
             }
           };
-        })
-
+        });
 
 //== Services ================================================================//
 
@@ -609,7 +889,7 @@ angular.module('dialogs.services', ['ui.bootstrap.modal', 'dialogs.controllers']
                                         }
                                     }
                                 }); // end modal.open
-                            }, // end confirm
+                            } // end confirm
 
 
                         }; // end return
@@ -628,16 +908,15 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                 var startSym = $interpolate.startSymbol();
                 var endSym = $interpolate.endSymbol();
                 $templateCache.put('/dialogs/confirm.html',
-                        
+                        //import overlay.css for styles
+                        //'<link rel="stylesheet" href="css/overlay.css">' +
                         //button to close
                         '<div class="overlay-back">' + //start of padding div
-                        '<div type="button" class="close-modal" ng-click="no()" style="cursor: pointer">x</div>' +
+                        '<a type="button" class="close-modal" ng-click="no()"></a>' +
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
-                        '<div>' +
                         '<div star-rating deal="deal" rating-value="dealRate" max="5"></div>' +
-                        '</div>' +
                         '</div>' +
                         //body of popup
                         '<div class="modal-body" id="overlay">' +
@@ -649,18 +928,36 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="main-details">' +
                         '<h6>Offer:</h6>' +
                         '<p ng-bind-html="msg.promoDesc"></p>' +
+                        '</div>' + //maindetails
+
+                        '<div class="main-details-cards">' +
                         '<h6>Eligible Cards:</h6>' +
                         '<p ng-bind-html="msg.cardType"></p>' +
+                        '</div>' + //maindetails
+
+                        '<div class="main-details">' +
                         '<h6>Valid Till:</h6>' +
                         '<p>{{deal.validTill| myDate | date:"d MMM y"}}</p>' +
-                        '</div>' +
-                        '<div class="details">' +
+                        '</div>' + //maindetails
+
+                        '<div ng-class="{true:\'details\', false:\'online-details\'}[msg.isOnlineMerchant == 0 || msg.couponId > 0]">' +
                         '<h6>Terms & Conditions:</h6>' +
                         '<p ng-bind-html="msg.promoConditions"></p>' +
                         //----- Google map
+                        '</div>' + //details
+
+                        '<div class="outlet-list">'+
+                        '<div class="online-details">' +
                         '<h6>Outlets:</h6>' +
-                        '<div id="map_canvas" ng-controller="mapCtrl">' +
-                        '<div ng-if="showMap" >' +
+                        '<div ng-repeat="outlet in msg.outletList">'+
+                        '<p>&bull; {{outlet.outletName}} - {{outlet.outletAddress}} <a class="outlet-link" ng-click="see_map(outlet.outletAddress);">See map</a></p>' +
+                        '</div>'+
+                        //----- Google map
+                        '</div>' + //details
+                        '</div>'+ //oulet-list
+                        
+                        '<div ng-controller="mapCtrl" ng-if="msg.isOnlineMerchant == 0 || msg.couponId > 0" class="popup-gmap">' +
+                        '<div id="map_canvas">' +
                         '<ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">' +
                         '<ui-gmap-markers models="outletMarkers" coords="\'self\'" icon="\'icon\'" click="\'onClick\'">' +
                         '<ui-gmap-windows show="\'show\'">' +
@@ -668,42 +965,49 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '</ui-gmap-windows>' +
                         '</ui-gmap-markers>' +
                         '</ui-gmap-google-map>' +
-                        '</div>' +
-                        '</div>' +
                         //-----END of google map
+                        '</div>' +
+                        '<a id="map-reset-button" ng-click="reset()">Reset</a>' +
+                        '</div>' +
+                        '<div style="margin-bottom: 20px;"></div>' +
+                        //social sharing
                         //----- social sharing of the site without numbers
                         //facebook
-                        '<h6>Share this deal:</h6>' +
-                        '<div class="btn-share-separator"></div>' +
+                        '<h6>Share this link:</h6>' +
+                        '<div class="btn-share-separator">' +
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-media="http://720kb.net/assets/img/logo.png" socialshare-provider="facebook" socialshare-url="http://thegoodlife-jhgoh.rhcloud.com/deal.html?{{msg.offerID}}">' +
-                        'Facebook' +
+                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
                         //twitter
-                        '<div class="btn-share-separator mobile tablet"></div>' +
+
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Standard Chartered Bank" socialshare-url="http://thegoodlife-jhgoh.rhcloud.com/deal.html?{{msg.offerID}}" socialshare-hashtags="thegoodlife, scb">' +
-                        'Twitter' +
+                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}" socialshare-hashtags="TGLapp">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
                         //google
-                        '<div class="btn-share-separator mobile tablet"></div>' +
+
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://thegoodlife-jhgoh.rhcloud.com/deal.html?{{msg.offerID}}">' +
-                        'Google +' +
+                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' + '</div>' +
-                        '<div style="margin-bottom: 20px;"></div>' +
+                        //end social sharing
+
+
+                        '<div class="main-details">' +
+                        '<br><br><input type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
+                        '<p></p>' +
+                        '</div>' + //maindetails
+
                         '</div>' +
                         '</div>' + //end of modal-body
-                        '</div>' +
+                        '</div>' + 
                         '<div class="overlay-back" style="margin-top:50px; background-color:#f3f3f3 !important;">' + //start of padding div
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">Related Pins</h4>' +
@@ -735,6 +1039,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '</div>' +
                         '</div>' +
                         '</div>' +
-                        '</div>');
+                        '</div>'); //--end of padding div
+
             }]); // end run / dialogs
 

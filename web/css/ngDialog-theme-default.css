@@ -72,6 +72,8 @@
   animation: ngdialog-flyin .5s;
   background: #FFFFFF;
   border-radius: 5px;
+  border: 1px solid rgba(0,0,0,.2);
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
   color: #444;
   font-family: "HelveticaNeue","Helvetica Neue","HelveticaNeueW01-55Roma","Helvetica Neue",Arial,sans-serif;
   margin: 0 auto;

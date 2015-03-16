@@ -6,6 +6,14 @@
     overflow: hidden;
 }
 
+.pull-right {
+    float:right;
+}
+
+.pull-left {
+    float:left;
+}
+
 .modal {
     position: fixed;
     top: 0;
@@ -41,8 +49,8 @@
 
 .modal-dialog {
     position: relative;
-    width: auto;
-    margin: 10px;
+    /*width: auto;
+    margin: 10px*/
 }
 
 .modal-backdrop {
@@ -74,14 +82,34 @@
     margin-top: -2px;
 }
 
-.modal-title {
-    margin: 0;
+.modal-title { /*for the deal title*/
+    margin:0;
     line-height: 1.42857143;
+    color:#26922c;
+    font-size: 24px;
+    height: auto;
+    text-transform: capitalize;
 }
 
-.modal-body {
+.modal-body { /*for the body of the overlay */
     position: relative;
     padding: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top:25px;
+    margin-bottom:0px; 
+    font-weight:bold;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.modal-body h6{ /*for the desc sub headers */
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    color:#0070ae;
+    font-weight:800;
 }
 
 .modal-footer {
@@ -110,9 +138,27 @@
     overflow: scroll;
 }
 
+.ng-scope { /*for the adress in google map*/
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 533px){
+    .overlay-back {
+        padding: 5%;
+    }
+    
+    .modal-content{ /*size of overlay*/
+        overflow: hidden;
+    }
+    
+    #overlay.modal-body img {
+        float: none;
+    }
+}
+
 @media (min-width:768px) {
     .modal-dialog {
-        width: 80%;
+        max-width: 90%;
         height: 600px;
         margin: 30px auto;
     }
@@ -122,12 +168,64 @@
     }
 }
 
-@media (min-width:992px) {
-    .modal-lg {
-        width: 500px;
+@media (max-width:768px) {
+    .close-modal { /*the close button*/
+       margin-right: 5px !important;
+       margin-top: 10px !important;
+       z-index: 1;
+       float: right;
+       display:block;
+       position: fixed !important; 
+       /*right: 15px !important; 
+       top: 18px !important;*/
     }
 }
 
+
+@media (min-width:800px){ /*For tablet & above */
+    .overlay-back {
+        padding: 5%;
+    }
+    .modal-content{
+        margin: 30px auto;
+    }
+    
+}
+
+@media (min-width:900px) { 
+   #overlay .main-details {
+        width:55% !important; /*for the div size of the main details*/
+    }
+    
+    #overlay .main-details-cards {
+        width:50% !important;
+    }
+        
+    #overlay #map_canvas {
+        position: absolute;
+        right: 10px;
+        top: 170px;
+        margin: 0px;
+        height: 270px !important;
+        width: 300px !important;
+    }
+    
+    #overlay #map-reset-button {
+        position: absolute;
+        right: 20px;
+        top: 150px;
+        margin: 0px;
+    }
+    
+    #overlay .details p {
+        width:50%;
+    }
+}
+
+#map-reset-button {
+    color:green;
+}
+   
 .tooltip {
     position: absolute;
     z-index: 1070;
@@ -594,14 +692,21 @@
     clear: both;
 }
 
-.close-modal {
-    float: right;
-    margin: 10px;
+.close-modal { /*the close button*/
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: url(../img/search-close.png) no-repeat 0 0;
+    width: 25px;
+    height: 25px;
+    margin-right: -10px;
+    margin-top: -10px;
+    cursor: pointer;
 }
 
 #map_canvas {
-    height: 350px;
-    width: 100%;
+    height: 270px;
+    /*width: 300px;*/
     margin: 0px;
 }
 
@@ -615,4 +720,87 @@
     bottom: 0;
     right: 0;
     left: 0;
+}
+
+.overlay-back {
+    width:100%;
+    position: relative;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #999;
+    border: 1px solid rgba(0,0,0,.2);
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0,0,0,.5);
+    box-shadow: 0 3px 9px rgba(0,0,0,.5);
+}
+
+.merc-img img {
+    max-width: 210px;
+}
+
+#overlay.modal-body img {
+    display:block;
+    margin-left:20px;
+    margin-bottom: 40px;
+    border-radius: 5px;
+    float: right;
+}
+
+#overlay .main-details {
+    width:100%; /*for the div size of the main details*/
+}
+
+#overlay .details p{ 
+  padding-bottom: 0px;  /*push down the share buttons from the map*/
+  display: block;
+  font-size:12px; /* for the T&C */
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+#overlay .online-details p{ 
+  padding-bottom: 0px;  /*push down the share buttons from the map*/
+  display: block;
+  font-size:12px; /* for the T&C */
+  text-align: justify;
+  text-justify: inter-word;
+  width: 100%;
+}
+
+@media (max-width:768px) {
+    #overlay.modal-body img{
+        float:none;
+        margin-left:0;
+    }
+}
+
+#overlay.modal-body #map {
+    max-width: none;
+}
+
+.details {
+  padding-bottom: 0px;  /*push down the share buttons from the map*/
+  display: block;
+}
+
+
+.overlay-back { /*the text area*/
+    padding: 5%;
+}
+
+#overlay main-details{
+    text-transform: capitalize;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 18px;
+    color: #666;
+}
+
+.linkCopyInput {
+    width:200px !important;
+    background-color: #eee !important;
+    color:#666 !important;
+    border:1px dotted #ccc !important;
 }

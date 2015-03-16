@@ -5,10 +5,6 @@
         <servlet-class>getDeals</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>recServlet</servlet-name>
-        <servlet-class>com.thegoodlife2015.servlet.recServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>recordRating</servlet-name>
         <servlet-class>com.thegoodlife2015.servlet.recordRating</servlet-class>
     </servlet>
@@ -20,10 +16,6 @@
         <servlet-name>getOneRating</servlet-name>
         <servlet-class>com.thegoodlife2015.servlet.getOneRating</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>recServlet</servlet-name>
-        <url-pattern>/recServlet/*</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>recordRating</servlet-name>
         <url-pattern>/recordRating</url-pattern>
