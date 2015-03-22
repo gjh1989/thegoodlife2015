@@ -45,7 +45,7 @@ p {
 #featured img { display: none; }
 
 #deal-img {
-    width: 210px;
+    width: 222px;
     height: 118px;
     overflow: hidden;
 }
@@ -57,7 +57,7 @@ p {
 /*for the main SCB img*/
 img, object, embed {
     max-width: none;
-    border-radius: 15px;
+    /* width:100%; */
 }
 
 /* for the singapore */
@@ -83,7 +83,7 @@ img, object, embed {
 @media only screen and (max-width: 767px) {
     .brand-header>.standard-chartered-logo-holder img {
         width:100px;
-        height:42px !important;
+        height: auto !important;
     }
 
 
@@ -99,9 +99,10 @@ img, object, embed {
     }
 
     .tgl-logo-holder-mobile img {
-        width:80px !important;
+        width: 65px !important;
         height:42px !important;
         margin-bottom: 10px;
+        margin-top: 4px;
         float:right;
         border-radius: 0px;
     }
@@ -220,7 +221,7 @@ img, object, embed {
 /* EDITED TO SHOW CATEGORY PICTURES*/
 .filter_featured_btn {
     background-image: url(../img/category_images/featured.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 2px 4px 29px !important;
     font-size: 15px !important;
 }
 .filter_featured_btn:active {
@@ -236,7 +237,7 @@ img, object, embed {
 
 .filter_priority_btn {
     background-image: url(../img/category_images/priority.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 6px 4px 30px !important;
     font-size: 15px !important;
 }
 .filter_priority_btn:hover {
@@ -252,7 +253,7 @@ img, object, embed {
 
 .filter_dining_btn {
     background-image: url(../img/category_images/dining.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 6px 4px 29px !important;
     font-size: 15px !important;
 }
 .filter_dining_btn:hover {
@@ -268,7 +269,7 @@ img, object, embed {
 
 .filter_lifestyle_btn {
     background-image: url(../img/category_images/lifestyle.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 6px 4px 29px !important;
     font-size: 15px !important;
 }
 .filter_lifestyle_btn:hover {
@@ -284,7 +285,7 @@ img, object, embed {
 
 .filter_online_btn {
     background-image: url(../img/category_images/online.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 6px 4px 22px !important;
     font-size: 15px !important;
 }
 .filter_online_btn:hover {
@@ -300,7 +301,7 @@ img, object, embed {
 
 .filter_all_btn {
     background-image: url(../img/category_images/alldeals.png) !important;
-    padding: 4px 6px 4px 34px !important;
+    padding: 4px 6px 4px 29px !important;
     font-size: 15px !important;
 }
 .filter_all_btn:hover {
@@ -490,7 +491,7 @@ img, object, embed {
         background-repeat:no-repeat !important;
     }
 
-    .filters-with-search { /*HIDE THE SUB HEADERS*/
+    #filtertags { 
         display:none;
     }
 
@@ -533,8 +534,8 @@ img, object, embed {
 }
 
 .tgl-logo-holder{
-    position: relative;
-    left: 10px;
+    /* position: relative; */
+    left: 35px;
     top: 18px;
 }
 
@@ -576,7 +577,7 @@ img, object, embed {
 }
 
 .filter_online_btn.selected {
-    background-position: 0px -25px !important;
+    background-position: 0px -23px !important;
     font-size: 12px;
     color:#29ad48;
 }
@@ -672,5 +673,25 @@ img, object, embed {
     display: none;
 }
 .outlet-link{
-    color: blue;
+    color: #00aeef;
+}
+
+#globalheader .selected{
+    background-color: rgba(35, 137, 63, 1);
+}
+
+.elm-content-area p img {
+    position: absolute;
+    right: 0px;
+    top: 285px;
+}
+
+.align-sub-cat{
+    width:110px;
+    text-align:center;
+    background-image: none !important;
+}
+
+.align-sub-cat a{
+    padding:0 0 0 0px !important;
 }

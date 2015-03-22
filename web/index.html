@@ -56,13 +56,12 @@
         <link rel="stylesheet" href="https://www.sc.com/sg/assets/pws/global-pws.css">
         <link rel="stylesheet" href="https://www.sc.com/sg/assets/pws/global-pws-flag.css">
         <link rel="stylesheet" href="https://www.sc.com/sg/assets/pws/sg-pws-custom.css">
-        <link href="css/globalheader.css" rel="stylesheet" type="text/css"/>
         <!-- IE Fix for HTML5 Tags -->
         <!--[if lt IE 9]>
             <script src="https://www.sc.com/global/assets/global/ie-enhancer.js"></script>
             <link rel="stylesheet" href="https://www.sc.com/sg/assets/pws/global-pws-ie.css">
          <![endif]-->
-        
+
 
         <meta name="apple-mobile-web-app-title" content="sc.com/sg">
 
@@ -84,9 +83,6 @@
         <!--[if lte IE 8]>
             <link href="css/global-tgl-ie8.css" rel="stylesheet" type="text/css"/>
         <![endif]-->
-        <!--[if IE ]>
-            <link href="css/global-tgl-ie.css" rel="stylesheet" type="text/css"/>
-        <![endif]-->
 
         <!-- ng-dialog -->
         <link href="css/ngDialog.css" rel="stylesheet" type="text/css"/>
@@ -94,27 +90,19 @@
 
         <!-- modal -->
         <link href="css/modal.css" rel="stylesheet" type="text/css"/>
-        <link href="css/overlay.css" rel="stylesheet" type="text/css"/>
 
         <!-- Style for social sharing -->
-        <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
         <link href="css/social-share.css" rel="stylesheet" type="text/css"/>
-        <!-- end thegoodlife css links -->
-        
-        <!-- Style for rating -->
-        <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/rating.css" rel="stylesheet" type="text/css"/>
-        <!-- end rating css links -->
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+        <!-- end thegoodlife css links -->
 
-<!--        Style for mobile navbar -->
-        <link rel="stylesheet" href="css/globalheader.css" type="text/css">
 
         <script src="js/angular.min.js" type="text/javascript"></script>
-        <script src="js/angular-resource.min.js" type="text/javascript"></script>
         <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
 
     </head>
-    <body id="page ng-app" class="slide-nav body-focus hide-extras home-page page-personal" onLoad="initList()" ng-app="modalTest" ng-cloak="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?5565">
+    <body id="page ng-app" class="slide-nav body-focus hide-extras home-page page-personal" onLoad="initList()" ng-app="modalTest">
         <!-- Google Tag Manager -->
 
         <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PHQV2K" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -442,58 +430,7 @@
 
             <!-- TGL nav bar -->
             <header class="container mast-sub-header stick-items stick-on with-tagging">
-                <!--apple like nav bar-->
-                <nav id="globalheader" class="globalheader gh-nav-reveal" role="navigation" aria-label="Global Navigation" data-hires="false" data-analytics-region="global nav" lang="en-US">
-                    <div id="gh-content" class="gh-content">
-                            <ul class="gh-menu">
-                                <li id="gh-menu-icon-toggle" class="gh-menu-icon gh-menu-icon-toggle enhance"><button id="gh-svg-icons" class="gh-svg-wrapper" aria-controls="#gh-nav-list" aria-expanded="false"><span class="gh-text-replace">Menu</span><svg x="0px" y="0px" width="100%" viewBox="0 0 96 96" class="gh-svg gh-svg-top" enable-background="new 0 0 96 96"><rect width="32" height="4" x="32" y="46" class="gh-svg-rect gh-svg-rect-top"></rect></svg><svg x="0px" y="0px" width="100%" viewBox="0 0 96 96" class="gh-svg gh-svg-bottom" enable-background="new 0 0 96 96"><rect width="32" height="4" x="32" y="46" class="gh-svg-rect gh-svg-rect-bottom"></rect></svg></button></li>
-                                <li style="list-style-type: none">
-                                    <div id="searchbar-card" class="searchbar-top search-on advanced-search">
-                                    <input style="top:8px !important; padding:6px !important;" type="text" class="search-card sbox-on" placeholder="Search" autocomplete="off" ng-model="searchText" ng-change="setActiveSearch(searchText); hide_featured = true; coupons_table = false">
-                                    </div>
-                                </li>
-                            </ul><!--/gh-menu-->
-                            <div class="gh-nav">
-                                    <div class="gh-nav-view">
-                                            <ul class="gh-nav-list" aria-hidden="true" id="gh-nav-list">
-                                                    <li class="gh-tab gh-tab-store"><a class="gh-tab-link" ng-click="hide_featured = false;
-                                                        showSubCat = null;
-                                                        coupons_table = false; clearSearch();"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-mac"><a class="gh-tab-link" ng-click="filterCat = priortyDeals;
-                                                        showSubCat = null;
-                                                        filterSubCat = null;
-                                                        hide_featured = true;
-                                                        coupons_table = false; clearSearch()"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-iphone"><a class="gh-tab-link" ng-click="filterCat = null;
-                                                        showSubCat = null;
-                                                        filterSubCat = null;
-                                                        hide_featured = true;
-                                                        coupons_table = false; clearSearch()"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-watch"><a class="gh-tab-link" ng-click="filterCat = dining;
-                                                        showSubCat = diningSubCat;
-                                                        filterSubCat = null;
-                                                        hide_featured = true;
-                                                        coupons_table = false; clearSearch()"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-ipad"><a class="gh-tab-link" ng-click="filterCat = lifestyle;
-                                                        showSubCat = lifestyleSubCat;
-                                                        filterSubCat = null;
-                                                        hide_featured = true;
-                                                        coupons_table = false; clearSearch()" ng-href="#"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-ipod"><a class="gh-tab-link" ng-click="filterCat = online;
-                                                        showSubCat = onlineSubCat;
-                                                        filterSubCat = null;
-                                                        hide_featured = true;
-                                                        coupons_table = false; clearSearch()"><span class="gh-tab-inner"></span></a></li>
-                                                    <li class="gh-tab gh-tab-itunes"><a class="gh-tab-link" ng-click="coupons_table = true;
-                                                        showSubCat = null;
-                                                        featured = false; clearSearch()"><span class="gh-tab-inner"></span></a></li>
-                                            </ul>
-                                    </div>
-                            </div><!--/gh-nav-->
-                    </div>
-                </nav><!--/globalheader-->
-                
-                <div class="standard-chartered-logo-holder categories-mobile-navbar-ei">
+                <div class="standard-chartered-logo-holder">
                     <a id="megaMenu" class="navbar-button show-for-small open"><span></span> Categories </a> </div>
                 <div class="row">
                     <div class="eleven columns">
@@ -523,7 +460,7 @@
 
                                     <li><a href="#/Lifestyle" class="filter_lifestyle_btn" 
                                            ng-click="filterCat = lifestyle; showSubCat = lifestyleSubCat; filterSubCat = null; hide_featured = true; coupons_table = false; clearSearch(); catClass('Lifestyle')"
-                                           ng-class="{'selected': 'Lifestyle' == selectedIndex }">Lifestyle</a>
+                                           ng-class="{'selected': 'Lifestyle' == selectedIndex }">Lifestyle & Shopping</a>
                                     </li>
 
                                     <li><a href="#/Online" class="filter_online_btn" 
@@ -539,7 +476,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="one columns searchbar-browser">
+                    <div class="one columns">
                         <div id="searchbar-card" class="searchbar-top search-on advanced-search">
                             <input type="text" class="search-card sbox-on"  id="cardSearch_txt" placeholder="Search" autocomplete="off" ng-model="searchText" ng-change="setActiveSearch(searchText); hide_featured = true; coupons_table = false">
                         </div>
@@ -554,8 +491,8 @@
                             <div class="filters-with-search">
                                 <div class="filter cf" id="filtertags">
                                     <ul id="filter_container" ng-repeat="category in allCategories| filter:showSubCat">   
-                                        <li class="feat-in" ng-repeat="subCategory in subCategories(category.subCategories)" ng-class="navClass('{{category.categoryName}}_{{subCategory.subCategoryName}}')">
-                                            <a href="#/{{category.categoryName}}_{{subCategory.subCategoryName}}" id="subCat" style="background-image:url();" ng-click="returnScope().filterSubCat = {subCatID: subCategory.subCategoryId}">{{subCategory.subCategoryName}}</a>
+                                        <li class="feat-in align-sub-cat" ng-repeat="subCategory in subCategories(category.subCategories)" ng-class="navClass('{{category.categoryName}}_{{subCategory.subCategoryName}}')">
+                                            <a class="" href="#/{{category.categoryName}}_{{subCategory.subCategoryName}}" id="subCat" style="background-image:url();" ng-click="returnScope().filterSubCat = {subCatID: subCategory.subCategoryId}">{{subCategory.subCategoryName}}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -630,7 +567,9 @@
                                         <div class="elm-content-area cf">
                                             <h5 class="card-title">{{coupon.merchantName|cut:true:30:' ...'}}</h5>
                                             <p ng-bind-html="coupon.promoDesc|cut:true:60:' ...'"></p>
-                                        </div>
+                                            <p><img src="img/mobile-banner.png" alt=""/></p>
+                                        </div> 
+
                                         <footer class="row collapse">
                                             <div class="twelve columns text-center">
                                                 Valid till {{coupon.validTill| date:'d MMM y'}}
@@ -811,15 +750,8 @@
         <script src="js/lodash.underscore.js" type="text/javascript"></script>
         <script src="js/angular-google-maps_dev_mapped.js" type="text/javascript"></script>
 
-        <!-- JS for global header-->
-        <![if !IE]>
-            <script type="text/javascript" src="js/globalheader.js"></script>
-        <![endif]>
-
         <!-- JS for geolocation-->
         <script src="js/geolocation.js" type="text/javascript"></script>
-
-        <!-- JS for facebook login-->
         <script src="js/angular-facebook.js" type="text/javascript"></script>
     </body>
 

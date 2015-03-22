@@ -26,8 +26,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 options: [
                     {id: 1, name: '--- Select ---', value: "all"},
                     {id: 2, name: 'Latest', value: "offerID"},
-                    {id: 3, name: 'MasterCard', value: "All Standard Chartered MasterCard Cards only"},
-                    {id: 4, name: 'Visa', value: "All Standard Chartered Visa Cards only"},
+                    {id: 3, name: 'MasterCard® Exclusive', value: "All Standard Chartered MasterCard Cards only"},
+                    {id: 4, name: 'Visa Exclusive', value: "All Standard Chartered Visa Cards only"},
                     {id: 5, name: 'Expiring Deals', value: "validTill"}
                 ]
             };
@@ -40,14 +40,52 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.loadMore = function () {
                 $scope.totalDisplayed += 20;
             };//end load more
-
+            
+            geolocation.getLocation().then(function (data) {
+                $rootScope.coords = {lat: data.coords.latitude, long: data.coords.longitude};
+                $scope.showNearMe = true;
+            }, function (error) {
+                $rootScope.geoError = error;
+                $scope.showNearMe = false;
+            });
+            
+            
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
                 $rootScope.deals = data.offer.added.list;
                 $rootScope.coupons = data.coupon.added.list;
                 $rootScope.allCategories = data.category.added.list;
+                var dealID = window.location.search.substring(1);
+                if (dealID > 0){
+                    var deal;
+                    for (i = 0; i < data.offer.added.list.length; i++) {
+                        if (dealID === data.offer.added.list[i].offerID){
+                            deal = data.offer.added.list[i];
+                            console.log(deal);
+                        }
+                    }
+                    for (i = 0; i < data.coupon.added.list.length; i++) {
+                        if (dealID === data.coupon.added.list[i].couponId){
+                            deal = data.coupon.added.list[i];
+                            console.log(deal);
+                        }
+                    }
+                    
+                    sharingOnLoad(deal);
+                }
             });
-
+            
+            var sharingOnLoad = function (deal) {
+                $rootScope.deal = deal;
+                var dlg = dialogs.confirm(deal);
+                dlg.result.then(function (btn) {
+                    $scope.confirmed = 'You confirmed "Yes."';
+                }, function (btn) {
+                    $scope.confirmed = 'You confirmed "No."';
+                });
+            }; // end launch
+            
+            
             //check current page(category) user is on
             $scope.catClass = function (selectedCat) {
                 $scope.selectedIndex = selectedCat;
@@ -103,25 +141,25 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 $scope.selectedCard = '';
                 $scope.sortingOption = null;
 
-                if ($scope.filterItem.option.name === "Latest") {
+                if ($scope.filterItem.option.id === 2) {
                     $scope.selectedIndex = 'All_Deals';
                     $scope.sortingOption = $scope.filterItem.option.value;
                     $scope.reverse = true;
                     $scope.selectedCard = '';
                     clearSearchCatSubCat();
 
-                } else if ($scope.filterItem.option.name === "Valid Date") {
+                } else if ($scope.filterItem.option.id === 5) {
                     $scope.selectedIndex = 'All_Deals';
                     $scope.sortingOption = $scope.filterItem.option.value;
                     $scope.reverse = false;
                     $scope.selectedCard = '';
                     clearSearchCatSubCat();
-                } else if ($scope.filterItem.option.name === "MasterCard") {
+                } else if ($scope.filterItem.option.id === 3) {
                     $scope.selectedIndex = 'All_Deals';
                     $scope.selectedCard = $scope.filterItem.option.value;
                     $scope.sortingOption = null;
                     clearSearchCatSubCat();
-                } else if ($scope.filterItem.option.name === "Visa") {
+                } else if ($scope.filterItem.option.id === 4) {
                     $scope.selectedIndex = 'All_Deals';
                     $scope.selectedCard = $scope.filterItem.option.value;
                     $scope.sortingOption = null;
@@ -276,30 +314,27 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                                 '<img src="img/notif.png">' +
                                 '<p ng-show="chosenDeal" ng-bind-html="chosenDeal.promoDesc|cut:true:50"></p>' +
                                 '<div class="ngdialog-buttons">' +
-                                '<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(chosenDeal)">See Deal</button></div>' +
+                                '<div class="ngdialog-buttons"><button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog(chosenDeal)">Find out more</button></div>' +
                                 '</div>' +
                                 '</div>',
                         plain: true,
-                        showClose: false
+                        showClose: true
                     });
                     dialog.closePromise.then(function (data) {
-                        if (data.value != '$document') {
+                        if (data.value.categoryID) {
                             $scope.launch(data.value);
+                        } else {
+                            dialog.close();
                         }
-                        //
                     });
+                    setTimeout(function () {
+                        dialog.close();
+                    }, 8000);
                 }
 
             };
 
-            geolocation.getLocation().then(function (data) {
-                $rootScope.coords = {lat: data.coords.latitude, long: data.coords.longitude};
-                $scope.showNearMe = true;
-            }, function (error) {
-                $rootScope.geoError = error;
-                $scope.showNearMe = false;
-            });
-
+            
             $scope.distance = function (coords, deal) {
                 if (typeof $rootScope.geoError === 'string') {
                     console.log($rootScope.geoError);
@@ -587,9 +622,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             }
             
 
-            if (typeof $rootScope.geoError === 'string') {
-                console.log($rootScope.geoError);
-            } else {
+            if (typeof $rootScope.geoError !== 'string' && typeof $rootScope.coords !== 'undefined') {
                 markers.push(createCurrentMarker());
             }
 
@@ -976,24 +1009,36 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<h6>Share this link:</h6>' +
                         '<div class="btn-share-separator">' +
                         '<div class="bs-col2 line-tablet">' +
-                        '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}">' +
+                        '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
+                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}">' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
+                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
                         //twitter
 
                         '<div class="bs-col2 line-tablet">' +
-                        '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}" socialshare-hashtags="TGLapp">' +
+                        '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
+                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}"  socialshare-hashtags="TGLapp">' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
+                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}"  socialshare-hashtags="TGLapp">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
                         //google
 
                         '<div class="bs-col2 line-tablet">' +
-                        '<div class="bs-line-compress">' +
-                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}">' +
+                        '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
+                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}">' +
+                        '</a>' +
+                        '</div>' +
+                        '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
+                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' + '</div>' +
@@ -1001,9 +1046,11 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
 
                         '<div class="main-details">' +
-                        '<br><br><input type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/deal.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
+                        '<br><br><input ng-if="msg.offerID > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
+                        '<input ng-if="msg.couponId > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}" title="This url is for sharing" readonly="readonly"/>'+
                         '<p></p>' +
                         '</div>' + //maindetails
+
 
                         '</div>' +
                         '</div>' + //end of modal-body

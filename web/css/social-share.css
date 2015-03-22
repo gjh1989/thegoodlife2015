@@ -16,10 +16,7 @@
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     bottom:0;
-    /*margin-left: auto;
-    margin-right: auto;*/
-    /*padding:10px 42% 0 2%;*/
-    padding:10px 10px 10px 10px ;
+    padding: 5px 15px 15px 0px !important;
     overflow: visible;
 }
 .bs-col2 {
@@ -173,7 +170,6 @@ button {
     clear:both;
     float:none;
     width:100%;
-    padding-left: 14px;
 }
 /*--- BACKGROUNDS ---*/
 .bg-btn-share {
