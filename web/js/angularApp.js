@@ -2,8 +2,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
         .config(function (FacebookProvider) {
             FacebookProvider.init('433973590092596');
         })
-        
-        .controller('dialogServiceTest', function ($scope, $rootScope, dialogs, dealData, $location, ngDialog, $interval, geolocation, Facebook) {
+
+        .controller('dialogServiceTest', function ($scope, $rootScope, dialogs, dealData, $location, ngDialog, $interval, geolocation, Facebook, $http, $window) {
 
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
@@ -19,6 +19,9 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     $scope.confirmed = 'You confirmed "No."';
                     $scope.modalFreezeBG = '';
                 });
+                if (deal.couponId > 0) {
+                    checkCoupon(deal);
+                }
             }; // end launch
 
             //dropdown for sorting and filter
@@ -40,7 +43,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.loadMore = function () {
                 $scope.totalDisplayed += 20;
             };//end load more
-            
+
             geolocation.getLocation().then(function (data) {
                 $rootScope.coords = {lat: data.coords.latitude, long: data.coords.longitude};
                 $scope.showNearMe = true;
@@ -48,33 +51,33 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 $rootScope.geoError = error;
                 $scope.showNearMe = false;
             });
-            
-            
+
+
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
                 $rootScope.deals = data.offer.added.list;
                 $rootScope.coupons = data.coupon.added.list;
                 $rootScope.allCategories = data.category.added.list;
                 var dealID = window.location.search.substring(1);
-                if (dealID > 0){
+                if (dealID > 0) {
                     var deal;
                     for (i = 0; i < data.offer.added.list.length; i++) {
-                        if (dealID === data.offer.added.list[i].offerID){
+                        if (dealID === data.offer.added.list[i].offerID) {
                             deal = data.offer.added.list[i];
                             console.log(deal);
                         }
                     }
                     for (i = 0; i < data.coupon.added.list.length; i++) {
-                        if (dealID === data.coupon.added.list[i].couponId){
+                        if (dealID === data.coupon.added.list[i].couponId) {
                             deal = data.coupon.added.list[i];
                             console.log(deal);
                         }
                     }
-                    
+
                     sharingOnLoad(deal);
                 }
             });
-            
+
             var sharingOnLoad = function (deal) {
                 $rootScope.deal = deal;
                 var dlg = dialogs.confirm(deal);
@@ -84,8 +87,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     $scope.confirmed = 'You confirmed "No."';
                 });
             }; // end launch
-            
-            
+
+
             //check current page(category) user is on
             $scope.catClass = function (selectedCat) {
                 $scope.selectedIndex = selectedCat;
@@ -334,7 +337,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
             };
 
-            
+
             $scope.distance = function (coords, deal) {
                 if (typeof $rootScope.geoError === 'string') {
                     console.log($rootScope.geoError);
@@ -362,13 +365,65 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     }
                 }
             };
-            
+
             //facebook login
-            $scope.loginStatus = 'disconnected';
-            $scope.facebookIsReady = false;
-            $rootScope.fbUserID = 9586849583;
-            
-            $scope.fbLogin = function () {
+            //check if user is already login
+            $interval(function () {
+                Facebook.getLoginStatus(function (response) {
+                    //console.log(response.status); //connected or unknown
+                    if (response.status == "connected") {
+                        Facebook.api('/me', function (response) {
+                            //console.log(response.id);
+                            $scope.fbStatus = response.status;
+                            //$scope.deviceId = response.id;
+                            $scope.deviceId = "testtesttest";
+                        });
+                    }
+                });
+            }, 500, 1);
+            function checkCoupon(coupon) {
+                $http.get('http://localhost:8080/thegoodlife2015/checkCoupon?deviceId=' + $scope.deviceId + '&couponId=' + coupon.couponId).
+                        success(function (data) {
+                            console.log(coupon.couponId);
+                            console.log(data.response.status);
+                            $rootScope.redeemStatus = data.response.status;
+                        });
+            }
+            function redeemCoupon(coupon) {
+                console.log(coupon);
+            }
+            $scope.logout = function () {
+                Facebook.logout(function (response) {
+                    console.log('See you again!');
+                });
+            };
+
+            $rootScope.clickRedeem = function (coupon) {
+                if ($scope.fbStatus == "connected") {
+                    checkCoupon(coupon);
+                    if ($rootScope.redeemStatus == 2) {
+                        redeemCoupon(coupon);
+                    }
+                } else {
+                    Facebook.login(function (response) {
+                        if (response.status === 'connected') {
+                            // Logged into your app and Facebook.
+                            Facebook.api('/me', function (response) {
+                                //console.log(response.id);
+                                $scope.fbStatus = response.status;
+//                            $scope.deviceId = response.id;
+                                $scope.deviceId = "testtesttest";
+                                $window.location.replace("http://localhost:8080/thegoodlife2015/index.html?" + coupon.couponId);
+                            });
+                        }
+                    }, {
+                        scope: 'email',
+                        auth_type: 'rerequest'
+                    });
+                }
+            };
+
+            $scope.login = function () {
                 Facebook.login(function (response) {
                     if (response.status === 'connected') {
                         // Logged into your app and Facebook.
@@ -376,7 +431,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         Facebook.api('/me', function (response) {
                             console.log('Good to see you, ' + response.name + '.');
                             $scope.loginStatus = response.status;
-                            $scope.fbUserID = response.id;
                             Facebook.getLoginStatus(function (response) {
                                 console.log(response.authResponse.accessToken);
                             });
@@ -390,7 +444,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         console.log('User cancelled login or did not fully authorize.');
                     }
                 }, {
-                    scope: 'user_friends',
+                    scope: 'email',
                     auth_type: 'rerequest'
                 });
             };
@@ -526,7 +580,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 }
             }
         })
-        
+
         .filter('recommendFilter', function () {
             return function (deals) {
                 var filtered = [];
@@ -562,13 +616,14 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     longitude = object.outletList[i].longitude;
                     addr = object.outletList[i].outletAddress;
                     name = object.outletList[i].outletName;
-                } 
+                }
                 if (object.couponId > 0) {
                     latitude = object.mcouponOutletList[i].latitude;
                     longitude = object.mcouponOutletList[i].longitude;
                     addr = object.mcouponOutletList[i].outletAddress;
-                    name = object.mcouponOutletList[i].outletName;;
-                    
+                    name = object.mcouponOutletList[i].outletName;
+                    ;
+
                 }
 
                 var ret = {
@@ -610,17 +665,17 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             };
             $scope.outletMarkers = [];
             var markers = [];
-            if ($rootScope.deal.couponId > 0){
+            if ($rootScope.deal.couponId > 0) {
                 for (var i = 0; i < $rootScope.deal.outletCount; i++) {
                     markers.push(createMarker(i, $rootScope.deal));
                     console.log("more than zero");
                 }
-            }else {
+            } else {
                 for (var i = 0; i < $rootScope.deal.outletCount; i++) {
                     markers.push(createMarker(i, $rootScope.deal));
                 }
             }
-            
+
 
             if (typeof $rootScope.geoError !== 'string' && typeof $rootScope.coords !== 'undefined') {
                 markers.push(createCurrentMarker());
@@ -714,21 +769,21 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $scope.onTextClick = function ($event) {
                     $event.target.select();
                 };
-                
-                $scope.see_map = function (address){
-                    window.open('https://www.google.com.sg/maps/place/' + address,'_blank');
+
+                $scope.see_map = function (address) {
+                    window.open('https://www.google.com.sg/maps/place/' + address, '_blank');
                 };
-                
+
                 //for rendering the rating bar
                 $scope.dealRate = -1;
-                
-                $http.get('/retrieveRating/'+ $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
+
+                $http.get('/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
                     $scope.dealRate = resp.rate;
                 });
-                
-                
-                $scope.rateFunction = function(rating) {
-                  alert("Rating selected - " + rating);
+
+
+                $scope.rateFunction = function (rating) {
+                    alert("Rating selected - " + rating);
                 };
             }]) // end ConfirmDialogCtrl / dialogs.controllers
         .factory('Utils', function ($q) {
@@ -759,48 +814,50 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 }
             };
         })
-        
+
         //directive for rating bar
-        .directive("starRating", function($rootScope, $http) {
-          return {
-            restrict : "A",
-            template : "<ul class='rating'>" +
-                       "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle(" + $rootScope.fbUserID + ",deal.offerID,deal.subCatID,$index)'>" +
-                       "    <i class='fa fa-star'></i>" + //&#9733
-                       "  </li>" +
-                       "</ul>",
-            scope : {
-              ratingValue : "=",
-              max : "=",
-              deal : "=",
-              onRatingSelected : "&"
+        .directive("starRating", function ($rootScope, $http) {
+            return {
+                restrict: "A",
+                template: "<ul class='rating'>" +
+                        "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle(" + $rootScope.fbUserID + ",deal.offerID,deal.subCatID,$index)'>" +
+                        "    <i class='fa fa-star'></i>" + //&#9733
+                        "  </li>" +
+                        "</ul>",
+                scope: {
+                    ratingValue: "=",
+                    max: "=",
+                    deal: "=",
+                    onRatingSelected: "&"
 
-            },
-            link : function(scope, elem, attrs) {
-              var updateStars = function() {
-                scope.stars = [];
-                for ( var i = 0; i < scope.max; i++) {
-                  scope.stars.push({
-                    filled : i < scope.ratingValue
-                  });
+                },
+                link: function (scope, elem, attrs) {
+                    var updateStars = function () {
+                        scope.stars = [];
+                        for (var i = 0; i < scope.max; i++) {
+                            scope.stars.push({
+                                filled: i < scope.ratingValue
+                            });
+                        }
+                    };
+                    scope.toggle = function (fbUserID, offerID, subCatID, index) {
+                        scope.ratingValue = index + 1;
+
+                        $http.get('/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
+                        });
+
+                        scope.onRatingSelected({
+                            rating: index + 1
+                        });
+                    };
+                    scope.$watch("ratingValue", function (oldVal, newVal) {
+                        if (newVal) {
+                            updateStars();
+                        }
+                    });
+
                 }
-              };
-              scope.toggle = function(fbUserID, offerID, subCatID, index) {
-                scope.ratingValue = index + 1;
-                
-                $http.get('/recordRating?fbID='+ fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
-                });
-                
-                scope.onRatingSelected({
-                  rating : index + 1
-                });
-              };
-              scope.$watch("ratingValue", function(oldVal, newVal) {
-                if (newVal) { updateStars(); }
-              });
-
-            }
-          };
+            };
         });
 
 //== Services ================================================================//
@@ -956,6 +1013,9 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //image of merchant
                         '<div class="merc-img">' +
                         '<img src="' + startSym + 'imgUrl' + endSym + '">' +
+                        //redeem button
+                        '<button ng-click="clickRedeem(msg)" class="button medium radius green" ng-if="msg.couponId > 0 && redeemStatus == 2">Redeem</button>' +
+                        '<button class="button medium radius blue" ng-if="msg.couponId > 0 && redeemStatus != 2">Redeemed</button>' +
                         '</div>' +
                         //details of deal
                         '<div class="main-details">' +
@@ -979,16 +1039,16 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //----- Google map
                         '</div>' + //details
 
-                        '<div class="outlet-list">'+
+                        '<div class="outlet-list">' +
                         '<div class="online-details">' +
                         '<h6>Outlets:</h6>' +
-                        '<div ng-repeat="outlet in msg.outletList">'+
+                        '<div ng-repeat="outlet in msg.outletList">' +
                         '<p>&bull; {{outlet.outletName}} - {{outlet.outletAddress}} <a class="outlet-link" ng-click="see_map(outlet.outletAddress);">See map</a></p>' +
-                        '</div>'+
+                        '</div>' +
                         //----- Google map
                         '</div>' + //details
-                        '</div>'+ //oulet-list
-                        
+                        '</div>' + //oulet-list
+
                         '<div ng-controller="mapCtrl" ng-if="msg.isOnlineMerchant == 0 || msg.couponId > 0" class="popup-gmap">' +
                         '<div id="map_canvas">' +
                         '<ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" bounds="map.bounds">' +
@@ -1047,14 +1107,14 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
                         '<div class="main-details">' +
                         '<br><br><input ng-if="msg.offerID > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
-                        '<input ng-if="msg.couponId > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}" title="This url is for sharing" readonly="readonly"/>'+
+                        '<input ng-if="msg.couponId > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}" title="This url is for sharing" readonly="readonly"/>' +
                         '<p></p>' +
                         '</div>' + //maindetails
 
 
                         '</div>' +
                         '</div>' + //end of modal-body
-                        '</div>' + 
+                        '</div>' +
                         '<div class="overlay-back" style="margin-top:50px; background-color:#f3f3f3 !important;">' + //start of padding div
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">Related Pins</h4>' +
