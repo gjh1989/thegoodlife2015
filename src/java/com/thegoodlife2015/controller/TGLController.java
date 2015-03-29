@@ -7,6 +7,8 @@ package com.thegoodlife2015.controller;
 
 import com.thegoodlife2015.model.RatingDAO;
 import com.thegoodlife2015.model.Rating;
+import com.thegoodlife2015.model.RecommendationAlgorithm;
+import java.sql.SQLException;
 import java.util.ArrayList;
 /**
  *
@@ -42,6 +44,10 @@ public class TGLController {
     public static boolean validateRatingExist(String fbID, int offerID){
         Rating rating = RatingDAO.retrieveOneRating(fbID, offerID);
         return rating != null;
+    }
+    
+    public static void recAlgo() throws SQLException{
+        RecommendationAlgorithm.RecommendationForADeal();
     }
     
 
