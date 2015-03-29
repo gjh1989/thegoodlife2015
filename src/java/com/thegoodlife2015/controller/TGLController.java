@@ -10,6 +10,7 @@ import com.thegoodlife2015.model.Rating;
 import com.thegoodlife2015.model.RecommendationAlgorithm;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.grouplens.lenskit.RecommenderBuildException;
 /**
  *
  * @author locnguyen
@@ -46,7 +47,7 @@ public class TGLController {
         return rating != null;
     }
     
-    public static void recAlgo() throws SQLException{
+    public static void recAlgo() throws SQLException, RecommenderBuildException{
         RecommendationAlgorithm.RecommendationForADeal();
     }
     

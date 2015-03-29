@@ -9,6 +9,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
+            $rootScope.fbUserID = 5849696469;
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
                 $rootScope.deal = deal;
@@ -581,18 +582,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             }
         })
 
-        .filter('recommendFilter', function () {
-            return function (deals) {
-                var filtered = [];
-                angular.forEach(deals, function (deal) {
-                    if (parseInt(deal.offerID) === 6157 || parseInt(deal.offerID) === 3887) {
-                        filtered.push(deal);
-                    }
-                });
-                return filtered;
-            };
-        })
-
         //Google map
         .controller('mapCtrl', function ($scope, $rootScope) {
             $scope.showMap = true;
@@ -780,7 +769,22 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $http.get('/thegoodlife2015/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
                     $scope.dealRate = resp.rate;
                 });
+                
+                $scope.recommeded = [];
+                $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function(resp){
+                    $scope.recommendedIds = resp.recommendations;
+                    
+                    angular.forEach($scope.deals, function (deal) {
+                        angular.forEach($scope.recommendedIds, function(id){
+                            if (parseInt(deal.offerID) === id) {
+                                $scope.recommeded.push(deal);
+                            }
+                        })
 
+                    });
+                    console.log($scope.recommeded);
+                });
+                
 
                 $scope.rateFunction = function (rating) {
                     alert("Rating selected - " + rating);
@@ -1124,7 +1128,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row">' +
                         '<div class="twelve columns">' +
                         '<div class="pin-container variable-sizes isotope">' +
-                        '<article ng-repeat="eachRecmd in deals | recommendFilter" class="elements credit-card-select business cashback isotope-item">' +
+                        '<article ng-repeat="eachRecmd in recommended" class="elements credit-card-select business cashback isotope-item">' +
                         '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">' +
                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
                         '<div class="elm-content-area cf">' +

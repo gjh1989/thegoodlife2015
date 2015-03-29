@@ -28,6 +28,10 @@
         <servlet-name>testingRec</servlet-name>
         <servlet-class>com.thegoodlife2015.servlet.testingRec</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>recServlet</servlet-name>
+        <servlet-class>com.thegoodlife2015.servlet.recServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>recordRating</servlet-name>
         <url-pattern>/recordRating</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>testingRec</servlet-name>
         <url-pattern>/testingRec</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>recServlet</servlet-name>
+        <url-pattern>/recServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
