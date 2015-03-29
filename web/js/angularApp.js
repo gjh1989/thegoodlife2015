@@ -777,7 +777,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 //for rendering the rating bar
                 $scope.dealRate = -1;
 
-                $http.get('/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
+                $http.get('/thegoodlife2015/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
                     $scope.dealRate = resp.rate;
                 });
 
@@ -843,7 +843,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     scope.toggle = function (fbUserID, offerID, subCatID, index) {
                         scope.ratingValue = index + 1;
 
-                        $http.get('/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
+                        $http.get('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
                         });
 
                         scope.onRatingSelected({

@@ -138,4 +138,15 @@ public class ConnectionManager {
                     "Unable to close Connection", ex);
         }
     }
+    
+    public static void close(Connection conn) {
+        try {
+            if (conn != null) {
+                conn.close();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConnectionManager.class.getName()).log(Level.WARNING,
+                    "Unable to close Connection", ex);
+        }
+    }
 }

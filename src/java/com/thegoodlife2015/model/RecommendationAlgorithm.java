@@ -38,7 +38,7 @@ public class RecommendationAlgorithm {
             // topRec = rec.getItemRecommender();
             /* do things with the recommender */
         } finally {
-            conn.close();
+            ConnectionManager.close(conn);
         }
         
     }
