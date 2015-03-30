@@ -449,6 +449,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     auth_type: 'rerequest'
                 });
             };
+            
 
         }) // end controller(dialogsServiceTest)
 
@@ -770,19 +771,19 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     $scope.dealRate = resp.rate;
                 });
                 
+                //for rendering the recommended deals
                 $scope.recommeded = [];
                 $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function(resp){
-                    $scope.recommendedIds = resp.recommendations;
+                    var recommendedIds = resp.recommendations;
                     
                     angular.forEach($scope.deals, function (deal) {
-                        angular.forEach($scope.recommendedIds, function(id){
+                        angular.forEach(recommendedIds, function(id){
                             if (parseInt(deal.offerID) === id) {
                                 $scope.recommeded.push(deal);
                             }
                         })
 
                     });
-                    console.log($scope.recommeded);
                 });
                 
 
@@ -1125,10 +1126,10 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '</div>' +
                         '<article class="inpage-sections inpage-on">' +
                         '<section class="inpage-content grey-box section-active" id="featured-cards">' +
-                        '<div class="row">' +
+                        '<div class="row" style="margin:0 !important">' +
                         '<div class="twelve columns">' +
                         '<div class="pin-container variable-sizes isotope">' +
-                        '<article ng-repeat="eachRecmd in recommended" class="elements credit-card-select business cashback isotope-item">' +
+                        '<article ng-repeat="eachRecmd in recommeded" class="elements credit-card-select business cashback isotope-item">'+
                         '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">' +
                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
                         '<div class="elm-content-area cf">' +
