@@ -32,13 +32,13 @@ public class TGLController {
         return r;
     }
     
-    public static void insertOrUpdateOneRating(String fbID, int offerID, int subCatID, int rate){
+    public static void insertOrUpdateOneRating(String fbID, int offerID, int catID, int subCatID, int rate){
         if (validateRatingExist( fbID,  offerID)){
             System.out.println("update");
             RatingDAO.updateOneRating(fbID, offerID, rate);
         }else{
             System.out.println("insert");
-            RatingDAO.insertOneRating(fbID, offerID, subCatID, rate);
+            RatingDAO.insertOneRating(fbID, offerID, catID, subCatID, rate);
         }
     }
     

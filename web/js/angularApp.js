@@ -9,7 +9,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
-            $rootScope.fbUserID = 5849696469;
+            $rootScope.fbUserID = 1;
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
                 $rootScope.deal = deal;
@@ -784,6 +784,8 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                         })
 
                     });
+                    
+                    
                 });
                 
 
@@ -825,7 +827,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
             return {
                 restrict: "A",
                 template: "<ul class='rating'>" +
-                        "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle(" + $rootScope.fbUserID + ",deal.offerID,deal.subCatID,$index)'>" +
+                        "  <li ng-repeat='star in stars' ng-class='star' ng-click='toggle(" + $rootScope.fbUserID + ", deal.offerID, deal.categoryID, deal.subCatID, $index)'>" +
                         "    <i class='fa fa-star'></i>" + //&#9733
                         "  </li>" +
                         "</ul>",
@@ -845,10 +847,10 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                             });
                         }
                     };
-                    scope.toggle = function (fbUserID, offerID, subCatID, index) {
+                    scope.toggle = function (fbUserID, offerID, catID, subCatID, index) {
                         scope.ratingValue = index + 1;
-
-                        $http.get('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
+                        console.log('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID +  '&rate=' + (index + 1));
+                        $http.get('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
                         });
 
                         scope.onRatingSelected({

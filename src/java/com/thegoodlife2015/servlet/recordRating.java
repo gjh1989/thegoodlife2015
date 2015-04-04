@@ -38,11 +38,12 @@ public class recordRating extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String fbID = request.getParameter("fbID");
             int offerID = Integer.parseInt(request.getParameter("offerID"));
+            int catID = Integer.parseInt(request.getParameter("catID"));
             int subCatID = Integer.parseInt(request.getParameter("subCatID"));
             int rate = Integer.parseInt(request.getParameter("rate"));
-            TGLController.insertOrUpdateOneRating(fbID, offerID, subCatID, rate);
+            TGLController.insertOrUpdateOneRating(fbID, offerID, catID, subCatID, rate);
             
-            
+            out.println(fbID + "-" + offerID + "-" + catID + "-" + subCatID + "-" + rate + "-");
         } finally {
             out.close();
         }

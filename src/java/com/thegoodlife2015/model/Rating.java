@@ -13,12 +13,14 @@ public class Rating {
     
     private String fbID;
     private int offerID;
+    private int catID;
     private int subCatID;
     private int rate;
 
-    public Rating(String fbID, int offerID, int subCatID, int rate) {
+    public Rating(String fbID, int offerID, int catID, int subCatID, int rate) {
         this.fbID = fbID;
         this.offerID = offerID;
+        this.catID = catID;
         this.subCatID = subCatID;
         this.rate = rate;
     }
@@ -39,6 +41,14 @@ public class Rating {
         this.offerID = offerID;
     }
 
+    public int getCatID() {
+        return catID;
+    }
+
+    public void setCatID(int catID) {
+        this.catID = catID;
+    }
+
     public int getSubCatID() {
         return subCatID;
     }
@@ -54,5 +64,7 @@ public class Rating {
     public void setRate(int rate) {
         this.rate = rate;
     }
+    
+    
     
 }
