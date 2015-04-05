@@ -50,7 +50,7 @@ public class recServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //specifying the number of recommendations to be generated
-        int noOfRecommendations = 10;
+        int noOfRecommendations = 20;
 
         String fbID = request.getParameter("fbID");
         long fbIDL = Long.parseLong(fbID);
@@ -137,8 +137,8 @@ public class recServlet extends HttpServlet {
                 RandomRecommender rRecommender = new RandomRecommender(dataModel);
                 recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
             } finally {
-                if (recommendations.size() < 10) {
-                    int randomInt = 10 - recommendations.size();
+                if (recommendations.size() < noOfRecommendations) {
+                    int randomInt = noOfRecommendations - recommendations.size();
                     RandomRecommender rRecommender = new RandomRecommender(dataModel);
                     recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
                 }
