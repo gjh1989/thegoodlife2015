@@ -52,9 +52,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.easyrec-web.war}</file>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.mahout-core-0.9-job.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

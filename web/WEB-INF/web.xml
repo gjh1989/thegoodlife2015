@@ -32,6 +32,10 @@
         <servlet-name>randomRecommender</servlet-name>
         <servlet-class>com.thegoodlife2015.servlet.randomRecommender</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>topItems</servlet-name>
+        <servlet-class>com.thegoodlife2015.servlet.topItems</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>recordRating</servlet-name>
         <url-pattern>/recordRating</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>randomRecommender</servlet-name>
         <url-pattern>/randomRecommender</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>topItems</servlet-name>
+        <url-pattern>/topItems</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>

@@ -20,13 +20,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.mahout.cf.taste.impl.common.FastIDSet;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender.MostSimilarEstimator;
+import org.apache.mahout.cf.taste.impl.recommender.PreferredItemsNeighborhoodCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
-import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
-import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.TopItems;
+import org.apache.mahout.cf.taste.recommender.MostSimilarItemsCandidateItemsStrategy;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -34,7 +35,7 @@ import org.json.simple.JSONObject;
  *
  * @author JunHong
  */
-public class randomRecommender extends HttpServlet {
+public class topItems extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -130,10 +131,12 @@ public class randomRecommender extends HttpServlet {
 
             /*Initalizing the recommender */
             //ItemBasedRecommender recommender = new GenericItemBasedRecommender(dataModel, itemSimilarity);
-            RandomRecommender rRecommender = new RandomRecommender(dataModel);
-            
-            List<RecommendedItem> recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
+//            long itemId=dataModel.
+//            MostSimilarItemsCandidateItemsStrategy candidateStrategy=new PreferredItemsNeighborhoodCandidateItemsStrategy();
+//            FastIDSet possibleItemIDs=candidateStrategy.getCandidateItems(new long[]{itemId},recommenderDataModel.getDataModel());
 
+            //List<RecommendedItem> recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
+            List<RecommendedItem> recommendations = TopItems.getTopItems(noOfRecommendations, null, null, null);
             if (recommendations.size() >= 0) {
                 JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
                 hasRec = true;

@@ -374,10 +374,9 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     //console.log(response.status); //connected or unknown
                     if (response.status == "connected") {
                         Facebook.api('/me', function (response) {
-                            //console.log(response.id);
-                            $scope.fbStatus = response.status;
+                            $scope.fbStatus = "connected";
                             //$scope.deviceId = response.id;
-                            $scope.deviceId = "testtesttest";
+                            $scope.deviceId = "redeemuser1";
                         });
                     }
                 });
@@ -385,13 +384,20 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             function checkCoupon(coupon) {
                 $http.get('http://localhost:8080/thegoodlife2015/checkCoupon?deviceId=' + $scope.deviceId + '&couponId=' + coupon.couponId).
                         success(function (data) {
-                            console.log(coupon.couponId);
-                            console.log(data.response.status);
+//                            console.log(coupon.couponId);
+//                            console.log(data.response.status);
+//                            console.log(data);
+//                            console.log($scope.fbStatus);
+//                            console.log($scope.deviceId);
+                            $scope.tranToken = data.tranToken;
                             $rootScope.redeemStatus = data.response.status;
                         });
             }
             function redeemCoupon(coupon) {
-                console.log(coupon);
+                $http.get('http://localhost:8080/thegoodlife2015/redeemCoupon?deviceId=' + $scope.deviceId + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
+                        success(function (data) {
+                            //console.log(data);
+                        });
             }
             $scope.logout = function () {
                 Facebook.logout(function (response) {
@@ -404,6 +410,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     checkCoupon(coupon);
                     if ($rootScope.redeemStatus == 2) {
                         redeemCoupon(coupon);
+                        $window.location.replace("http://localhost:8080/thegoodlife2015/index.html?" + coupon.couponId);
                     }
                 } else {
                     Facebook.login(function (response) {
@@ -411,10 +418,10 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                             // Logged into your app and Facebook.
                             Facebook.api('/me', function (response) {
                                 //console.log(response.id);
-                                $scope.fbStatus = response.status;
-//                            $scope.deviceId = response.id;
+                                $scope.fbStatus = "connected";
+                                //$scope.deviceId = response.id;
                                 $scope.deviceId = "testtesttest";
-                                $window.location.replace("http://localhost:8080/thegoodlife2015/index.html?" + coupon.couponId);
+                                $window.location.replace("/thegoodlife2015");
                             });
                         }
                     }, {
@@ -449,7 +456,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     auth_type: 'rerequest'
                 });
             };
-            
+
 
         }) // end controller(dialogsServiceTest)
 
@@ -770,14 +777,14 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $http.get('/thegoodlife2015/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
                     $scope.dealRate = resp.rate;
                 });
-                
+
                 //for rendering the recommended deals
                 $scope.recommeded = [];
-                $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function(resp){
+                $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function (resp) {
                     var recommendedIds = resp.recommendations;
                     console.log(resp);
                     angular.forEach($scope.deals, function (deal) {
-                        angular.forEach(recommendedIds, function(id){
+                        angular.forEach(recommendedIds, function (id) {
                             if (parseInt(deal.offerID) === id) {
                                 $scope.recommeded.push(deal);
                             }
@@ -785,9 +792,9 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
                     });
                     console.log($scope.recommeded);
-                    
+
                 });
-                
+
 
                 $scope.rateFunction = function (rating) {
                     alert("Rating selected - " + rating);
@@ -849,7 +856,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     };
                     scope.toggle = function (fbUserID, offerID, catID, subCatID, index) {
                         scope.ratingValue = index + 1;
-                        console.log('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID +  '&rate=' + (index + 1));
+                        console.log('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1));
                         $http.get('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
                         });
 
@@ -1125,7 +1132,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row" style="margin:0 !important">' +
                         '<div class="twelve columns">' +
                         '<div class="pin-container variable-sizes isotope">' +
-                        '<article ng-repeat="eachRecmd in recommeded" class="elements credit-card-select business cashback isotope-item">'+
+                        '<article ng-repeat="eachRecmd in recommeded" class="elements credit-card-select business cashback isotope-item">' +
                         '<div class="panel" id="deals-display" ng-click="$parent.launch(eachRecmd)" style="cursor:pointer">' +
                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
                         '<div class="elm-content-area cf">' +

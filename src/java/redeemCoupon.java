@@ -38,7 +38,7 @@ public class redeemCoupon extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String deviceId = request.getParameter("deviceId");
             String couponId = request.getParameter("couponId");
-            String tranToken = request.getParameter("TT");
+            String tranToken = request.getParameter("tranToken");
 
             String url = "https://tgl.standardchartered.com/bridgeheadi18n/mcoupon/redeem?deviceId=" + deviceId + "&couponId=" + couponId + "&TT=" + tranToken;
             HttpClient client = new DefaultHttpClient();
