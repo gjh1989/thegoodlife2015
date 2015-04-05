@@ -9,7 +9,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
-            $rootScope.fbUserID = 1;
+            $rootScope.fbUserID = 4;
             $rootScope.fbStatus = 'connected';
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
@@ -474,6 +474,23 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     auth_type: 'rerequest'
                 });
             };
+            
+            
+            //for rendering the recommended deals
+            $rootScope.recommended = [];
+            $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function (resp) {
+                var recommendedIds = resp.recommendations;
+                console.log(resp);
+                angular.forEach($rootScope.deals, function (deal) {
+                    angular.forEach(recommendedIds, function (id) {
+                        if (parseInt(deal.offerID) === id) {
+                            $rootScope.recommended.push(deal);
+                        }
+                    })
+
+                });
+                console.log($rootScope.recommended);
+            });
 
 
         }) // end controller(dialogsServiceTest)
@@ -798,26 +815,103 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                     $scope.dealRate = resp.rate;
                 });
 
-                //for rendering the recommended deals
-                $scope.recommeded = [];
-                $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function (resp) {
-                    var recommendedIds = resp.recommendations;
-                    console.log(resp);
-                    angular.forEach($scope.deals, function (deal) {
-                        angular.forEach(recommendedIds, function (id) {
-                            if (parseInt(deal.offerID) === id) {
-                                $scope.recommeded.push(deal);
-                            }
-                        })
-
-                    });
-                    console.log($scope.recommeded);
-
-                });
-
-
                 $scope.rateFunction = function (rating) {
                     alert("Rating selected - " + rating);
+                };
+                
+                
+                $scope.recommended.sort(function(recDeal1, recDeal2){
+                    return calculateContentSimilarity($scope.deal, recDeal1) - calculateContentSimilarity($scope.deal, recDeal2);
+                });
+                
+                $scope.contentBased = []
+                var noRec = 0;
+                for ( var i = $scope.recommended.length-1 ; noRec < 4 ; i--){
+                    if($scope.deal.offerID !== $scope.recommended[i].offerID){
+                        $scope.contentBased.push($scope.recommended[i]);
+                        console.log($scope.recommended[i]);
+                        noRec = noRec +1;
+                    }
+                }
+                    
+                
+                function calculateContentSimilarity(deal, recDeal){
+                    var simil = 0;
+                    if (deal.categoryID === recDeal.categoryID){
+                        simil = simil + 1;
+                        console.log("category same = " + deal.categoryID);
+                    }
+                    if (deal.subCatID === recDeal.subCatID){
+                        simil = simil + 2;
+                        console.log("subCatID same = " + deal.subCatID);
+                    }
+                    if (deal.cardType === recDeal.cardType){
+                        simil = simil + 1;
+                        console.log("cardType same = " + deal.cardType);
+                    }
+                    if (deal.merchantName === recDeal.merchantName){
+                        simil = simil + 3;
+                        console.log("merchantName same = " + deal.merchantName)
+                    }
+                    
+                    var dealKw = deal.keywords.split(",");
+                    var recDealKw = recDeal.keywords.split(",");
+                    var temp = intersect_safe(dealKw, recDealKw).length;
+                    simil = simil + temp;
+                    console.log("keywords match = " + temp)
+                    
+                    var dealMn = deal.merchantName.split(" ");
+                    var recDealmn = recDeal.merchantName.split(" ");
+                    temp = intersect_safe(dealMn, recDealmn).length;
+                    simil = simil + temp;
+                    console.log("merchantName match = " + temp)
+                    
+                    var dealPc = deal.promoConditions.split("");
+                    var recDealPc = recDeal.promoConditions.split("");
+                    temp = intersect_safe(dealPc, recDealPc).length*0.5;
+                    simil = simil + temp;
+                    console.log("promoConditions match = " + temp)
+                    
+                    var dealPd = deal.promoDesc.split(" ");
+                    var recDealPd = recDeal.promoDesc.split(" ");
+                    temp = intersect_safe(dealPd, recDealPd).length*0.5;
+                    simil = simil + temp;
+                    console.log("promoDesc match = " + temp)
+                    
+                    /* finds the intersection of 
+                    * two arrays in a simple fashion.  
+                    *
+                    * PARAMS
+                    *  a - first array, must already be sorted
+                    *  b - second array, must already be sorted
+                    *
+                    * NOTES
+                    *
+                    *  Should have O(n) operations, where n is 
+                    *    n = MIN(a.length(), b.length())
+                    */
+                    function intersect_safe(a, b)
+                    {
+                      var ai=0, bi=0;
+                      var result = new Array();
+
+                      while( ai < a.length && bi < b.length )
+                      {
+                         if      (a[ai] < b[bi] ){ ai++; }
+                         else if (a[ai] > b[bi] ){ bi++; }
+                         else /* they're equal */
+                         {
+                           result.push(a[ai]);
+                           ai++;
+                           bi++;
+                         }
+                      }
+
+                      return result;
+                    }
+                   
+                    
+                    return simil;
                 };
             }]) // end ConfirmDialogCtrl / dialogs.controllers
         .factory('Utils', function ($q) {
@@ -1169,7 +1263,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="row" style="margin:0 !important">' +
                         '<div class="twelve columns">' +
                         '<div class="pin-container variable-sizes isotope">' +
-                        '<article ng-repeat="eachRecmd in recommeded" class="elements credit-card-select business cashback isotope-item">'+
+                        '<article ng-repeat="eachRecmd in contentBased track by $index" class="elements credit-card-select business cashback isotope-item">'+
                         '<div class="panel" id="deals-display" ng-click="no(); launchRecommendation(eachRecmd);" style="cursor:pointer">' +
                         '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
                         '<div class="elm-content-area cf">' +
