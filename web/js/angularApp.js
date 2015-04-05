@@ -23,7 +23,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
                         //for rendering the recommended deals
                         console.log($rootScope.fbUserID);
-                        $http.get('http://localhost:8080/thegoodlife2015/recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
+                        $http.get('/thegoodlife2015/recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
                             var recommendedIds = resp.recommendations;
                             //console.log(resp);
                             angular.forEach($rootScope.deals, function (deal) {
@@ -429,7 +429,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                });
 //            }, 500, 1);
             function checkCoupon(coupon) {
-                $http.get('http://localhost:8080/thegoodlife2015/checkCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId).
+                $http.get('/thegoodlife2015/checkCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId).
                         success(function (data) {
 //                            console.log(coupon.couponId);
 //                            console.log(data.response.status);
@@ -441,7 +441,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         });
             }
             function redeemCoupon(coupon) {
-                $http.get('http://localhost:8080/thegoodlife2015/redeemCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
+                $http.get('/thegoodlife2015/redeemCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
                         success(function (data) {
                             //console.log(data);
                         });
@@ -458,7 +458,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     checkCoupon(coupon);
                     if ($rootScope.redeemStatus == 2) {
                         redeemCoupon(coupon);
-                        $window.location.replace("http://localhost:8080/thegoodlife2015/index.html?" + coupon.couponId);
+                        $window.location.replace("/thegoodlife2015/index.html?" + coupon.couponId);
                     }
                 } else {
                     Facebook.login(function (response) {
