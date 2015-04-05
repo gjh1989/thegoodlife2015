@@ -4,7 +4,13 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
         })
 
         .controller('dialogServiceTest', function ($scope, $rootScope, dialogs, dealData, $location, ngDialog, $interval, geolocation, Facebook, $http, $window) {
-
+            //relative url for openshift vs localhost
+            if (document.location.hostname === "localhost") {
+                var urlPrefix = "/thegoodlife2015/";
+            } else {
+                var urlPrefix = "/";
+            }
+            
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
@@ -23,7 +29,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
                         //for rendering the recommended deals
                         console.log($rootScope.fbUserID);
-                        $http.get('/thegoodlife2015/recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
+                        $http.get(urlPrefix+ 'recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
                             var recommendedIds = resp.recommendations;
                             //console.log(resp);
                             angular.forEach($rootScope.deals, function (deal) {
@@ -429,7 +435,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                });
 //            }, 500, 1);
             function checkCoupon(coupon) {
-                $http.get('/thegoodlife2015/checkCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId).
+                $http.get(urlPrefix+ 'checkCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId).
                         success(function (data) {
 //                            console.log(coupon.couponId);
 //                            console.log(data.response.status);
@@ -441,15 +447,14 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         });
             }
             function redeemCoupon(coupon) {
-                $http.get('/thegoodlife2015/redeemCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
+                $http.get(urlPrefix+ 'redeemCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
                         success(function (data) {
                             //console.log(data);
                         });
             }
             $scope.logout = function () {
                 Facebook.logout(function (response) {
-                    console.log('See you again!');
-                    $window.location.replace("/thegoodlife2015");
+                    $window.location.replace(urlPrefix);
                 });
             };
 
@@ -458,7 +463,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     checkCoupon(coupon);
                     if ($rootScope.redeemStatus == 2) {
                         redeemCoupon(coupon);
-                        $window.location.replace("/thegoodlife2015/index.html?" + coupon.couponId);
+                        $window.location.replace(urlPrefix + "index.html?" + coupon.couponId);
                     }
                 } else {
                     Facebook.login(function (response) {
@@ -468,7 +473,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                                 //console.log(response.id);
                                 $rootScope.fbStatus = "connected";
                                 //$scope.deviceId = response.id;
-                                $window.location.replace("/thegoodlife2015");
+                                $window.location.replace(urlPrefix);
                             });
                         }
                     }, {
@@ -484,7 +489,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                         // Logged into your app and Facebook.
                         $rootScope.fbStatus = "connected";
                         //$scope.deviceId = response.id;
-                        $window.location.replace("/thegoodlife2015");
+                        $window.location.replace(urlPrefix);
                     }
                 }, {
                     scope: 'email',
@@ -698,7 +703,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             if ($rootScope.deal.couponId > 0) {
                 for (var i = 0; i < $rootScope.deal.outletCount; i++) {
                     markers.push(createMarker(i, $rootScope.deal));
-                    console.log("more than zero");
                 }
             } else {
                 for (var i = 0; i < $rootScope.deal.outletCount; i++) {
@@ -781,7 +785,12 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
         .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', '$http', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, $http) {
                 //-- Variables -----//
-
+                //url for openshift vs localhost
+                if (document.location.hostname === "localhost") {
+                    var urlPrefix = "/thegoodlife2015/";
+                } else {
+                    var urlPrefix = "/";
+                }
                 $scope.header = $scope.deal.merchantName;
                 $scope.msg = $scope.deal;
                 //checking the validity of image's url
@@ -809,13 +818,9 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 //for rendering the rating bar
                 $scope.dealRate = -1;
 
-                $http.get('/thegoodlife2015/retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
+                $http.get(urlPrefix + 'retrieveRating/' + $scope.fbUserID + '/' + $scope.deal.offerID).success(function (resp) {
                     $scope.dealRate = resp.rate;
                 });
-
-                $scope.rateFunction = function (rating) {
-                    alert("Rating selected - " + rating);
-                };
 
                 if ($scope.recommended.length > 0) {
                     $scope.recommended.sort(function (recDeal1, recDeal2) {
@@ -825,12 +830,11 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
                 $scope.contentBased = [];
                 var noRec = 0;
-
+                //removing currently viewed deal from recommended array
                 if ($scope.recommended.length > 0) {
                     for (var i = $scope.recommended.length - 1; noRec < 4; i--) {
                         if ($scope.deal.offerID !== $scope.recommended[i].offerID && $scope.contentBased.indexOf($scope.recommended[i]) == -1) {
                             $scope.contentBased.push($scope.recommended[i]);
-                            //console.log($scope.recommended[i]);
                             noRec = noRec + 1;
                         }
                     }
@@ -974,11 +978,17 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                             });
                         }
                     };
+                    
+                    //url for openshift vs localhost
+                    if (document.location.hostname === "localhost") {
+                        var urlPrefix = "/thegoodlife2015/";
+                    } else {
+                        var urlPrefix = "/";
+                    }
                     scope.toggle = function (fbUserID, offerID, catID, subCatID, index) {
-                        if ($rootScope.fbStatus == "connected") {
+                        if ($rootScope.fbStatus === "connected") {
                             scope.ratingValue = index + 1;
-                            console.log('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1));
-                            $http.get('/thegoodlife2015/recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
+                            $http.get(urlPrefix + 'recordRating?fbID=' + fbUserID + '&offerID=' + offerID + '&catID=' + catID + '&subCatID=' + subCatID + '&rate=' + (index + 1)).success(function (resp) {
                             });
                         } else {
                             Facebook.login(function (response) {
@@ -987,7 +997,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                                     Facebook.api('/me', function (response) {
                                         $rootScope.fbStatus = "connected";
                                         $rootScope.fbUserID = response.id;
-                                        $window.location.replace("/thegoodlife2015");
+                                        $window.location.replace(urlPrefix);
                                     });
                                 }
                             }, {
