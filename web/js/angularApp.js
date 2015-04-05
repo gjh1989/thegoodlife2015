@@ -9,7 +9,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
-            $rootScope.fbUserID = 4;
+            $rootScope.fbUserID = 1;
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
                 $rootScope.deal = deal;
@@ -775,7 +775,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $scope.recommeded = [];
                 $http.get('/thegoodlife2015/recServlet?fbID=' + $scope.fbUserID).success(function(resp){
                     var recommendedIds = resp.recommendations;
-                    
+                    console.log(resp);
                     angular.forEach($scope.deals, function (deal) {
                         angular.forEach(recommendedIds, function(id){
                             if (parseInt(deal.offerID) === id) {
@@ -784,7 +784,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                         })
 
                     });
-                    
+                    console.log($scope.recommeded);
                     
                 });
                 
@@ -1013,7 +1013,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         //title of popup
                         '<div class="modal-header dialog-header-confirm">' +
                         '<h4 class="modal-title">' + startSym + 'header' + endSym + '</h4>' +
-                        '<div star-rating deal="deal" rating-value="dealRate" max="5"></div>' +
+                        '<div ng-if="msg.offerID > 0" star-rating deal="deal" rating-value="dealRate" max="5"></div>' +
                         '</div>' +
                         //body of popup
                         '<div class="modal-body" id="overlay">' +
@@ -1119,15 +1119,9 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '</div>' + //maindetails
 
 
-                        '</div>' +
-                        '</div>' + //end of modal-body
-                        '</div>' +
-                        '<div class="overlay-back" style="margin-top:50px; background-color:#f3f3f3 !important;">' + //start of padding div
-                        '<div class="modal-header dialog-header-confirm">' +
-                        '<h4 class="modal-title">Related Pins</h4>' +
-                        '</div>' +
+                        '</br><h6>Related Pins</h6>' +
                         '<article class="inpage-sections inpage-on">' +
-                        '<section class="inpage-content grey-box section-active" id="featured-cards">' +
+                        '<section class="inpage-content section-active" id="featured-cards">' +
                         '<div class="row" style="margin:0 !important">' +
                         '<div class="twelve columns">' +
                         '<div class="pin-container variable-sizes isotope">' +
