@@ -20,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.mahout.cf.taste.common.NoSuchUserException;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
@@ -49,7 +48,7 @@ public class recServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //specifying the number of recommendations to be generated
-        int noOfRecommendations = 2;
+        int noOfRecommendations = 4;
         
         String fbID = request.getParameter("fbID");
         long fbIDL = Long.valueOf(fbID).longValue();
