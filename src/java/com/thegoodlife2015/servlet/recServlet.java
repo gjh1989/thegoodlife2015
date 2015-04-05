@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
+import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
 import org.apache.mahout.cf.taste.recommender.ItemBasedRecommender;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
@@ -48,10 +50,10 @@ public class recServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         //specifying the number of recommendations to be generated
-        int noOfRecommendations = 4;
-        
+        int noOfRecommendations = 10;
+
         String fbID = request.getParameter("fbID");
-        long fbIDL = Long.valueOf(fbID).longValue();
+        long fbIDL = Long.parseLong(fbID);
 
         // Specifications tables  
         String tablename = "rating";
@@ -127,17 +129,29 @@ public class recServlet extends HttpServlet {
 
             /*Initalizing the recommender */
             ItemBasedRecommender recommender = new GenericItemBasedRecommender(dataModel, itemSimilarity);
+            List<RecommendedItem> recommendations = null;
 
-            List<RecommendedItem> recommendations = recommender.recommend(fbIDL, noOfRecommendations);
-            
-            if(recommendations.size() >= 0){
+            try {
+                recommendations = recommender.recommend(fbIDL, noOfRecommendations);
+            } catch (Exception e) {
+                RandomRecommender rRecommender = new RandomRecommender(dataModel);
+                recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
+            } finally {
+                if (recommendations.size() < 10) {
+                    int randomInt = 10 - recommendations.size();
+                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
+                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
+                }
+            }
+            if (recommendations.size() >= 0) {
                 JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
-                hasRec = true ;
+                hasRec = true;
                 out.println(jsonObject);
             }
             
         } catch (Exception e) {
             e.printStackTrace();
+
         } finally {
             try {
                 if (rs != null) {
@@ -161,10 +175,10 @@ public class recServlet extends HttpServlet {
                 e.printStackTrace();
             }
         }
-        
-        if(!hasRec) {
-            out.println("{\"error\":\"user has no records\"}");
-        }
+
+//        if(!hasRec) {
+//            out.println("{\"error\":\"user has no records\"}");
+//        }
     }
 
     public static JSONObject getJsonFromMyFormObject(List<RecommendedItem> recommendations, long fbID) {
