@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -22,7 +24,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
-import org.apache.mahout.cf.taste.impl.recommender.GenericBooleanPrefItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
 import org.apache.mahout.cf.taste.impl.recommender.RandomRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
@@ -137,10 +138,16 @@ public class recServlet extends HttpServlet {
                 RandomRecommender rRecommender = new RandomRecommender(dataModel);
                 recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
             } finally {
-                if (recommendations.size() < noOfRecommendations) {
+//                if (recommendations.size() < noOfRecommendations) {
+//                    int randomInt = noOfRecommendations - recommendations.size();
+//                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
+//                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
+//                }
+                while (recommendations.size() < noOfRecommendations) {
                     int randomInt = noOfRecommendations - recommendations.size();
                     RandomRecommender rRecommender = new RandomRecommender(dataModel);
                     recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
+                    recommendations = new ArrayList<>(new HashSet<>(recommendations));
                 }
             }
             if (recommendations.size() >= 0) {
@@ -148,7 +155,7 @@ public class recServlet extends HttpServlet {
                 hasRec = true;
                 out.println(jsonObject);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
 
