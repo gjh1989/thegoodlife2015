@@ -55,7 +55,7 @@ public class recServlet extends HttpServlet {
 
         String fbID = request.getParameter("fbID");
         long fbIDL = Long.parseLong(fbID);
-
+        
         // Specifications tables  
         String tablename = "rating";
         String col1 = "fbID";
@@ -143,17 +143,21 @@ public class recServlet extends HttpServlet {
 //                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
 //                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
 //                }
-                while (recommendations.size() < noOfRecommendations) {
-                    int randomInt = noOfRecommendations - recommendations.size();
-                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
-                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
-                    recommendations = new ArrayList<>(new HashSet<>(recommendations));
+                if (recommendations != null){
+                    while (recommendations.size() < noOfRecommendations) {
+                        int randomInt = noOfRecommendations - recommendations.size();
+                        RandomRecommender rRecommender = new RandomRecommender(dataModel);
+                        recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
+                        recommendations = new ArrayList<>(new HashSet<>(recommendations));
+                    }
                 }
             }
-            if (recommendations.size() >= 0) {
-                JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
-                hasRec = true;
-                out.println(jsonObject);
+            if (recommendations != null){
+                if (recommendations.size() >= 0) {
+                    JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
+                    hasRec = true;
+                    out.println(jsonObject);
+                }
             }
 
         } catch (Exception e) {

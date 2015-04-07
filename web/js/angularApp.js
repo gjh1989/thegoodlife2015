@@ -7,44 +7,77 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
             //relative url for openshift vs localhost
             if (document.location.hostname === "localhost") {
                 var urlPrefix = "/thegoodlife2015/";
+                //console.log(urlPrefix);
             } else {
                 var urlPrefix = "/";
+                //console.log(urlPrefix);
             }
             
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
-//            $rootScope.fbUserID = 4;
-//            $rootScope.fbStatus = 'connected';
-            $rootScope.recommended = [];
-            Facebook.getLoginStatus(function (response) {
-                //console.log(response.status); //connected or unknown
+            
+            //passing v6 webservice data into $scope
+            dealData.then(function (data) {
+                $rootScope.deals = data.offer.added.list;
+                $rootScope.coupons = data.coupon.added.list;
+                $rootScope.allCategories = data.category.added.list;
+                var dealID = window.location.search.substring(1);
+                if (dealID > 0) {
+                    var deal;
+                    for (i = 0; i < data.offer.added.list.length; i++) {
+                        if (dealID === data.offer.added.list[i].offerID) {
+                            deal = data.offer.added.list[i];
+                            //console.log(deal);
+                        }
+                    }
+                    for (i = 0; i < data.coupon.added.list.length; i++) {
+                        if (dealID === data.coupon.added.list[i].couponId) {
+                            deal = data.coupon.added.list[i];
+                            //console.log(deal);
+                        }
+                    }
 
-                if (response.status == "connected") {
-                    Facebook.api('/me', function (response) {
-                        $rootScope.fbStatus = "connected";
-                        //$scope.deviceId = response.id;
-                        $rootScope.fbUserID = response.id;
-
-                        //for rendering the recommended deals
-                        console.log($rootScope.fbUserID);
-                        $http.get(urlPrefix+ 'recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
-                            var recommendedIds = resp.recommendations;
-                            //console.log(resp);
-                            angular.forEach($rootScope.deals, function (deal) {
-                                angular.forEach(recommendedIds, function (id) {
-                                    if (parseInt(deal.offerID) === id) {
-                                        $rootScope.recommended.push(deal);
-                                    }
-                                })
-                            });
-                            //console.log($rootScope.recommended);
-                        });
-                    });
+                    sharingOnLoad(deal);
                 }
-            });
+                
+                
+                //            $rootScope.fbUserID = 4;
+                //            $rootScope.fbStatus = 'connected';
+                $rootScope.recommended = [];
+                Facebook.getLoginStatus(function (response) {
+                    console.log(response); //connected or unknown
 
+                    if (response.status === "connected") {
+                        Facebook.api('/me', function (response) {
+                            $rootScope.fbStatus = "connected";
+                            //$scope.deviceId = response.id;
+                            $rootScope.fbUserID = response.id;
+
+                            //for rendering the recommended deals
+                            $http.get(urlPrefix+ 'recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
+                                var recommendedIds = resp.recommendations;
+                                //console.log(resp);
+                                angular.forEach(data.offer.added.list, function (deal) {
+                                    angular.forEach(recommendedIds, function (id) {
+                                        if (parseInt(deal.offerID) === id) {
+                                            $rootScope.recommended.push(deal);
+                                        }
+                                    })
+                                });
+                                //console.log($rootScope.recommended);
+                            });
+                        });
+                    }
+                    if (response.status === "unknown") {
+                        $rootScope.recommended = data.offer.added.list;
+                        //console.log("unknown");
+                    }
+                });
+            });
+            
+            
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
                 $rootScope.deal = deal;
@@ -104,31 +137,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 $scope.showNearMe = false;
             });
 
-
-            //passing v6 webservice data into $scope
-            dealData.then(function (data) {
-                $rootScope.deals = data.offer.added.list;
-                $rootScope.coupons = data.coupon.added.list;
-                $rootScope.allCategories = data.category.added.list;
-                var dealID = window.location.search.substring(1);
-                if (dealID > 0) {
-                    var deal;
-                    for (i = 0; i < data.offer.added.list.length; i++) {
-                        if (dealID === data.offer.added.list[i].offerID) {
-                            deal = data.offer.added.list[i];
-                            console.log(deal);
-                        }
-                    }
-                    for (i = 0; i < data.coupon.added.list.length; i++) {
-                        if (dealID === data.coupon.added.list[i].couponId) {
-                            deal = data.coupon.added.list[i];
-                            console.log(deal);
-                        }
-                    }
-
-                    sharingOnLoad(deal);
-                }
-            });
 
             var sharingOnLoad = function (deal) {
                 $rootScope.deal = deal;
@@ -1273,7 +1281,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '</div>' + //maindetails
 
 
-                        '<div ng-if="msg.offerID > 0"><h6>People also viewed</h6>' +
+                        '<div ng-if="msg.offerID > 0"><h6>People also viewed:</h6>' +
                         '<article class="inpage-sections inpage-on">' +
                         '<section class="inpage-content section-active" id="featured-cards">' +
                         '<div class="row" style="margin:0 !important">' +
