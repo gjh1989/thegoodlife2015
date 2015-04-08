@@ -12,12 +12,12 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                 var urlPrefix = "/";
                 //console.log(urlPrefix);
             }
-            
+
             $scope.name = 'yes';
             $scope.confirmed = 'No confirmation yet!';
             $scope.totalDisplayed = 20;
             $scope.selectedIndex = 'Featured';
-            
+
             //passing v6 webservice data into $scope
             dealData.then(function (data) {
                 $rootScope.deals = data.offer.added.list;
@@ -41,8 +41,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 
                     sharingOnLoad(deal);
                 }
-                
-                
+
+
                 //            $rootScope.fbUserID = 4;
                 //            $rootScope.fbStatus = 'connected';
                 $rootScope.recommended = [];
@@ -56,7 +56,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                             $rootScope.fbUserID = response.id;
 
                             //for rendering the recommended deals
-                            $http.get(urlPrefix+ 'recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
+                            $http.get(urlPrefix + 'recServlet?fbID=' + $rootScope.fbUserID).success(function (resp) {
                                 var recommendedIds = resp.recommendations;
                                 //console.log(resp);
                                 angular.forEach(data.offer.added.list, function (deal) {
@@ -76,8 +76,8 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     }
                 });
             });
-            
-            
+
+
             $scope.launch = function (deal) {
                 $scope.modalFreezeBG = 'overflow:hidden; position:fixed';
                 $rootScope.deal = deal;
@@ -101,7 +101,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     $scope.confirmed = 'You confirmed "No."';
                     $scope.modalFreezeBG = '';
                 });
-                
+
             }; // end launch
 
             //dropdown for sorting and filter
@@ -437,7 +437,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                    }
 //                });
 //            }, 500, 1);
-            
+
             $scope.logout = function () {
                 Facebook.logout(function (response) {
                     $window.location.replace(urlPrefix);
@@ -883,32 +883,45 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
                     return simil;
                 }
-                
-                
+
+
                 //COUPON REDEMPTION
+                $scope.redeemText = "Redeem";
+                $scope.redeemStatus = 2;
+                $scope.hideRedeem = true;
                 function checkCoupon(coupon) {
-                    $http.get(urlPrefix+ 'checkCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId).
-                        success(function (data) {
-    //                            console.log(coupon.couponId);
-    //                            console.log(data.response.status);
-    //                            console.log(data);
-    //                            console.log($scope.fbStatus);
-    //                            console.log($scope.deviceId);
-                            $scope.tranToken = data.tranToken;
-                            $scope.redeemStatus = data.response.status;
-                        });
+                    $http.get(urlPrefix + 'checkCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId).
+                            then(function (result) {
+                                //                            console.log(coupon.couponId);
+                                //                            console.log(data.response.status);
+                                //console.log(result);
+                                //                            console.log($scope.fbStatus);
+                                //                            console.log($scope.deviceId);
+                                var data = result.data;
+                                $scope.tranToken = data.tranToken;
+                                $scope.redeemStatus = data.response.status;
+
+                                if ($scope.redeemStatus == 1) {
+                                    $scope.redeemText = "Redeemed";
+                                    $scope.genCode = data.redemptionCode;
+                                } else {
+                                    $scope.genCode = "Click to redeem!";
+                                }
+                                $scope.hideRedeem = false;
+                            });
                 }
                 function redeemCoupon(coupon) {
-                    $http.get(urlPrefix+ 'redeemCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
-                        success(function (data) {
-                            $scope.genCode = data.genCode;
-                        });
+                    $http.get(urlPrefix + 'redeemCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
+                            success(function (data) {
+                                $scope.redeemText = "Redeemed";
+                                $scope.genCode = data.genCode;
+                            });
                 }
-                
+
                 if ($scope.deal.couponId > 0) {
                     checkCoupon($scope.deal);
                 }
-                
+
                 $scope.clickRedeem = function (coupon) {
                     if ($scope.fbStatus == "connected") {
                         if ($scope.redeemStatus == 2) {
@@ -932,7 +945,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                         });
                     }
                 };
-                
+
             }]) // end ConfirmDialogCtrl / dialogs.controllers
         .factory('Utils', function ($q) {
             return {
@@ -988,7 +1001,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                             });
                         }
                     };
-                    
+
                     //url for openshift vs localhost
                     if (document.location.hostname === "localhost") {
                         var urlPrefix = "/thegoodlife2015/";
@@ -1029,7 +1042,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
                 }
             };
-        });
+        })
 
 //== Services ================================================================//
 
@@ -1185,8 +1198,10 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="merc-img">' +
                         '<img src="' + startSym + 'imgUrl' + endSym + '">' +
                         //redeem button
-                        '<button ng-click="clickRedeem(msg)" class="button medium radius green" ng-if="msg.couponId > 0 && redeemStatus == 2">Redeem</button>' +
-                        '<button class="button medium radius blue" ng-if="msg.couponId > 0 && redeemStatus != 2">Redeemed</button>' + '<h6>{{genCode}}</h6>' +
+                        '<div ng-hide="hideRedeem">' +
+                        '<button ng-click="clickRedeem(msg)" class="button medium radius green" ng-if="msg.couponId > 0 && redeemStatus == 2">{{redeemText}}</button>' +
+                        '<button class="button medium radius blue" ng-if="msg.couponId > 0 && redeemStatus != 2">{{redeemText}}</button>' + '<h6 ng-if="msg.couponId > 0">Coupon code：{{genCode}}</h6>' +
+                        '</div>' +
                         '</div>' +
                         //details of deal
                         '<div class="main-details">' +
@@ -1291,7 +1306,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="pin-container variable-sizes isotope">' +
                         '<article ng-repeat="eachRecmd in contentBased track by $index" class="elements credit-card-select business cashback isotope-item">' +
                         '<div class="panel" id="deals-display" ng-click="no(); launchRecommendation(eachRecmd);" style="cursor:pointer">' +
-                        '<header style="height:103px"> <img ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
+                        '<header style="height:103px"> <img id="deal-img" ng-src="{{eachRecmd.promoImage}}" fallback-src="img/wrong_img_link.png"></header>' +
                         '<div class="elm-content-area cf">' +
                         '<h5 class="card-title">{{eachRecmd.merchantName|cut:true:25:\' ...\'}}</h5>' +
                         '<p ng-bind-html="eachRecmd.promoDesc|cut:true:60:\' ...\'"></p>' +
@@ -1317,3 +1332,4 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
             }]); // end run / dialogs
 
+        
