@@ -55,6 +55,7 @@ public class recServlet extends HttpServlet {
 
         String fbID = request.getParameter("fbID");
         long fbIDL = Long.parseLong(fbID);
+        out.println("1");
         
         // Specifications tables  
         String tablename = "rating";
@@ -124,40 +125,46 @@ public class recServlet extends HttpServlet {
             dataSource.setDatabaseName(dbname);
 
             MySQLJDBCDataModel dataModel = new MySQLJDBCDataModel(dataSource, tablename, col1, col2, col3, null);
-
+            out.println("2");
             /*Specifies the Similarity algorithm*/
             ItemSimilarity itemSimilarity = new LogLikelihoodSimilarity(dataModel);
-
+            out.println("3");
             /*Initalizing the recommender */
             ItemBasedRecommender recommender = new GenericItemBasedRecommender(dataModel, itemSimilarity);
             List<RecommendedItem> recommendations = null;
-
+            out.println("4");
             try {
                 recommendations = recommender.recommend(fbIDL, noOfRecommendations);
+                out.println("5");
             } catch (Exception e) {
+                out.println("6");
                 RandomRecommender rRecommender = new RandomRecommender(dataModel);
+                out.println("7");
                 recommendations = rRecommender.recommend(fbIDL, noOfRecommendations);
+                out.println("8");
             } finally {
 //                if (recommendations.size() < noOfRecommendations) {
 //                    int randomInt = noOfRecommendations - recommendations.size();
 //                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
 //                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
 //                }
-                if (recommendations != null){
-                    while (recommendations.size() < noOfRecommendations) {
-                        int randomInt = noOfRecommendations - recommendations.size();
-                        RandomRecommender rRecommender = new RandomRecommender(dataModel);
-                        recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
-                        recommendations = new ArrayList<>(new HashSet<>(recommendations));
-                    }
+                while (recommendations.size() < noOfRecommendations) {
+                    out.println("9");
+                    int randomInt = noOfRecommendations - recommendations.size();
+                    RandomRecommender rRecommender = new RandomRecommender(dataModel);
+                    out.println("10");
+                    recommendations.addAll(rRecommender.recommend(fbIDL, randomInt));
+                    out.println("11");
+                    recommendations = new ArrayList<>(new HashSet<>(recommendations));
+                    out.println("12");
                 }
             }
-            if (recommendations != null){
-                if (recommendations.size() >= 0) {
-                    JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
-                    hasRec = true;
-                    out.println(jsonObject);
-                }
+            out.println(recommendations);
+            if (recommendations.size() >= 0) {
+                out.println("13");
+                JSONObject jsonObject = getJsonFromMyFormObject(recommendations, fbIDL);
+                hasRec = true;
+                out.println(jsonObject);
             }
 
         } catch (Exception e) {
