@@ -88,9 +88,6 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     $scope.confirmed = 'You confirmed "No."';
                     $scope.modalFreezeBG = '';
                 });
-                if (deal.couponId > 0) {
-                    checkCoupon(deal);
-                }
             }; // end launch
 
 
@@ -104,9 +101,7 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
                     $scope.confirmed = 'You confirmed "No."';
                     $scope.modalFreezeBG = '';
                 });
-                if (deal.couponId > 0) {
-                    checkCoupon(deal);
-                }
+                
             }; // end launch
 
             //dropdown for sorting and filter
@@ -442,53 +437,11 @@ angular.module('modalTest', ['ui.bootstrap', 'dialogs.main', 'pascalprecht.trans
 //                    }
 //                });
 //            }, 500, 1);
-            function checkCoupon(coupon) {
-                $http.get(urlPrefix+ 'checkCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId).
-                        success(function (data) {
-//                            console.log(coupon.couponId);
-//                            console.log(data.response.status);
-//                            console.log(data);
-//                            console.log($scope.fbStatus);
-//                            console.log($scope.deviceId);
-                            $scope.tranToken = data.tranToken;
-                            $rootScope.redeemStatus = data.response.status;
-                        });
-            }
-            function redeemCoupon(coupon) {
-                $http.get(urlPrefix+ 'redeemCoupon?deviceId=' + $rootScope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
-                        success(function (data) {
-                            //console.log(data);
-                        });
-            }
+            
             $scope.logout = function () {
                 Facebook.logout(function (response) {
                     $window.location.replace(urlPrefix);
                 });
-            };
-
-            $rootScope.clickRedeem = function (coupon) {
-                if ($rootScope.fbStatus == "connected") {
-                    checkCoupon(coupon);
-                    if ($rootScope.redeemStatus == 2) {
-                        redeemCoupon(coupon);
-                        $window.location.replace(urlPrefix + "index.html?" + coupon.couponId);
-                    }
-                } else {
-                    Facebook.login(function (response) {
-                        if (response.status === 'connected') {
-                            // Logged into your app and Facebook.
-                            Facebook.api('/me', function (response) {
-                                //console.log(response.id);
-                                $rootScope.fbStatus = "connected";
-                                //$scope.deviceId = response.id;
-                                $window.location.replace(urlPrefix);
-                            });
-                        }
-                    }, {
-                        scope: 'email',
-                        auth_type: 'rerequest'
-                    });
-                }
             };
 
             $scope.login = function () {
@@ -791,7 +744,7 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
                 $translateProvider.preferredLanguage('en-US');
             }]) // end config
 
-        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', '$http', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, $http) {
+        .controller('confirmDialogCtrl', ['$scope', '$modalInstance', '$translate', 'header', 'msg', 'Utils', 'imgUrl', '$http', 'Facebook', function ($scope, $modalInstance, $translate, header, msg, Utils, imgUrl, $http, Facebook) {
                 //-- Variables -----//
                 //url for openshift vs localhost
                 if (document.location.hostname === "localhost") {
@@ -930,7 +883,56 @@ angular.module('dialogs.controllers', ['ui.bootstrap.modal', 'pascalprecht.trans
 
                     return simil;
                 }
-                ;
+                
+                
+                //COUPON REDEMPTION
+                function checkCoupon(coupon) {
+                    $http.get(urlPrefix+ 'checkCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId).
+                        success(function (data) {
+    //                            console.log(coupon.couponId);
+    //                            console.log(data.response.status);
+    //                            console.log(data);
+    //                            console.log($scope.fbStatus);
+    //                            console.log($scope.deviceId);
+                            $scope.tranToken = data.tranToken;
+                            $scope.redeemStatus = data.response.status;
+                        });
+                }
+                function redeemCoupon(coupon) {
+                    $http.get(urlPrefix+ 'redeemCoupon?deviceId=' + $scope.fbUserID + '&couponId=' + coupon.couponId + '&tranToken=' + $scope.tranToken).
+                        success(function (data) {
+                            $scope.genCode = data.genCode;
+                        });
+                }
+                
+                if ($scope.deal.couponId > 0) {
+                    checkCoupon($scope.deal);
+                }
+                
+                $scope.clickRedeem = function (coupon) {
+                    if ($scope.fbStatus == "connected") {
+                        if ($scope.redeemStatus == 2) {
+                            redeemCoupon(coupon);
+                            $scope.redeemStatus = 0;
+                        }
+                    } else {
+                        Facebook.login(function (response) {
+                            if (response.status === 'connected') {
+                                // Logged into your app and Facebook.
+                                Facebook.api('/me', function (response) {
+                                    //console.log(response.id);
+                                    $scope.fbStatus = "connected";
+                                    //$scope.deviceId = response.id;
+                                    $window.location.replace(urlPrefix);
+                                });
+                            }
+                        }, {
+                            scope: 'email',
+                            auth_type: 'rerequest'
+                        });
+                    }
+                };
+                
             }]) // end ConfirmDialogCtrl / dialogs.controllers
         .factory('Utils', function ($q) {
             return {
@@ -1184,7 +1186,7 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<img src="' + startSym + 'imgUrl' + endSym + '">' +
                         //redeem button
                         '<button ng-click="clickRedeem(msg)" class="button medium radius green" ng-if="msg.couponId > 0 && redeemStatus == 2">Redeem</button>' +
-                        '<button class="button medium radius blue" ng-if="msg.couponId > 0 && redeemStatus != 2">Redeemed</button>' +
+                        '<button class="button medium radius blue" ng-if="msg.couponId > 0 && redeemStatus != 2">Redeemed</button>' + '<h6>{{genCode}}</h6>' +
                         '</div>' +
                         //details of deal
                         '<div class="main-details">' +
@@ -1239,11 +1241,11 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
                         '<div class="btn-share-separator">' +
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
-                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}">' +
+                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.offerID}}">' +
                         '</a>' +
                         '</div>' +
                         '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
-                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}">' +
+                        '<a class="bs-btn-fb bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="facebook"  socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.couponId}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
@@ -1251,11 +1253,11 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
-                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}"  socialshare-hashtags="TGLapp">' +
+                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.offerID}}"  socialshare-hashtags="TGLapp">' +
                         '</a>' +
                         '</div>' +
                         '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
-                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}"  socialshare-hashtags="TGLapp">' +
+                        '<a class="bs-btn-twitter bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="twitter" socialshare-text="Check out this great deal from The Good Life® at {{msg.merchantName}} @ " socialshare-via="ahhahahah" socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.couponId}}"  socialshare-hashtags="TGLapp">' +
                         '</a>' +
                         '</div>' +
                         '</div>' +
@@ -1263,11 +1265,11 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
                         '<div class="bs-col2 line-tablet">' +
                         '<div class="bs-line-compress" ng-if="msg.offerID > 0">' +
-                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}">' +
+                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.offerID}}">' +
                         '</a>' +
                         '</div>' +
                         '<div class="bs-line-compress" ng-if="msg.couponId > 0">' +
-                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}">' +
+                        '<a class="bs-btn-google bs-btn-medium bs-center-content bs-radius bg-btn-share" socialshare="" socialshare-provider="google+" socialshare-url="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.couponId}}">' +
                         '</a>' +
                         '</div>' +
                         '</div>' + '</div>' +
@@ -1275,8 +1277,8 @@ angular.module('dialogs.main', ['dialogs.services', 'ngSanitize']) // requires a
 
 
                         '<div class="main-details">' +
-                        '<br><br><input ng-if="msg.offerID > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
-                        '<input ng-if="msg.couponId > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="http://sg.preview.standardchartered.com/sg/thegoodlifetest/index.html?{{msg.couponId}}" title="This url is for sharing" readonly="readonly"/>' +
+                        '<br><br><input ng-if="msg.offerID > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.offerID}}" title="This url is for sharing" readonly="readonly"/>' +
+                        '<input ng-if="msg.couponId > 0" type="text" class="linkCopyInput" ng-click="onTextClick($event)" value="https://thegoodlife2015-jhgoh.rhcloud.com/index.html?{{msg.couponId}}" title="This url is for sharing" readonly="readonly"/>' +
                         '<p></p>' +
                         '</div>' + //maindetails
 
