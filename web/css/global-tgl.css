@@ -24,6 +24,11 @@ p {
 
         height: 40px;
     }
+    
+    .elm-content-area p img {
+        position: absolute;
+        left: 40px;
+    }
 
 }
 
@@ -398,7 +403,7 @@ img, object, embed {
         position: absolute;
         left: 0;
         top: 0;
-        background: url(../sg/assets/global/images/page/iconlib_small.png) no-repeat;
+        background: url(../img/iconlib_small.png) no-repeat;
         height: 32px;
         width: 32px;
     }
@@ -683,8 +688,9 @@ img, object, embed {
 .elm-content-area p img {
     position: absolute;
     right: 0px;
-    top: 285px;
 }
+
+
 
 .align-sub-cat{
     width:110px;
